@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Notes App</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Add Prism.js for syntax highlighting -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <!-- Include common languages for highlighting -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 20px 160px 20px 20px; /* Added right padding for sidebar */
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-weight: 300;
+    }
+    .note-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    textarea {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e1e8ed;
+      border-radius: 10px;
+      font-size: 16px;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    button {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+    .notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .note {
+      background: #f8f9fa;
+      /* border-radius: 10px; */
+      padding: 20px;
+      border-left: 4px solid #667eea;
+      position: relative;
+      animation: slideIn 0.3s ease-out;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .note-content {
+      margin-bottom: 10px;
+      line-height: 1.6;
+      color: #2c3e50;
+    }
+    .note-content h1,
+    .note-content h2,
+    .note-content h3,
+    .note-content h4,
+    .note-content h5,
+    .note-content h6 {
+      color: #34495e;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .note-content p {
+      margin-bottom: 10px;
+    }
+    .note-content code {
+      background: #f8f9fa;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+    .note-content pre {
+      background: #2d3748;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 10px 0;
+      position: relative;
+    }
+    .note-content pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+    .note-content blockquote {
+      border-left: 4px solid #667eea;
+      padding-left: 15px;
+      margin: 15px 0;
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    .note-content ul,
+    .note-content ol {
+      margin: 10px 0;
+      padding-left: 25px;
+    }
+    .note-content li {
+      margin-bottom: 5px;
+    }
+    .note-content strong {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    .note-content em {
+      font-style: italic;
+    }
+    .note-content a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    .note-content a:hover {
+      text-decoration: underline;
+    }
+    .note-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+    .delete-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+    .empty-state {
+      text-align: center;
+      color: #7f8c8d;
+      padding: 40px 20px;
+    }
+    .stats {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+
+    /* Settings Sidebar */
+    .settings-sidebar {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 240px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+    }
+
+    .settings-sidebar h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .settings-group {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e1e8ed;
+    }
+
+    .settings-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .settings-group h4 {
+      color: #34495e;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .setting-item {
+      margin-bottom: 10px;
+    }
+
+    .setting-item button {
+      width: 100%;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .setting-item button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    }
+
+    .setting-item button.danger {
+      background: linear-gradient(45deg, #e74c3c, #c0392b);
+    }
+
+    .setting-item button.danger:hover {
+      box-shadow: 0 3px 10px rgba(231, 76, 60, 0.3);
+    }
+
+    .persist-days-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .persist-days-input input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #e1e8ed;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .persist-days-input input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .persist-days-input button {
+      padding: 8px 12px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .markdown-help {
+      max-height: 300px;
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: #667eea #f8f9fa;
+    }
+
+    .markdown-help::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .markdown-help::-webkit-scrollbar-track {
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+
+    .markdown-help::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border-radius: 4px;
+    }
+
+    .markdown-help::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #5a67d8, #6b46c1);
+    }
+
+    .markdown-item {
+      background: #f8f9fa;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .markdown-item strong {
+      color: #667eea;
+    }
+
+    .markdown-item code {
+      background: #2d3748;
+      color: #e6e6e6;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+
+    /* Responsive design for mobile */
+    @media (max-width: 1024px) {
+      body {
+        padding: 20px;
+      }
+      
+      .settings-sidebar {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 Markdown Notes</h1>
+    <div class="stats" id="stats">Loading...</div>
+
+    <div class="note-input">
+      <textarea id="noteText" placeholder="Write your note here... (Markdown supported with syntax)"></textarea>
+      <button onclick="addNote()">Add Note</button>
+    </div>
+
+    <div class="notes-list" id="notesList">
+      <div class="empty-state">
+        <p>No notes yet. Add your first note above!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Sidebar -->
+  <div class="settings-sidebar">
+    <h3>⚙️ Settings</h3>
+    
+    <div class="settings-group">
+      <h4>Actions</h4>
+      <div class="setting-item">
+        <button class="danger" onclick="clearAllNotes()">🗑️ Clear All Notes</button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h4>Persist Days</h4>
+      <div class="setting-item">
+        <div class="persist-days-input">
+          <input type="number" id="persistDays" min="1" max="365" value="3" onchange="updatePersistDays()">
+          <button onclick="updatePersistDays()">Set Days</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h4>📝 Markdown Help</h4>
+      <div class="markdown-help">
+        <div class="markdown-item">
+          <strong>Highlight:</strong> <code>==text==</code></code>
+        </div>
+        <div class="markdown-item">
+          <strong>Headers:</strong> <code># H1</code> <code>## H2</code> <code>### H3</code>
+        </div>
+        <div class="markdown-item">
+          <strong>Bold:</strong> <code>**bold**</code> or <code>__bold__</code>
+        </div>
+        <div class="markdown-item">
+          <strong>Italic:</strong> <code>*italic*</code> or <code>_italic_</code>
+        </div>
+        <div class="markdown-item">
+          <strong>Lists:</strong> <code>- item</code> or <code>1. item</code>
+        </div>
+        <div class="markdown-item">
+          <strong>Links:</strong> <code>[text](url)</code>
+        </div>
+        <div class="markdown-item">
+          <strong>Code:</strong> <code>`inline`</code> or <code>```language</code> blocks
+        </div>
+        <div class="markdown-item">
+          <strong>Blockquote:</strong> <code>> quote</code>
+        </div>
+        <div class="markdown-item">
+          <strong>Strikethrough:</strong> <code>~~text~~</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let notes = [];
+    let persistDays = 3; // Default to 3 days
+
+    // Configure marked for security
+    marked.setOptions({
+      breaks: true,
+      gfm: true,
+      headerIds: false,
+      mangle: false
+    });
+
+    // 定义扩展：==高亮==
+    const highlightExtension = {
+      extensions: [{
+        name: 'highlight',
+        level: 'inline', // 行内级别
+        start(src) {
+          return src.indexOf('==');
+        },
+        tokenizer(src, tokens) {
+          const rule = /^==([^=]+)==/;  // 匹配 ==内容==
+          const match = rule.exec(src);
+          if (match) {
+            return {
+              type: 'highlight',
+              raw: match[0],
+              text: match[1]
+            };
+          }
+        },
+        renderer(token) {
+          return `<mark>${token.text}</mark>`;
+        }
+      }]
+    };
+
+    // 注册扩展
+    marked.use(highlightExtension);
+
+    // Escape HTML characters to prevent XSS and code rendering
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Load notes from localStorage on page load
+    function loadNotes() {
+      const stored = localStorage.getItem('threeDayNotes');
+      const storedPersistDays = localStorage.getItem('persistDays');
+      
+      if (stored) {
+        notes = JSON.parse(stored);
+        // Clean up expired notes
+        cleanupExpiredNotes();
+        displayNotes();
+        updateStats();
+      }
+      
+      if (storedPersistDays) {
+        persistDays = parseInt(storedPersistDays);
+        document.getElementById('persistDays').value = persistDays;
+      }
+    }
+
+    // Save notes to localStorage
+    function saveNotes() {
+      localStorage.setItem('threeDayNotes', JSON.stringify(notes));
+    }
+
+    // Add a new note
+    function addNote() {
+      const noteText = document.getElementById('noteText').value.trim();
+      if (!noteText) {
+        alert('Please write something before adding a note!');
+        return;
+      }
+
+      const note = {
+        id: Date.now(),
+        content: noteText,
+        createdAt: new Date().toISOString(),
+        expiresAt: new Date(Date.now() + persistDays * 24 * 60 * 60 * 1000).toISOString() // Custom days from now
+      };
+
+      notes.unshift(note); // Add to beginning of array
+      saveNotes();
+      displayNotes();
+      updateStats();
+
+      // Clear input
+      document.getElementById('noteText').value = '';
+    }
+
+    // Display all notes
+    function displayNotes() {
+      const notesList = document.getElementById('notesList');
+
+      if (notes.length === 0) {
+        notesList.innerHTML = '<div class="empty-state"><p>No notes yet. Add your first note above!</p></div>';
+        return;
+      }
+
+      notesList.innerHTML = notes.map(note => {
+        const createdDate = new Date(note.createdAt);
+        const expiresDate = new Date(note.expiresAt);
+        const timeLeft = Math.ceil((expiresDate - new Date()) / (1000 * 60 * 60 * 24));
+
+        return `
+          <div class="note">
+            <div class="note-content">${marked.parse(note.content)}</div>
+            <div class="note-meta">
+              <span>Created: ${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}</span>
+              <span>Expires in: ${timeLeft} day${timeLeft !== 1 ? 's' : ''}</span>
+              <button class="delete-btn" onclick="deleteNote(${note.id})">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      // Apply syntax highlighting to code blocks
+      Prism.highlightAll();
+    }
+
+    // Delete a specific note
+    function deleteNote(id) {
+      notes = notes.filter(note => note.id !== id);
+      saveNotes();
+      displayNotes();
+      updateStats();
+    }
+
+    // Clear all notes
+    function clearAllNotes() {
+      if (confirm('Are you sure you want to delete all notes? This action cannot be undone.')) {
+        notes = [];
+        saveNotes();
+        displayNotes();
+        updateStats();
+      }
+    }
+
+    // Update persist days setting
+    function updatePersistDays() {
+      const input = document.getElementById('persistDays');
+      const newDays = parseInt(input.value);
+      
+      if (newDays < 1 || newDays > 365) {
+        alert('Please enter a number between 1 and 365 days.');
+        input.value = persistDays; // Reset to current value
+        return;
+      }
+      
+      persistDays = newDays;
+      localStorage.setItem('persistDays', persistDays.toString());
+      alert(`Notes will now persist for ${persistDays} day${persistDays !== 1 ? 's' : ''}.`);
+    }
+
+    // Clean up expired notes
+    function cleanupExpiredNotes() {
+      const now = new Date();
+      const originalLength = notes.length;
+      notes = notes.filter(note => new Date(note.expiresAt) > now);
+
+      if (notes.length !== originalLength) {
+        saveNotes();
+      }
+    }
+
+    // Update statistics
+    function updateStats() {
+      const totalNotes = notes.length;
+      const expiredNotes = notes.filter(note => new Date(note.expiresAt) <= new Date()).length;
+      const activeNotes = totalNotes - expiredNotes;
+
+      document.getElementById('stats').textContent =
+        `Total Notes: ${totalNotes}`;
+    }
+
+    // Auto cleanup expired notes every hour
+    setInterval(() => {
+      cleanupExpiredNotes();
+      displayNotes();
+      updateStats();
+    }, 60 * 60 * 1000); // Every hour
+
+    // Initialize the app
+    loadNotes();
+  </script>
+</body>
+</html>
