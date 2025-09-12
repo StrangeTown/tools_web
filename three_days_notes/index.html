@@ -1,9 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <title>Short Term Notes - Simple Markdown Note Taking App</title>
+  <meta name="description" content="Short Term Notes is a simple web app for taking quick notes with Markdown support. Notes automatically expire after a set number of days.">
+  <meta name="keywords" content="notes, markdown notes, short term notes, simple notes app, quick notes, note taking, highlight markdown">
+
+  <!-- Mobile friendly -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Short Term Notes</title>
+
+  <!-- Open Graph (for social sharing like Facebook, LinkedIn) -->
+  <meta property="og:title" content="Short Term Notes - Markdown Note Taking App">
+  <meta property="og:description" content="Take quick notes with Markdown syntax and highlight text easily. Notes expire automatically.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <meta property="og:image" content="https://yourdomain.com/thumbnail.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Short Term Notes - Markdown Note Taking App">
+  <meta name="twitter:description" content="Take quick notes with Markdown syntax and highlight text easily. Notes expire automatically.">
+  <meta name="twitter:image" content="https://yourdomain.com/thumbnail.png">
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Short Term Notes",
+    "description": "A lightweight web app for taking quick notes with Markdown support and auto-expiring notes.",
+    "url": "https://yourdomain.com/",
+    "applicationCategory": "Productivity",
+    "operatingSystem": "Any"
+  }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <!-- Add Prism.js for syntax highlighting -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
@@ -34,6 +64,13 @@
       color: #2c3e50;
       margin-bottom: 30px;
       font-weight: 300;
+    }
+    .tagline {
+      text-align: center;
+      color: #7f8c8d;
+      font-size: 16px;
+      margin-bottom: 20px;
+      font-style: italic;
     }
     .note-input {
       display: flex;
@@ -470,6 +507,7 @@
 <body>
   <div class="container">
     <h1>📝 Short Term Notes</h1>
+    <p class="tagline">A lightweight note-taking app with Markdown support and auto-expiring notes.</p>
     <div class="stats" id="stats">Loading...</div>
 
     <div class="note-input">
