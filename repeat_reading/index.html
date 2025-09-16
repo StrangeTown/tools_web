@@ -480,6 +480,49 @@
       }
     }
 
+    // Copy item title and link to clipboard
+    async function copyItem(id, buttonElement) {
+      const item = items.find(item => item.id === id);
+      if (item) {
+        const textToCopy = `${item.title}\n${item.link}`;
+        
+        try {
+          await navigator.clipboard.writeText(textToCopy);
+          
+          // Show feedback
+          const originalText = buttonElement.textContent;
+          const originalBackground = buttonElement.style.background;
+          buttonElement.textContent = '✓ Copied!';
+          buttonElement.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+          
+          setTimeout(() => {
+            buttonElement.textContent = originalText;
+            buttonElement.style.background = originalBackground;
+          }, 2000);
+          
+        } catch (err) {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = textToCopy;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          
+          // Show feedback
+          const originalText = buttonElement.textContent;
+          const originalBackground = buttonElement.style.background;
+          buttonElement.textContent = '✓ Copied!';
+          buttonElement.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+          
+          setTimeout(() => {
+            buttonElement.textContent = originalText;
+            buttonElement.style.background = originalBackground;
+          }, 2000);
+        }
+      }
+    }
+
     // Get color level based on count
     function getColorLevel(count) {
       if (count === 0) return 'level-0';
@@ -525,6 +568,7 @@
             <div class="item-actions">
               <button class="btn btn-small" onclick="incrementCount(${item.id})">+1 Read</button>
               <button class="btn btn-small btn-secondary" onclick="decrementCount(${item.id})" ${item.count === 0 ? 'disabled' : ''}>-1</button>
+              <button class="btn btn-small" onclick="copyItem(${item.id}, this)" style="background: linear-gradient(45deg, #3498db, #2980b9);">📋 Copy</button>
               <button class="btn btn-small btn-danger" onclick="deleteItem(${item.id})">Delete</button>
             </div>
           </div>
