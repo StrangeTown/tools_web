@@ -19,11 +19,17 @@
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
     script.onload = function() {
-      window.chartJsLoaded = true;
-      console.log('Chart.js loaded asynchronously');
-      if (window.initChart) {
-        window.initChart();
-      }
+      // Load annotation plugin after Chart.js
+      const annotationScript = document.createElement('script');
+      annotationScript.src = 'https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2';
+      annotationScript.onload = function() {
+        window.chartJsLoaded = true;
+        console.log('Chart.js and annotation plugin loaded asynchronously');
+        if (window.initChart) {
+          window.initChart();
+        }
+      };
+      document.head.appendChild(annotationScript);
     };
     document.head.appendChild(script);
   </script>
@@ -571,6 +577,23 @@
       </div>
       
       <div class="modal-section">
+        <div class="section-title">Target Weight</div>
+        <div class="section-description">Set your target weight to display a reference line on the chart.</div>
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+          <input type="number" 
+                 id="targetWeight" 
+                 placeholder="Enter target weight" 
+                 step="0.1" 
+                 min="0" 
+                 max="1000"
+                 style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+          <span id="targetUnit" style="padding: 10px; background: #f3f4f6; border-radius: 6px; font-size: 14px; color: #374151;">kg</span>
+        </div>
+        <button class="modal-btn" onclick="setTargetWeight()">🎯 Set Target</button>
+        <button class="modal-btn" onclick="clearTargetWeight()" style="background: #6b7280;">❌ Clear Target</button>
+      </div>
+      
+      <div class="modal-section">
         <div class="section-title">Clear Data</div>
         <div class="section-description">Permanently delete all your weight entries. This action cannot be undone.</div>
         <button class="modal-btn danger" onclick="clearAllData()">🗑️ Clear All Data</button>
@@ -582,10 +605,18 @@
     let weightEntries = [];
     let currentUnit = 'kg';
     let chart = null;
+    let targetWeight = null;
 
     // Settings Modal Functions
     function openSettings() {
       const modal = document.getElementById('settingsModal');
+      const targetInput = document.getElementById('targetWeight');
+      const targetUnitSpan = document.getElementById('targetUnit');
+      
+      // Update target weight input and unit
+      targetInput.value = targetWeight || '';
+      targetUnitSpan.textContent = currentUnit;
+      
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
     }
@@ -594,6 +625,31 @@
       const modal = document.getElementById('settingsModal');
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
+    }
+
+    function setTargetWeight() {
+      const targetInput = document.getElementById('targetWeight');
+      const weight = parseFloat(targetInput.value);
+      
+      if (!weight || weight <= 0) {
+        alert('Please enter a valid target weight!');
+        return;
+      }
+      
+      targetWeight = weight;
+      saveData();
+      updateChart();
+      alert('Target weight set successfully!');
+    }
+
+    function clearTargetWeight() {
+      if (confirm('Are you sure you want to clear your target weight?')) {
+        targetWeight = null;
+        document.getElementById('targetWeight').value = '';
+        saveData();
+        updateChart();
+        alert('Target weight cleared!');
+      }
     }
 
     function exportData() {
@@ -614,6 +670,11 @@
         csv += `${entry.date},${entry.weight},${entry.unit},"${change}"\n`;
       });
       
+      // Add target weight if set
+      if (targetWeight !== null) {
+        csv += `\nTarget Weight,${targetWeight},${currentUnit},\n`;
+      }
+      
       const blob = new Blob([csv], { type: 'text/csv' });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -630,7 +691,9 @@
     function clearAllData() {
       if (confirm('Are you sure you want to clear all weight data? This action cannot be undone.')) {
         weightEntries = [];
+        targetWeight = null;
         localStorage.removeItem('weightTracker');
+        localStorage.removeItem('weightTrackerTarget');
         updateStats();
         updateChart();
         updateEntriesList();
@@ -650,6 +713,7 @@
     function loadData() {
       const stored = localStorage.getItem('weightTracker');
       const storedUnit = localStorage.getItem('weightTrackerUnit');
+      const storedTarget = localStorage.getItem('weightTrackerTarget');
       
       if (stored) {
         weightEntries = JSON.parse(stored);
@@ -661,12 +725,21 @@
         currentUnit = storedUnit;
         updateUnitButtons();
       }
+      
+      if (storedTarget) {
+        targetWeight = parseFloat(storedTarget);
+      }
     }
 
     // Save data to localStorage
     function saveData() {
       localStorage.setItem('weightTracker', JSON.stringify(weightEntries));
       localStorage.setItem('weightTrackerUnit', currentUnit);
+      if (targetWeight !== null) {
+        localStorage.setItem('weightTrackerTarget', targetWeight.toString());
+      } else {
+        localStorage.removeItem('weightTrackerTarget');
+      }
     }
 
     // Add weight entry
@@ -805,6 +878,28 @@
 
       const data = weightEntries.map(entry => entry.weight);
 
+      // Prepare annotations for target weight line
+      const annotations = {};
+      if (targetWeight !== null) {
+        annotations.targetLine = {
+          type: 'line',
+          yMin: targetWeight,
+          yMax: targetWeight,
+          borderColor: '#ef4444',
+          borderWidth: 2,
+          borderDash: [5, 5],
+          label: {
+            content: `Target Weight ${targetWeight} ${currentUnit}`,
+            enabled: true,
+            position: 'end',
+            backgroundColor: '#ef4444',
+            color: 'white',
+            padding: 4,
+            borderRadius: 4
+          }
+        };
+      }
+
       chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -830,6 +925,9 @@
           plugins: {
             legend: {
               display: false
+            },
+            annotation: {
+              annotations: annotations
             }
           },
           scales: {
