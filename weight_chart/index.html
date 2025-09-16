@@ -307,6 +307,140 @@
       opacity: 0.5;
     }
     
+    /* Settings Button */
+    .settings-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      background: #3b82f6;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .settings-btn:hover {
+      background: #2563eb;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+    
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    .modal-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #64748b;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .close-btn:hover {
+      color: #1e293b;
+    }
+    
+    .modal-section {
+      margin-bottom: 25px;
+    }
+    
+    .modal-section:last-child {
+      margin-bottom: 0;
+    }
+    
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 10px;
+    }
+    
+    .section-description {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 15px;
+    }
+    
+    .modal-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    .modal-btn:hover {
+      background: #2563eb;
+    }
+    
+    .modal-btn.danger {
+      background: #ef4444;
+    }
+    
+    .modal-btn.danger:hover {
+      background: #dc2626;
+    }
+    
+    .modal-btn:last-child {
+      margin-bottom: 0;
+    }
+    
     /* Mobile responsive */
     @media (max-width: 768px) {
       body {
@@ -417,10 +551,100 @@
     </div>
   </div>
 
+  <!-- Settings Button -->
+  <button class="settings-btn" onclick="openSettings()" title="Settings">
+    ⚙️
+  </button>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Settings</h2>
+        <button class="close-btn" onclick="closeSettings()">&times;</button>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Export Data</div>
+        <div class="section-description">Download your weight data as a CSV file for backup or analysis.</div>
+        <button class="modal-btn" onclick="exportData()">📥 Export CSV</button>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title">Clear Data</div>
+        <div class="section-description">Permanently delete all your weight entries. This action cannot be undone.</div>
+        <button class="modal-btn danger" onclick="clearAllData()">🗑️ Clear All Data</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let weightEntries = [];
     let currentUnit = 'kg';
     let chart = null;
+
+    // Settings Modal Functions
+    function openSettings() {
+      const modal = document.getElementById('settingsModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSettings() {
+      const modal = document.getElementById('settingsModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    function exportData() {
+      if (weightEntries.length === 0) {
+        alert('No data to export!');
+        return;
+      }
+      
+      let csv = 'Date,Weight,Unit,Change\n';
+      
+      weightEntries.forEach((entry, index) => {
+        let change = '';
+        if (index > 0) {
+          const prevEntry = weightEntries[index - 1];
+          const weightChange = entry.weight - prevEntry.weight;
+          change = weightChange > 0 ? `+${weightChange.toFixed(1)}` : weightChange.toFixed(1);
+        }
+        csv += `${entry.date},${entry.weight},${entry.unit},"${change}"\n`;
+      });
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `weight-tracker-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+      
+      alert('Data exported successfully!');
+    }
+
+    function clearAllData() {
+      if (confirm('Are you sure you want to clear all weight data? This action cannot be undone.')) {
+        weightEntries = [];
+        localStorage.removeItem('weightTracker');
+        updateStats();
+        updateChart();
+        updateEntriesList();
+        closeSettings();
+        alert('All data has been cleared.');
+      }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('settingsModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeSettings();
+      }
+    });
 
     // Load data from localStorage
     function loadData() {
