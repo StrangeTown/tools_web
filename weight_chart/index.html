@@ -300,6 +300,143 @@
       opacity: 1;
     }
     
+    /* How to Use Section */
+    .how-to-use {
+      background: #f0f9ff;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #bae6fd;
+      margin-top: 30px;
+    }
+    
+    .how-to-use h3 {
+      color: #0f172a;
+      margin-bottom: 20px;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    .usage-content {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    
+    .usage-section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid #e0f2fe;
+    }
+    
+    .usage-section h4 {
+      color: #0369a1;
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .usage-section p {
+      color: #475569;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    
+    .usage-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+    }
+    
+    .step-number {
+      background: #3b82f6;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    
+    .step-content strong {
+      color: #1e293b;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .step-content p {
+      margin: 0;
+      font-size: 14px;
+      color: #64748b;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .feature-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    
+    .feature-item strong {
+      color: #1e293b;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+    
+    .feature-item p {
+      margin: 0;
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    .tips-list, .settings-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+    
+    .tips-list li, .settings-list li {
+      margin-bottom: 8px;
+      color: #475569;
+      line-height: 1.5;
+    }
+    
+    .tips-list strong, .settings-list strong {
+      color: #1e293b;
+    }
+    
     .empty-state {
       text-align: center;
       color: #64748b;
@@ -320,19 +457,19 @@
       right: 20px;
       width: 56px;
       height: 56px;
-      background: #3b82f6;
+      background: #60a5fa;
       border: none;
       border-radius: 50%;
       color: white;
       font-size: 20px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
       transition: all 0.3s ease;
       z-index: 1000;
     }
     
     .settings-btn:hover {
-      background: #2563eb;
+      background: #3b82f6;
       transform: scale(1.1);
       box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     }
@@ -479,6 +616,43 @@
       .stats-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+      
+      .how-to-use {
+        padding: 20px;
+        margin-top: 25px;
+      }
+      
+      .how-to-use h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      
+      .usage-section {
+        padding: 15px;
+      }
+      
+      .usage-section h4 {
+        font-size: 15px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .feature-item {
+        padding: 12px;
+      }
+      
+      .step {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      
+      .step-number {
+        align-self: center;
+      }
     }
   </style>
 </head>
@@ -552,6 +726,113 @@
         <div class="empty-state">
           <div class="empty-state-icon">📊</div>
           <p>No weight entries yet. Add your first weight above!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- How to Use Section -->
+    <div class="how-to-use">
+      <h3>📖 How to Use Weight Tracker</h3>
+      <div class="usage-content">
+        <div class="usage-section">
+          <h4>🎯 Purpose</h4>
+          <p>This Weight Tracker helps you monitor your body weight progress over time with visual charts and goal setting. Track your daily weight changes, set target goals, and visualize your health journey with easy-to-understand charts.</p>
+        </div>
+
+        <div class="usage-section">
+          <h4>⚡ Quick Start</h4>
+          <div class="usage-steps">
+            <div class="step">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <strong>Enter Today's Weight</strong>
+                <p>Use the input field above to enter your current weight. Choose between kg or lbs units.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                <strong>View Your Progress</strong>
+                <p>Watch your weight chart update automatically as you add more entries over time.</p>
+              </div>
+            </div>
+            <div class="step">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                <strong>Set Target Goals</strong>
+                <p>Use the settings (⚙️) to set a target weight that appears as a reference line on your chart.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="usage-section">
+          <h4>📊 Features</h4>
+          <div class="features-grid">
+            <div class="feature-item">
+              <span class="feature-icon">📈</span>
+              <div>
+                <strong>Visual Charts</strong>
+                <p>Interactive charts show your weight trends over time</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">🎯</span>
+              <div>
+                <strong>Target Goals</strong>
+                <p>Set target weights with reference lines to track progress</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">📱</span>
+              <div>
+                <strong>Mobile Friendly</strong>
+                <p>Perfect for daily logging on any device</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">🔒</span>
+              <div>
+                <strong>Privacy First</strong>
+                <p>All data stays in your browser - nothing uploaded</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">📤</span>
+              <div>
+                <strong>Data Export</strong>
+                <p>Export your weight history as CSV files</p>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feature-icon">⚖️</span>
+              <div>
+                <strong>Multiple Units</strong>
+                <p>Support for both kilograms and pounds</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="usage-section">
+          <h4>💡 Tips for Success</h4>
+          <ul class="tips-list">
+            <li><strong>Consistency is key:</strong> Try to weigh yourself at the same time each day (preferably morning after waking up)</li>
+            <li><strong>Track trends, not daily changes:</strong> Focus on weekly or monthly patterns rather than daily fluctuations</li>
+            <li><strong>Set realistic goals:</strong> Use the target weight feature to set achievable milestones</li>
+            <li><strong>Export your data:</strong> Regularly backup your progress by exporting CSV files</li>
+            <li><strong>Be patient:</strong> Weight changes take time - trust the process and stay consistent</li>
+          </ul>
+        </div>
+
+        <div class="usage-section">
+          <h4>🔧 Settings & Data Management</h4>
+          <p>Click the settings button (⚙️) in the bottom right to access advanced features:</p>
+          <ul class="settings-list">
+            <li><strong>Set Target Weight:</strong> Define your goal weight to see reference lines on charts</li>
+            <li><strong>Export Data:</strong> Download your complete weight history as a CSV file</li>
+            <li><strong>Clear Data:</strong> Remove all entries to start fresh (use with caution)</li>
+          </ul>
         </div>
       </div>
     </div>
