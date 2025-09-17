@@ -63,7 +63,7 @@ A lightweight note-taking app with Markdown support and auto-expiring notes - pe
 
 ## ⚖️ Weight Tracker
 
-**Status:** Coming Soon! 🚀
+**Live Demo:** [https://www.itwork.club/weight/](https://www.itwork.club/weight/)
 
 A simple and effective body weight tracking application with visual charts and goal setting features.
 
