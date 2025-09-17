@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Weight Tracker - Track Your Body Weight Progress</title>
   <meta name="description" content="Simple body weight tracking tool with visual charts. Track your weight progress over time with easy daily input. All data is stored locally in your browser - nothing is uploaded to any server.">
-  <meta name="keywords" content="weight tracker, body weight, weight loss, fitness tracker, weight chart, daily weight">
+  <meta name="keywords" content="weight tracker, body weight, weight loss, fitness tracker, weight chart, daily weight, health tracking, weight monitoring, BMI tracker, weight management, fitness app, health app, weight diary, weight journal, weight progress, body weight chart, weight goal, target weight, weight statistics, weight history, diet tracker, wellness tracker, health dashboard, weight visualization, pounds to kg converter, metric imperial units">
   
   <!-- Facebook Meta Tags -->
   <meta property="og:title" content="Weight Tracker - Track Your Body Weight Progress">
@@ -19,6 +19,31 @@
   <meta name="twitter:title" content="Weight Tracker - Track Your Body Weight Progress">
   <meta name="twitter:description" content="Simple body weight tracking tool with visual charts. Track your weight progress over time with easy daily input. All data is stored locally in your browser - nothing is uploaded to any server.">
   <meta name="twitter:image" content="https://s21.ax1x.com/2025/09/17/pVhPQOS.png">
+  
+  <!-- SEO Meta Tags -->
+  <meta name="author" content="Weight Tracker">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow">
+  <meta name="language" content="EN">
+  <meta name="distribution" content="global">
+  <meta name="rating" content="general">
+  <meta name="revisit-after" content="7 days">
+  <meta name="theme-color" content="#4A90E2">
+  <meta name="msapplication-TileColor" content="#4A90E2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Weight Tracker">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.itwork.club/weight/">
+  
+  <!-- Alternative languages -->
+  <link rel="alternate" hreflang="en" href="https://www.itwork.club/weight/">
+  <link rel="alternate" hreflang="x-default" href="https://www.itwork.club/weight/">
+  
+  <!-- DNS Prefetch for performance -->
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   
   <!-- Mobile friendly -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,6 +71,59 @@
       document.head.appendChild(annotationScript);
     };
     document.head.appendChild(script);
+  </script>
+  
+  <!-- Structured Data (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Weight Tracker",
+    "description": "Simple body weight tracking tool with visual charts. Track your weight progress over time with easy daily input. All data is stored locally in your browser - nothing is uploaded to any server.",
+    "url": "https://www.itwork.club/weight/",
+    "image": "https://s21.ax1x.com/2025/09/17/pVhPQOS.png",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Daily weight tracking",
+      "Visual weight progress charts",
+      "Target weight goal setting",
+      "Local data storage",
+      "Privacy-focused (no data upload)",
+      "Mobile responsive design",
+      "Metric and Imperial units"
+    ],
+    "browserRequirements": "Modern web browser with JavaScript enabled",
+    "author": {
+      "@type": "Organization",
+      "name": "Weight Tracker",
+      "url": "https://www.itwork.club/weight/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Weight Tracker",
+      "url": "https://www.itwork.club/weight/"
+    },
+    "keywords": [
+      "weight tracker",
+      "body weight",
+      "weight loss",
+      "fitness tracker",
+      "weight chart",
+      "daily weight",
+      "health tracking",
+      "weight monitoring",
+      "BMI tracker",
+      "weight management",
+      "fitness app",
+      "health app"
+    ]
+  }
   </script>
   
   <style>
@@ -672,15 +750,18 @@
 </head>
 <body>
   <div class="container">
-    <h1>⚖️ Weight Tracker</h1>
-    <p class="tagline">
-      Track your body weight progress with simple daily input<br>
-      Your data stays private in your browser
-    </p>
+    <header>
+      <h1>⚖️ Weight Tracker</h1>
+      <p class="tagline">
+        Track your body weight progress with simple daily input<br>
+        Your data stays private in your browser
+      </p>
+    </header>
     
+    <main>
     <!-- Quick Input -->
-    <div class="quick-input">
-      <h3>Today's Weight</h3>
+    <section class="quick-input">
+      <h2>Today's Weight</h2>
       <div class="weight-input-group">
         <input type="number" 
                id="weightInput" 
@@ -717,10 +798,10 @@
         <div class="stat-value" id="totalEntries">0</div>
         <div class="stat-label">Total Entries</div>
       </div>
-    </div>
+    </section>
     
     <!-- Chart -->
-    <div class="chart-container">
+    <section class="chart-container">
       <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-spinner"></div>
         <div class="loading-text">Loading Chart...</div>
@@ -731,22 +812,22 @@
         <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">Add your first weight entry above to start tracking your progress!</p>
       </div>
       <canvas id="weightChart" style="display: none;"></canvas>
-    </div>
+    </section>
     
     <!-- Recent Entries -->
-    <div class="recent-entries">
-      <h3>Recent Entries</h3>
+    <section class="recent-entries">
+      <h2>Recent Entries</h2>
       <div id="entriesList">
         <div class="empty-state">
           <div class="empty-state-icon">📊</div>
           <p>No weight entries yet. Add your first weight above!</p>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- How to Use Section -->
-    <div class="how-to-use">
-      <h3>📖 How to Use Weight Tracker</h3>
+    <section class="how-to-use">
+      <h2>📖 How to Use Weight Tracker</h2>
       <div class="usage-content">
         <div class="usage-section">
           <h4>🎯 Purpose</h4>
@@ -893,7 +974,8 @@
         <div class="section-description">Permanently delete all your weight entries. This action cannot be undone.</div>
         <button class="modal-btn danger" onclick="clearAllData()">🗑️ Clear All Data</button>
       </div>
-    </div>
+    </section>
+    </main>
   </div>
 
   <script>
