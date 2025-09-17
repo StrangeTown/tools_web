@@ -343,6 +343,74 @@
         flex-direction: column;
       }
     }
+    
+    /* How to use section */
+    .how-to-use {
+      margin-top: 40px;
+      padding: 30px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .how-to-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .how-to-content {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    
+    .how-to-step {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(45deg, #4299e1, #3182ce);
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .step-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 8px;
+    }
+    
+    .step-description {
+      color: #4a5568;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .how-to-use {
+        margin-top: 30px;
+        padding: 20px;
+      }
+      
+      .how-to-content {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -389,6 +457,44 @@
       <div class="empty-state">
         <div class="empty-state-icon">📖</div>
         <p>No items yet. Add your first reading item above!</p>
+      </div>
+    </div>
+    
+    <!-- How to Use Section -->
+    <div class="how-to-use">
+      <h2 class="how-to-title">📖 How to Use Reading Tracker</h2>
+      <div class="how-to-content">
+        <div class="how-to-step">
+          <div class="step-number">1</div>
+          <div class="step-title">Add Your Content</div>
+          <div class="step-description">
+            Enter a title and URL for any website, article, tutorial, or video you want to track. This could be documentation, blog posts, online courses, or any educational content.
+          </div>
+        </div>
+        
+        <div class="how-to-step">
+          <div class="step-number">2</div>
+          <div class="step-title">Track Your Reads</div>
+          <div class="step-description">
+            Click "+1 Read" every time you visit or read the content. Watch as your cards change color to show your progress - from white to darker shades as you read more.
+          </div>
+        </div>
+        
+        <div class="how-to-step">
+          <div class="step-number">3</div>
+          <div class="step-title">Monitor Progress</div>
+          <div class="step-description">
+            View your reading statistics at the top and see which content you've engaged with most. Use the "Copy" button to easily share links with others.
+          </div>
+        </div>
+        
+        <div class="how-to-step">
+          <div class="step-number">4</div>
+          <div class="step-title">Manage Your List</div>
+          <div class="step-description">
+            Use "-1" to decrease counts if needed, delete items you no longer need, or clear all data to start fresh. All data is stored locally in your browser.
+          </div>
+        </div>
       </div>
     </div>
   </div>
