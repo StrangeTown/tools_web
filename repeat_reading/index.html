@@ -185,57 +185,63 @@
       overflow: hidden;
     }
     
-    /* Color levels based on reading count */
+    /* Color levels based on reading count - Progressive light to dark */
     .item-card.level-0 { 
       background: #ffffff;
       border-color: #e2e8f0;
     }
     
     .item-card.level-1 { 
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-      border-color: #7dd3fc;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-color: #cbd5e0;
     }
     
     .item-card.level-2 { 
-      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-      border-color: #86efac;
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+      border-color: #94a3b8;
     }
     
     .item-card.level-3 { 
-      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-      border-color: #fbbf24;
+      background: linear-gradient(135deg, #cbd5e0 0%, #94a3b8 100%);
+      border-color: #64748b;
     }
     
     .item-card.level-4 { 
-      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
-      border-color: #f472b6;
+      background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+      border-color: #475569;
+      color: #ffffff;
     }
     
     .item-card.level-5 { 
-      background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
-      border-color: #c084fc;
+      background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+      border-color: #334155;
+      color: #ffffff;
     }
     
     .item-card.level-6 { 
-      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-      border-color: #fca5a5;
+      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+      border-color: #1e293b;
+      color: #ffffff;
     }
     
     .item-card.level-7 { 
-      background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
-      border-color: #5eead4;
+      background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+      border-color: #0f172a;
+      color: #ffffff;
     }
     
     .item-card.level-8 { 
-      background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 100%);
-      border-color: #fb923c;
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-color: #020617;
+      color: #ffffff;
     }
     
     .item-card.level-max { 
-      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-      border-color: #fbbf24;
-      color: #92400e;
+      background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+      border-color: #000000;
+      color: #fbbf24;
       font-weight: 600;
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
     }
     
     .item-title {
@@ -257,6 +263,19 @@
     
     .item-link:hover {
       text-decoration: underline;
+    }
+    
+    /* Link color adjustments for better readability on dark backgrounds */
+    .item-card.level-4 .item-link,
+    .item-card.level-5 .item-link,
+    .item-card.level-6 .item-link,
+    .item-card.level-7 .item-link,
+    .item-card.level-8 .item-link {
+      color: #7dd3fc;
+    }
+    
+    .item-card.level-max .item-link {
+      color: #fde047;
     }
     
     .item-count {
