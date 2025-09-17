@@ -750,18 +750,15 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1>⚖️ Weight Tracker</h1>
-      <p class="tagline">
-        Track your body weight progress with simple daily input<br>
-        Your data stays private in your browser
-      </p>
-    </header>
+    <h1>⚖️ Weight Tracker</h1>
+    <p class="tagline">
+      Track your body weight progress with simple daily input<br>
+      Your data stays private in your browser
+    </p>
     
-    <main>
     <!-- Quick Input -->
-    <section class="quick-input">
-      <h2>Today's Weight</h2>
+    <div class="quick-input">
+      <h3>Today's Weight</h3>
       <div class="weight-input-group">
         <input type="number" 
                id="weightInput" 
@@ -798,10 +795,10 @@
         <div class="stat-value" id="totalEntries">0</div>
         <div class="stat-label">Total Entries</div>
       </div>
-    </section>
+    </div>
     
     <!-- Chart -->
-    <section class="chart-container">
+    <div class="chart-container">
       <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-spinner"></div>
         <div class="loading-text">Loading Chart...</div>
@@ -812,22 +809,22 @@
         <p style="margin-top: 10px; font-size: 14px; opacity: 0.8;">Add your first weight entry above to start tracking your progress!</p>
       </div>
       <canvas id="weightChart" style="display: none;"></canvas>
-    </section>
+    </div>
     
     <!-- Recent Entries -->
-    <section class="recent-entries">
-      <h2>Recent Entries</h2>
+    <div class="recent-entries">
+      <h3>Recent Entries</h3>
       <div id="entriesList">
         <div class="empty-state">
           <div class="empty-state-icon">📊</div>
           <p>No weight entries yet. Add your first weight above!</p>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- How to Use Section -->
-    <section class="how-to-use">
-      <h2>📖 How to Use Weight Tracker</h2>
+    <div class="how-to-use">
+      <h3>📖 How to Use Weight Tracker</h3>
       <div class="usage-content">
         <div class="usage-section">
           <h4>🎯 Purpose</h4>
@@ -974,8 +971,7 @@
         <div class="section-description">Permanently delete all your weight entries. This action cannot be undone.</div>
         <button class="modal-btn danger" onclick="clearAllData()">🗑️ Clear All Data</button>
       </div>
-    </section>
-    </main>
+    </div>
   </div>
 
   <script>
