@@ -411,6 +411,48 @@
         grid-template-columns: 1fr;
       }
     }
+    
+    /* Recommended section */
+    .recommended {
+      margin-top: 60px;
+      padding: 20px 0;
+      border-top: 1px solid #f1f5f9;
+      text-align: center;
+    }
+    
+    .recommended-title {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 15px;
+      font-weight: 400;
+    }
+    
+    .recommended-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .recommended-link {
+      color: #64748b;
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s ease;
+      opacity: 0.8;
+    }
+    
+    .recommended-link:hover {
+      color: #475569;
+      opacity: 1;
+    }
+    
+    @media (max-width: 768px) {
+      .recommended-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -495,6 +537,15 @@
             Use "-1" to decrease counts if needed, delete items you no longer need, or clear all data to start fresh. All data is stored locally in your browser.
           </div>
         </div>
+      </div>
+    </div>
+    
+    <!-- Recommended section -->
+    <div class="recommended">
+      <div class="recommended-title">Other Tools</div>
+      <div class="recommended-links">
+        <a href="https://www.itwork.club/weight/" target="_blank" class="recommended-link">⚖️ Weight Tracker</a>
+        <a href="https://www.itwork.club/note/" target="_blank" class="recommended-link">📝 Temporary Notes</a>
       </div>
     </div>
   </div>
