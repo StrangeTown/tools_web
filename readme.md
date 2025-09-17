@@ -117,7 +117,7 @@ A simple and effective body weight tracking application with visual charts and g
 ### Online Access
 - **Reading Tracker**: Visit [https://www.itwork.club/tracker/](https://www.itwork.club/tracker/)
 - **Temporary Notes**: Visit [https://www.itwork.club/note/](https://www.itwork.club/note/)
-- **Weight Tracker**: Coming soon!
+- **Weight Tracker**: Visit [https://www.itwork.club/weight/](https://www.itwork.club/weight/)
 
 ### Local Development
 1. Clone this repository:
