@@ -694,6 +694,7 @@
   <script>
     let notes = [];
     let persistDays = 3; // Default to 3 days
+    let currentDisplayedNote = null; // Track currently displayed random note
 
     // Configure marked for security
     marked.setOptions({
@@ -860,6 +861,7 @@
       const randomIndex = Math.floor(Math.random() * notes.length);
       const randomNote = notes[randomIndex];
 
+      currentDisplayedNote = randomNote; // Track the currently displayed note
       displayRandomNote(randomNote);
       document.getElementById('randomNoteModal').style.display = 'block';
     }
@@ -893,14 +895,24 @@
         return;
       }
 
-      const randomIndex = Math.floor(Math.random() * notes.length);
-      const randomNote = notes[randomIndex];
+      let availableNotes = notes;
+      
+      // If we have more than one note and there's a currently displayed note, exclude it
+      if (notes.length > 1 && currentDisplayedNote) {
+        availableNotes = notes.filter(note => note.id !== currentDisplayedNote.id);
+      }
+
+      const randomIndex = Math.floor(Math.random() * availableNotes.length);
+      const randomNote = availableNotes[randomIndex];
+      
+      currentDisplayedNote = randomNote; // Update the currently displayed note
       displayRandomNote(randomNote);
     }
 
     // Close random note modal
     function closeRandomNoteModal() {
       document.getElementById('randomNoteModal').style.display = 'none';
+      currentDisplayedNote = null; // Clear the currently displayed note when modal is closed
     }
 
     // Close modal when clicking outside
