@@ -233,6 +233,31 @@
     .delete-btn:hover {
       background: #c0392b;
     }
+
+    .edit-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+      width: auto;
+      min-height: auto;
+      align-self: flex-start;
+      margin-top: 5px;
+      margin-right: 8px;
+    }
+    .edit-btn:hover {
+      background: #2980b9;
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
     .empty-state {
       text-align: center;
       color: #7f8c8d;
@@ -613,6 +638,28 @@
         max-height: 300px;
         padding: 20px;
       }
+    }
+
+    /* Edit Modal Specific Styles */
+    #editNoteModal .modal-body textarea {
+      width: 100%;
+      min-height: 200px;
+      max-height: 400px;
+      padding: 15px;
+      border: 2px solid #e1e8ed;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.6;
+      resize: vertical;
+      background: #fafbfc;
+      box-sizing: border-box;
+    }
+
+    #editNoteModal .modal-body textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
     }
 
     /* Divider Styles */
@@ -1047,6 +1094,23 @@
     </div>
   </div>
 
+  <!-- Edit Note Modal -->
+  <div id="editNoteModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>✏️ Edit Note</h3>
+        <span class="modal-close" onclick="closeEditModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <textarea id="editNoteText" placeholder="Edit your note here... (Markdown supported with syntax)"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button onclick="saveEditedNote()">Save Changes<span class="shortcut-hint">⌘↵</span></button>
+        <button onclick="closeEditModal()">Cancel<span class="shortcut-hint">Esc</span></button>
+      </div>
+    </div>
+  </div>
+
   <script>
     let notes = [];
     let persistDays = 3; // Default to 3 days
@@ -1163,7 +1227,10 @@
             <div class="note-meta">
               <span>Created: ${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}</span>
               <span>Expires in: ${timeLeft} day${timeLeft !== 1 ? 's' : ''}</span>
-              <button class="delete-btn" onclick="deleteNote(${note.id})">Delete</button>
+              <div class="note-actions">
+                <button class="edit-btn" onclick="openEditModal(${note.id})">Edit</button>
+                <button class="delete-btn" onclick="deleteNote(${note.id})">Delete</button>
+              </div>
             </div>
           </div>
         `;
@@ -1271,21 +1338,73 @@
       currentDisplayedNote = null; // Clear the currently displayed note when modal is closed
     }
 
+    // Edit note functionality
+    let editingNoteId = null;
+
+    function openEditModal(noteId) {
+      const note = notes.find(n => n.id === noteId);
+      if (!note) return;
+
+      editingNoteId = noteId;
+      document.getElementById('editNoteText').value = note.content;
+      document.getElementById('editNoteModal').style.display = 'block';
+      
+      // Focus on textarea
+      setTimeout(() => {
+        document.getElementById('editNoteText').focus();
+      }, 100);
+    }
+
+    function closeEditModal() {
+      document.getElementById('editNoteModal').style.display = 'none';
+      editingNoteId = null;
+    }
+
+    function saveEditedNote() {
+      if (editingNoteId === null) return;
+
+      const newContent = document.getElementById('editNoteText').value.trim();
+      if (!newContent) {
+        alert('Note content cannot be empty!');
+        return;
+      }
+
+      // Find and update the note
+      const noteIndex = notes.findIndex(n => n.id === editingNoteId);
+      if (noteIndex !== -1) {
+        notes[noteIndex].content = newContent;
+        // Update the modified time
+        notes[noteIndex].modifiedAt = new Date().toISOString();
+        
+        saveNotes();
+        displayNotes();
+        closeEditModal();
+      }
+    }
+
     // Close modal when clicking outside
     window.onclick = function(event) {
-      const modal = document.getElementById('randomNoteModal');
-      if (event.target === modal) {
-        modal.style.display = 'none';
+      const randomModal = document.getElementById('randomNoteModal');
+      const editModal = document.getElementById('editNoteModal');
+      
+      if (event.target === randomModal) {
+        randomModal.style.display = 'none';
         currentDisplayedNote = null; // Clear the currently displayed note when modal is closed
+      }
+      
+      if (event.target === editModal) {
+        closeEditModal();
       }
     }
 
     // Keyboard shortcuts for modal and general app
     document.addEventListener('keydown', function(event) {
-      const modal = document.getElementById('randomNoteModal');
-      const isModalOpen = modal.style.display === 'block';
+      const randomModal = document.getElementById('randomNoteModal');
+      const editModal = document.getElementById('editNoteModal');
+      const isRandomModalOpen = randomModal.style.display === 'block';
+      const isEditModalOpen = editModal.style.display === 'block';
       
-      if (isModalOpen) {
+      if (isRandomModalOpen) {
         // Space key to show another random note
         if (event.code === 'Space') {
           event.preventDefault(); // Prevent page scroll
@@ -1295,6 +1414,17 @@
         else if (event.code === 'Escape') {
           event.preventDefault();
           closeRandomNoteModal();
+        }
+      } else if (isEditModalOpen) {
+        // Escape key to cancel edit
+        if (event.code === 'Escape') {
+          event.preventDefault();
+          closeEditModal();
+        }
+        // Cmd+Enter (Mac) or Ctrl+Enter (Windows/Linux) to save edited note
+        else if (event.code === 'Enter' && (event.metaKey || event.ctrlKey)) {
+          event.preventDefault();
+          saveEditedNote();
         }
       } else {
         // Cmd+Enter (Mac) or Ctrl+Enter (Windows/Linux) to add note
