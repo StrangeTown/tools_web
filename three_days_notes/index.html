@@ -606,6 +606,226 @@
         padding: 20px;
       }
     }
+
+    /* Divider Styles */
+    .section-divider {
+      margin: 40px 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e1e8ed 20%, #e1e8ed 80%, transparent);
+      position: relative;
+    }
+
+    .section-divider::after {
+      content: "📖";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0 15px;
+      font-size: 20px;
+    }
+
+    /* About Section Styles */
+    .about-section {
+      margin-top: 0;
+    }
+
+    .about-section h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 28px;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .about-item h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .about-item p {
+      color: #2c3e50;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .feature-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+    }
+
+    .highlight-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .highlight-item strong {
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .highlight-item p {
+      margin: 0;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .usage-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .usage-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      padding: 20px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+
+    .step-number {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      color: #2c3e50;
+      margin-bottom: 8px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .step-content p {
+      margin: 0;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .step-content code {
+      background: #e1e8ed;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: #667eea;
+    }
+
+    .step-content kbd {
+      background: #2c3e50;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .best-practices {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .best-practices li {
+      padding: 12px 0;
+      border-bottom: 1px solid #e1e8ed;
+      color: #2c3e50;
+      line-height: 1.5;
+    }
+
+    .best-practices li:last-child {
+      border-bottom: none;
+    }
+
+    .best-practices li strong {
+      color: #667eea;
+    }
+
+    .tech-details p {
+      margin-bottom: 10px;
+      padding: 12px 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 3px solid #667eea;
+    }
+
+    .tech-details strong {
+      color: #667eea;
+    }
+
+    /* Responsive styles for about section */
+    @media (max-width: 1024px) {
+      .feature-highlights {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      
+      .highlight-item {
+        padding: 12px;
+      }
+      
+      .usage-step {
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-section h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
+      
+      .about-item h3 {
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      
+      .usage-step {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 12px;
+      }
+      
+      .step-number {
+        align-self: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -622,6 +842,112 @@
     <div class="notes-list" id="notesList">
       <div class="empty-state">
         <p>No notes yet. Add your first note above!</p>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- About & How to Use Section -->
+    <div class="about-section">
+      <h2>📖 About Temporary Notes</h2>
+      
+      <div class="about-content">
+        <div class="about-item">
+          <h3>🎯 What is this for?</h3>
+          <p>Temporary Notes is a lightweight, privacy-focused note-taking app designed for quick thoughts, temporary reminders, and short-term information storage. Unlike traditional note apps, your notes automatically expire after a set number of days, keeping your workspace clean and focused on current priorities.</p>
+          
+          <div class="feature-highlights">
+            <div class="highlight-item">
+              <span class="highlight-icon">🔒</span>
+              <div>
+                <strong>Privacy First</strong>
+                <p>All notes are stored locally in your browser - nothing is sent to any server</p>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-icon">⏰</span>
+              <div>
+                <strong>Auto-Expiring</strong>
+                <p>Notes automatically delete themselves after your chosen time period (1-365 days)</p>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-icon">✍️</span>
+              <div>
+                <strong>Markdown Support</strong>
+                <p>Write with rich formatting using simple Markdown syntax</p>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-icon">🎲</span>
+              <div>
+                <strong>Random Notes</strong>
+                <p>Rediscover forgotten notes with the random note feature</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-item">
+          <h3>🚀 How to Use</h3>
+          
+          <div class="usage-steps">
+            <div class="usage-step">
+              <span class="step-number">1</span>
+              <div class="step-content">
+                <h4>Write Your Note</h4>
+                <p>Type your note in the text area. You can use Markdown formatting like <code>**bold**</code>, <code>*italic*</code>, <code>==highlight==</code>, headers with <code>#</code>, lists, links, and code blocks.</p>
+              </div>
+            </div>
+            
+            <div class="usage-step">
+              <span class="step-number">2</span>
+              <div class="step-content">
+                <h4>Set Expiration Time</h4>
+                <p>In the sidebar, adjust the "Persist Days" setting (1-365 days). New notes will expire after this many days. You can change this anytime for future notes.</p>
+              </div>
+            </div>
+            
+            <div class="usage-step">
+              <span class="step-number">3</span>
+              <div class="step-content">
+                <h4>Add & Manage</h4>
+                <p>Click "Add Note" to save. Your notes appear below with creation time and expiration countdown. Delete individual notes or clear all notes using the sidebar buttons.</p>
+              </div>
+            </div>
+            
+            <div class="usage-step">
+              <span class="step-number">4</span>
+              <div class="step-content">
+                <h4>Discover with Random Notes</h4>
+                <p>Use the "🎲 Random Note" feature to rediscover old notes. Press <kbd>Space</kbd> for another random note or <kbd>Esc</kbd> to close the modal.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-item">
+          <h3>💡 Best Practices</h3>
+          <ul class="best-practices">
+            <li><strong>Daily Thoughts:</strong> Perfect for daily reflections, quick ideas, or temporary reminders</li>
+            <li><strong>Project Notes:</strong> Use for short-term project notes that don't need permanent storage</li>
+            <li><strong>Learning:</strong> Jot down quick learning notes, code snippets, or temporary references</li>
+            <li><strong>Cleanup Routine:</strong> Let the auto-expiration feature keep your notes organized automatically</li>
+            <li><strong>Markdown Formatting:</strong> Use headers, lists, and highlighting to make notes more readable</li>
+            <li><strong>Random Discovery:</strong> Periodically use the random note feature to review and refresh your memory</li>
+          </ul>
+        </div>
+
+        <div class="about-item">
+          <h3>🔧 Technical Details</h3>
+          <div class="tech-details">
+            <p><strong>Storage:</strong> All data is stored locally using browser localStorage - no accounts, no servers, no data collection.</p>
+            <p><strong>Expiration:</strong> Notes are automatically cleaned up every hour. Expired notes are permanently deleted.</p>
+            <p><strong>Markdown:</strong> Full Markdown support with syntax highlighting for code blocks and custom highlight extension.</p>
+            <p><strong>Responsive:</strong> Works perfectly on desktop, tablet, and mobile devices.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
