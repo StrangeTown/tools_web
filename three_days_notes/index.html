@@ -104,6 +104,14 @@
       white-space: nowrap;
       width: 100%;
       min-height: 50px;
+      position: relative;
+    }
+
+    .shortcut-hint {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-left: 8px;
+      font-weight: normal;
     }
     button:hover {
       transform: translateY(-2px);
@@ -836,7 +844,7 @@
 
     <div class="note-input">
       <textarea id="noteText" placeholder="Write your note here... (Markdown supported with syntax)"></textarea>
-      <button onclick="addNote()">Add Note</button>
+      <button onclick="addNote()">Add Note<span class="shortcut-hint">⌘↵</span></button>
     </div>
 
     <div class="notes-list" id="notesList">
@@ -1261,7 +1269,7 @@
       }
     }
 
-    // Keyboard shortcuts for modal
+    // Keyboard shortcuts for modal and general app
     document.addEventListener('keydown', function(event) {
       const modal = document.getElementById('randomNoteModal');
       const isModalOpen = modal.style.display === 'block';
@@ -1276,6 +1284,12 @@
         else if (event.code === 'Escape') {
           event.preventDefault();
           closeRandomNoteModal();
+        }
+      } else {
+        // Cmd+Enter (Mac) or Ctrl+Enter (Windows/Linux) to add note
+        if (event.code === 'Enter' && (event.metaKey || event.ctrlKey)) {
+          event.preventDefault();
+          addNote();
         }
       }
     });
