@@ -583,6 +583,17 @@
       transform: translateY(-1px);
     }
 
+    /* Shortcut key hint styling */
+    .shortcut-hint {
+      opacity: 0.7;
+      font-size: 12px;
+      font-weight: normal;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
     /* Mobile responsive */
     @media (max-width: 768px) {
       .modal-content {
@@ -685,7 +696,7 @@
         <div id="randomNoteMeta" class="note-meta"></div>
       </div>
       <div class="modal-footer">
-        <button onclick="showAnotherRandomNote()">🎲 Another Random Note</button>
+        <button onclick="showAnotherRandomNote()">🎲 Another Random Note<span class="shortcut-hint">Space</span></button>
         <button onclick="closeRandomNoteModal()">Close</button>
       </div>
     </div>
@@ -920,8 +931,28 @@
       const modal = document.getElementById('randomNoteModal');
       if (event.target === modal) {
         modal.style.display = 'none';
+        currentDisplayedNote = null; // Clear the currently displayed note when modal is closed
       }
     }
+
+    // Keyboard shortcuts for modal
+    document.addEventListener('keydown', function(event) {
+      const modal = document.getElementById('randomNoteModal');
+      const isModalOpen = modal.style.display === 'block';
+      
+      if (isModalOpen) {
+        // Space key to show another random note
+        if (event.code === 'Space') {
+          event.preventDefault(); // Prevent page scroll
+          showAnotherRandomNote();
+        }
+        // Escape key to close modal
+        else if (event.code === 'Escape') {
+          event.preventDefault();
+          closeRandomNoteModal();
+        }
+      }
+    });
 
     // Clean up expired notes
     function cleanupExpiredNotes() {
