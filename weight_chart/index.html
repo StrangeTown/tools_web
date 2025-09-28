@@ -71,6 +71,16 @@
       document.head.appendChild(annotationScript);
     };
     document.head.appendChild(script);
+
+    // Load HTML2Canvas for image export
+    window.html2canvasLoaded = false;
+    const html2canvasScript = document.createElement('script');
+    html2canvasScript.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+    html2canvasScript.onload = function() {
+      window.html2canvasLoaded = true;
+      console.log('HTML2Canvas loaded asynchronously');
+    };
+    document.head.appendChild(html2canvasScript);
   </script>
   
   <!-- Structured Data (JSON-LD) for SEO -->
@@ -1007,6 +1017,12 @@
       </div>
       
       <div class="modal-section">
+        <div class="section-title">Export Image</div>
+        <div class="section-description">Download a snapshot of your weight statistics and chart as an image.</div>
+        <button class="modal-btn" onclick="exportImage()">📸 Export Image</button>
+      </div>
+      
+      <div class="modal-section">
         <div class="section-title">Target Weight</div>
         <div class="section-description">Set your target weight to display a reference line on the chart.</div>
         <div style="display: flex; gap: 10px; margin-bottom: 10px;">
@@ -1125,6 +1141,144 @@
       window.URL.revokeObjectURL(url);
       
       alert('Data exported successfully!');
+    }
+
+    function exportImage() {
+      if (!window.html2canvasLoaded) {
+        alert('Image export feature is still loading. Please try again in a moment.');
+        return;
+      }
+
+      if (weightEntries.length === 0) {
+        alert('No data to export! Please add some weight entries first.');
+        return;
+      }
+
+      // Close the settings modal first
+      closeSettings();
+
+      // Wait a moment for modal to close, then capture
+      setTimeout(() => {
+        // Create a temporary container to capture stats and chart together
+        const exportContainer = document.createElement('div');
+        exportContainer.style.cssText = `
+          position: fixed;
+          top: -9999px;
+          left: -9999px;
+          width: 900px;
+          background: white;
+          padding: 30px;
+          border-radius: 15px;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        `;
+
+        // Add title
+        const title = document.createElement('div');
+        title.innerHTML = '<h2 style="text-align: center; color: #0f172a; margin-bottom: 20px; font-size: 28px; font-weight: 600;">⚖️ Weight Tracker Report</h2>';
+        exportContainer.appendChild(title);
+
+        // Clone and add stats
+        const statsGrid = document.querySelector('.stats-grid');
+        const statsClone = statsGrid.cloneNode(true);
+        statsClone.style.marginBottom = '30px';
+        exportContainer.appendChild(statsClone);
+
+        // Clone and add chart container
+        const chartContainer = document.querySelector('.chart-container');
+        const chartClone = chartContainer.cloneNode(true);
+        chartClone.style.height = '400px';
+        chartClone.style.marginBottom = '20px';
+        
+        // Remove loading overlay from clone
+        const loadingOverlay = chartClone.querySelector('#loadingOverlay');
+        if (loadingOverlay) loadingOverlay.remove();
+        
+        // Remove empty state from clone
+        const emptyState = chartClone.querySelector('#chartEmptyState');
+        if (emptyState) emptyState.remove();
+        
+        exportContainer.appendChild(chartClone);
+
+        // Add date footer
+        const footer = document.createElement('div');
+        footer.innerHTML = `
+          <p style="text-align: center; color: #64748b; font-size: 14px; margin-top: 20px;">Generated on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+          <p style="text-align: center; color: #cbd5e0; font-size: 11px; margin-top: 8px; opacity: 0.6; font-weight: 300;">Created with www.itwork.club/weight/</p>
+        `;
+        exportContainer.appendChild(footer);
+
+        document.body.appendChild(exportContainer);
+
+        // Recreate the chart in the clone
+        const clonedCanvas = chartClone.querySelector('canvas');
+        if (clonedCanvas && chart) {
+          const ctx = clonedCanvas.getContext('2d');
+          
+          // Copy chart configuration
+          const chartConfig = {
+            type: chart.config.type,
+            data: JSON.parse(JSON.stringify(chart.data)),
+            options: JSON.parse(JSON.stringify(chart.options))
+          };
+
+          const tempChart = new Chart(ctx, chartConfig);
+
+          // Wait for chart to render, then capture
+          setTimeout(() => {
+            html2canvas(exportContainer, {
+              backgroundColor: '#ffffff',
+              scale: 2,
+              useCORS: true,
+              allowTaint: false
+            }).then(canvas => {
+              // Convert to blob and download
+              canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `weight-tracker-report-${new Date().toISOString().split('T')[0]}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+              }, 'image/png');
+              
+              // Clean up
+              tempChart.destroy();
+              document.body.removeChild(exportContainer);
+            }).catch(error => {
+              console.error('Error capturing image:', error);
+              alert('Failed to export image. Please try again.');
+              document.body.removeChild(exportContainer);
+            });
+          }, 500);
+        } else {
+          // No chart available, capture stats only
+          html2canvas(exportContainer, {
+            backgroundColor: '#ffffff',
+            scale: 2,
+            useCORS: true,
+            allowTaint: false
+          }).then(canvas => {
+            canvas.toBlob(blob => {
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `weight-tracker-stats-${new Date().toISOString().split('T')[0]}.png`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            }, 'image/png');
+            
+            document.body.removeChild(exportContainer);
+          }).catch(error => {
+            console.error('Error capturing image:', error);
+            alert('Failed to export image. Please try again.');
+            document.body.removeChild(exportContainer);
+          });
+        }
+      }, 300);
     }
 
     function clearAllData() {
