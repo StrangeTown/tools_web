@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端面试题 - 随机练习</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 1px solid #e2e8f0;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .secondary-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* 代码块样式 */
+        pre {
+            background: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            font-family: 'Fira Code', 'Monaco', 'Consolas', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            text-shadow: none !important;
+        }
+
+        /* 行内代码样式 */
+        code:not(pre code) {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 3px 6px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid #b3e5fc;
+            font-family: 'Fira Code', 'Monaco', 'Consolas', 'Ubuntu Mono', monospace;
+        }
+
+        /* 代码块内的代码样式 */
+        pre code {
+            background: transparent !important;
+            color: inherit !important;
+            padding: 0 !important;
+            border: none !important;
+            border-radius: 0 !important;
+            font-size: inherit !important;
+            text-shadow: none !important;
+        }
+
+        /* 滚动条样式 */
+        pre::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        pre::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        pre::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Markdown 内容段落间距 */
+        #questionContent p {
+            margin-bottom: 1.2rem !important;
+        }
+
+        #questionContent ul, #questionContent ol {
+            margin-bottom: 1.2rem !important;
+        }
+
+        #questionContent li {
+            margin-bottom: 0.5rem !important;
+        }
+
+        #questionContent h1, #questionContent h2, #questionContent h3, #questionContent h4 {
+            margin-top: 1.8rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        #questionContent blockquote {
+            margin-top: 1.5rem !important;
+            margin-bottom: 1.5rem !important;
+        }
+
+        /* 修复 Prism.js 操作符背景样式 */
+        pre code .token.string,
+        pre code .token.entity,
+        pre code .token.operator,
+        pre code .token.url {
+            background: transparent !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-10">
+        <div class="max-w-4xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">FE</span>
+                    </div>
+                    <h1 class="text-xl font-bold text-slate-800">前端面试题练习</h1>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="text-sm text-slate-600" id="questionCount">题目总数: 0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="max-w-4xl mx-auto px-6 py-8">
+        <!-- 控制面板 -->
+        <div id="controlPanel" class="mb-8 hidden">
+            <div class="flex justify-center">
+                <button id="randomBtn" class="primary-btn text-white px-8 py-3 rounded-lg font-semibold shadow-lg">
+                    🎲 随机题目 <span class="text-sm opacity-80 ml-2">空格</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 题目卡片 -->
+        <div id="questionCard" class="question-card rounded-2xl p-8 shadow-lg hidden fade-in">
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 id="questionTitle" class="text-2xl font-bold text-slate-800"></h2>
+                    <div class="flex items-center space-x-2">
+                        <button id="copyBtn" class="bg-slate-100 hover:bg-slate-200 p-2 rounded-lg transition-colors" title="复制题目">
+                            📋
+                        </button>
+                    </div>
+                </div>
+                <hr class="border-slate-200">
+            </div>
+            
+            <div id="questionContent" class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-4">
+                <!-- 题目内容将在这里显示 -->
+            </div>
+        </div>
+
+        <!-- 欢迎界面 -->
+        <div id="welcomeScreen" class="text-center py-16">
+            <div class="mb-8">
+                <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mx-auto flex items-center justify-center mb-6">
+                    <span class="text-white text-3xl font-bold">FE</span>
+                </div>
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">前端面试题练习平台</h2>
+                <p class="text-slate-600 text-lg max-w-2xl mx-auto">
+                    提升你的前端技术面试准备！随机练习各种前端开发相关的面试题目，包括 JavaScript、CSS、React、Vue 等技术栈。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-8">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="text-blue-500 text-2xl mb-3">🎯</div>
+                    <h3 class="font-semibold text-slate-800 mb-2">随机练习</h3>
+                    <p class="text-slate-600 text-sm">随机获取题目，避免记忆顺序</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="text-green-500 text-2xl mb-3">📚</div>
+                    <h3 class="font-semibold text-slate-800 mb-2">详细解答</h3>
+                    <p class="text-slate-600 text-sm">每题都有详细的解释和代码示例</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                    <div class="text-purple-500 text-2xl mb-3">⚡</div>
+                    <h3 class="font-semibold text-slate-800 mb-2">实时更新</h3>
+                    <p class="text-slate-600 text-sm">持续更新最新的面试题目</p>
+                </div>
+            </div>
+            
+            <button id="startBtn" class="primary-btn text-white px-10 py-4 rounded-xl font-semibold text-lg shadow-lg">
+                🚀 开始练习
+            </button>
+        </div>
+    </main>
+
+    <!-- 脚部 -->
+    <footer class="text-center py-8 text-slate-500 text-sm">
+        <p>© 2025 前端面试题练习平台 | 持续更新中...</p>
+    </footer>
+
+    <script>
+        // 题目数据 - 将被 Node.js 脚本替换
+        const items = [
+        {
+                "id": "023ba8b1-5da0-45cf-8873-d86da4c90b5d",
+                "title": "实现深拷贝",
+                "content": "深拷贝（Deep Copy）是创建对象的完全独立副本，包括所有嵌套对象。常见实现方式：\n\n1. **JSON 方法**：`JSON.parse(JSON.stringify(obj))`，简单但有局限性（无法处理函数、undefined、循环引用、Date、RegExp、Map、Set 等）\n\n2. **递归函数**：手动***递归遍历对象属性，创建新对象，同时处理循环引用、Set、Map、Date、RegExp 等类型***\n\n```javascript\nfunction deepClone(obj, hash = new WeakMap()) {\n  if (obj === null) return null;\n  if (typeof obj !== 'object') return obj;\n  if (hash.has(obj)) return hash.get(obj);\n\n  let clone;\n  if (obj instanceof Date) {\n    clone = new Date(obj);\n  } else if (obj instanceof RegExp) {\n    clone = new RegExp(obj.source, obj.flags);\n  } else if (obj instanceof Set) {\n    clone = new Set();\n    hash.set(obj, clone);\n    obj.forEach(value => clone.add(deepClone(value, hash)));\n    return clone;\n  } else if (obj instanceof Map) {\n    clone = new Map();\n    hash.set(obj, clone);\n    obj.forEach((value, key) => clone.set(key, deepClone(value, hash)));\n    return clone;\n  } else if (Array.isArray(obj)) {\n    clone = [];\n  } else {\n    clone = {};\n  }\n\n  hash.set(obj, clone);\n\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key)) {\n      clone[key] = deepClone(obj[key], hash);\n    }\n  }\n\n  return clone;\n}\n```\n\n3. **使用库**：如 Lodash 的 `_.cloneDeep()`，功能完善且处理各种边界情况"
+        },
+        {
+                "id": "89f6a409-1640-48f9-a611-1a02e86f37f8",
+                "title": "浅拷贝 vs 深拷贝",
+                "content": "浅拷贝（Shallow Copy）和深拷贝（Deep Copy）是两种对象复制方式：\n\n- 浅拷贝：只复制第一层属性，嵌套对象仍共享引用（如 Object.assign()、{ ...obj }）\n\n- 深拷贝：递归复制所有层级，生成完全独立的新对象（如 JSON.parse(JSON.stringify(obj))、递归函数、_.cloneDeep()）"
+        },
+        {
+                "id": "2046ea8e-e784-4816-970e-a7e312984193",
+                "title": "跨域请求",
+                "content": "跨域是因为浏览器的***同源策略***限制引起的，主要是出于安全考虑。常见解决方式：\n\n1. CORS：最推荐的方式，服务端设置 Access-Control-Allow-Origin 等响应头来允许跨域请求\n\n2. 代理转发：通过同源服务器做代理，避免浏览器跨域限制\n\n3. JSONP：早期方案，只支持 GET，已基本淘汰\n\n另外，某些场景下还会用 WebSocket 或 postMessage 来做跨域通信"
+        },
+        {
+                "id": "f6a3dcf9-47fc-4f9b-a5ef-aabb60ace89d",
+                "title": "JavaScript 的数据类型",
+                "content": "JavaScript 的数据类型分为两大类：***原始类型（Primitive Types） 和 对象（Objects）***\n\n- 原始类型：`string`、number、boolean、null、undefined、symbol、bigint，它们是不可变的值，通常直接存储在栈中\n\n- 对象：由 Object 派生的各种复杂数据结构，变量保存的是其在堆中的引用地址。对象包括普通对象、Array、Function、Date、RegExp、Set、Map、Proxy、Promise 等。这些是不同的内置对象类型"
+        },
+        {
+                "id": "5e336859-1c44-49c3-b8f5-cf50da9b762e",
+                "title": "React Hooks 只能在函数组件最顶层调用的原因",
+                "content": "React Hooks 只能在函数组件或自定义 Hook 的最顶层调用，***这是为了确保 Hook 在每次渲染时都以相同的顺序执行*** \n\nReact 内部通过调用顺序来管理 Hooks，而不是名字。如果在条件语句、循环或嵌套函数中调用 Hook，可能会导致 Hook 的调用顺序在不同渲染之间发生变化，从而破坏 React 对状态的管理，导致不可预测的行为 \n\n 这么设计，不需要用 key-value 存储状态，只靠调用顺序就能快速定位到对应的状态，提升性能 "
+        },
+        {
+                "id": "22a3ef76-8404-41b6-a784-9eb5c9ad0e53",
+                "title": "React 合成事件与原生事件的区别",
+                "content": "React 的***合成事件是对原生事件的封装*** \n\n1. 原生事件直接绑定在 DOM 上，而合成事件是通过事件委托，统一绑定在 root 节点上\n\n2. 合成事件使用 React 提供的 SyntheticEvent 对象，跨浏览器兼容，且在 React 17 之前会用事件池复用\n\n3. React 自己维护了事件的冒泡机制，可以在内部控制事件的优先级和更新时机\n\n这样做的好处是 提升性能、统一行为、让事件系统更可控 "
+        },
+        {
+                "id": "19369478-e097-4634-b24b-ff559682db8c",
+                "title": "首屏/白屏时间优化",
+                "content": "***构建->资源->网络->渲染->持续优化***\n\n - 构建层面：代码分割；Tree Shaking；SSR；内联首屏关键CSS； \n\n - 资源层面：压缩；图片字体优化；缓存策略\n\n - 网络层面：CDN；DNS预解析；预连接；HTTP/2/3\n\n - 渲染层面:懒加载；骨架屏；预加载；减少重排重绘\n\n - 持续优化：埋点监控；性能分析"
+        },
+        {
+                "id": "f2be5f65-008d-465c-8e8c-a353f8eef971",
+                "title": "实现 TypeScript 内置的 Pick<T, K>",
+                "content": "```typescript\ntype MyPick<T, K extends keyof T> = {\n  [P in K]: T[P];\n};\n```\n\n- `T` 是一个对象类型，***`K` 是 `T` 的键的子集（通过 `keyof T` 限制）***，`extends` 关键字用于约束 `K` 的类型\n\n- 使用映射类型 `[P in K]` 遍历 `K` 中的每个键 `P`\n\n- 对于每个键 `P`，将其对应的类型 `T[P]` 赋值给新对象的属性"
+        },
+        {
+                "id": "87c1d0e9-73f0-464c-a358-687fbf4081d2",
+                "title": "React useEffect 的依赖项",
+                "content": "useEffect 的依赖数组***决定了副作用函数什么时候执行*** \n\n• 如果不写依赖，effect 每次渲染都会执行  \n\n• 写空数组 []，只会在组件挂载时执行一次 \n\n• 写了依赖项 [a, b]，只有当 a 或 b 发生变化时才执行 \n\n需要注意的是，如果漏写依赖，可能导致拿到过期的 state 或 props\n\n如果依赖里放了对象/函数，又可能造成无限循环，所以通常要结合 useCallback、useMemo 来稳定依赖 \n\nReact 官方也提供了 ESLint 规则来帮助我们避免依赖项出错"
+        },
+        {
+                "id": "9ec68b38-a687-4ac7-887e-7c7b9ac404f6",
+                "title": "React 从 class 到函数组件，有哪些演进？",
+                "content": "1. **组件形式上**，从 class 组件到函数组件\n\n2. **状态管理**，从 this.state 和 this.setState 到 useState\n\n3. **生命周期方法**，从 componentDidMount 等到 useEffect\n\n4. **逻辑复用**，从高阶组件和 render props 到自定义 hooks\n\n5. **性能与底层机制**，从虚拟 DOM 到 Fiber 架构，并发模式\n\n6. **新 API 的引入**，如 useMemo, useCallback, useRef 等"
+        },
+        {
+                "id": "349770a5-b45c-4d80-bb2d-84bd2ea6a7a7",
+                "title": "介绍一下 useTransition",
+                "content": "`useTransition` 是 React 18 引入的一个 Hook，用于处理过渡状态，***使得界面在进行一些可能比较耗时的操作时，仍然保持响应性***  \n\n`useTransition` 返回一个数组，包含两个元素：\n\n 1. 一个布尔值 `isPending`，表示是否处于过渡状态；\n2. 另一个是一个函数 `startTransition`，用于包裹需要过渡的更新逻辑  \n\n使用 `useTransition` 可以将一些不那么紧急的更新标记为过渡，从而允许 React 在处理这些更新时优先处理更紧急的任务，提升用户体验。例如，在搜索输入时，可以使用 `useTransition` 来延迟更新搜索结果列表，而不会阻塞输入框的响应"
+        },
+        {
+                "id": "ac1bec94-b4c2-44cf-b0f1-8023231d6024",
+                "title": "typeof null 的结果",
+                "content": "`typeof null` 的结果是 ***`object`***\n\n这是 JavaScript 的一个历史遗留 bug。在最初的实现中，值是通过其 二进制前几位标识类型 的：对象的标识是 000，null 的二进制表示全是 0，因此被错误识别为 object，虽然是 bug，但为了兼容性，一直保留到今天 \n\n如果要正确判断 null，应该用 `===` 来进行严格比较 "
+        },
+        {
+                "id": "36e965ce-1866-4960-aab1-3428915142a2",
+                "title": "NaN === NaN 的结果",
+                "content": "`NaN === NaN` 的结果是 ***`false`***\n\n在 JavaScript 中，`NaN`（Not-a-Number）表示一个非法的数字值。根据 IEEE 754 浮点数标准，`NaN` 不等于任何值，包括它自己\n\n如果需要检查一个值是否是 `NaN`，可以使用 `Number.isNaN()` 方法，例如：\n\n```javascript\nNumber.isNaN(NaN); // true\nNumber.isNaN(42);  // false\nNumber.isNaN('foo'); // false\n```"
+        },
+        {
+                "id": "bd6fcfa3-99e1-4322-aab4-8c727fee8e7b",
+                "title": "如何区分数组和对象",
+                "content": "- 使用 ***`Array.isArray()`*** 方法：\n\n```javascript\nArray.isArray([]); // true\nArray.isArray({}); // false\n```\n\n- 使用 `instanceof` 运算符：\n\n```javascript\n[] instanceof Array; // true\n{} instanceof Array; // false\n```\n\n- 使用 `Object.prototype.toString.call()` 方法：\n\n```javascript\nObject.prototype.toString.call([]); // \"[object Array]\"\nObject.prototype.toString.call({}); // \"[object Object]\"\n```"
+        },
+        {
+                "id": "fc949b59-a99c-4bf6-8dbd-5cfcccc52c73",
+                "title": "Promise 有哪几种状态",
+                "content": "Promise 有***三种状态***：\n\n1. **Pending（进行中）**：初始状态，既不是成功，也不是失败\n\n2. **Fulfilled（已兑现）**：操作成功完成\n\n3. **Rejected（已拒绝）**：操作失败\n\n一旦 Promise 进入了 Fulfilled 或 Rejected 状态，它的状态就不能再改变了 "
+        },
+        {
+                "id": "9840480f-53e8-464a-8927-450898cb0472",
+                "title": "实现一个 Promise 的 all 方法",
+                "content": "代码题 \n\n - 返回值的顺序\n\n - ***判断全部完成***\n\n - 可能传入普通值，使用 `Promise.resolve` 包装\n\n - 如果有异常，立即拒绝\n\n - 空数组的情况"
+        },
+        {
+                "id": "87cb55b4-5af2-4c91-a927-d66a2fb454bf",
+                "title": "React 的类组件为什么要手动绑定 this",
+                "content": "在 JavaScript 中，函数的 `this` 绑定是动态的，取决于函数被调用的方式 \n\n在 React 的 class 组件中，事件处理函数通常作为类的方法定义。当这些方法被传递给子组件或作为事件处理程序调用时，***`this` 的上下文可能会丢失，导致 `this` 不再指向组件实例*** \n\n为了确保 `this` 始终指向组件实例，我们需要手动绑定 `this`，通常是在构造函数中使用 `this.methodName = this.methodName.bind(this)` \n\n另一种常见的解决方案是使用箭头函数，因为箭头函数不会创建自己的 `this`，它会捕获定义时的 `this`，从而避免了手动绑定的需要 "
+        },
+        {
+                "id": "949e6690-b8e4-4d04-be4b-cca6f5248fed",
+                "title": "React类组件的 componentDidUpdate",
+                "content": "`componentDidUpdate` 是 React 类组件中的一个生命周期方法，当组件***更新并重新渲染后***会被调用。它接收两个参数：`prevProps` 和 `prevState`，分别表示更新前的属性和状态 \n\n这个方法通常用于处理组件更新后的副作用操作，例如：  \n\n1. **数据获取**：如果组件的某个属性发生变化，可以在这里发起新的数据请求 \n\n2. **DOM 操作**：可以在这里进行需要依赖于更新后 DOM 状态的操作 \n\n3. **状态同步**：如果需要根据新的属性更新状态，可以在这里调用 `setState` \n\n需要注意的是，在 `componentDidUpdate` 中调用 `setState` 时，必须加上条件判断，以避免无限循环更新 "
+        },
+        {
+                "id": "551dfec4-5e0e-45d8-a3b6-1375f34b54b3",
+                "title": "函数组件如何在 props 不变的情况下避免重新渲染",
+                "content": "在函数组件中，可以使用 ***`React.memo`*** 来实现组件的性能优化，从而在 props 不变的情况下避免重新渲染\n\n`React.memo` 是一个高阶组件，它会对组件的 props 进行浅比较，如果 props 没有变化，React 会跳过渲染过程，直接复用上一次的渲染结果。搭配 useCallback / useMemo 保证传递的 props 引用不变  \n\n使用方法如下：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n});\n```\n\n此外，如果需要更复杂的比较逻辑，可以传递一个自定义的比较函数作为第二个参数：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n}, (prevProps, nextProps) => {\n  // 返回 true 表示 props 相等，false 表示不相等\n});\n```"
+        },
+        {
+                "id": "17f4257c-e407-44c9-8cec-f310cbe82104",
+                "title": "React 组件间通信",
+                "content": "1. **Props 传递**：父组件***通过 props 向子组件传递数据和回调函数***，这是最常见的通信方式\n\n2. **Context API**：用于在组件树中传递数据，而不必通过每一级组件的 props\n\n3. **状态管理库**：如 Redux、MobX、Zustand 等，可以在全局范围内管理状态，实现跨组件通信\n\n4. **事件系统**：可以使用自定义事件或第三方库（如 EventEmitter, mitt）来实现组件间的事件通信\n\n5. **Refs**：通过 refs 可以直接访问子组件的方法和属性\n\n6. **共同的父组件**：通过提升状态到最近的共同父组件，实现兄弟组件间的通信 "
+        },
+        {
+                "id": "3301e9e8-674e-49b0-a888-017fe9bc4b52",
+                "title": "Zustand 的基本使用",
+                "content": "Zustand 是一个轻量级的状态管理库，它使用简单且性能优越。基本使用方法如下：\n\n1. **创建 Store**：\n\n```javascript\nimport create from 'zustand';\n\nconst useStore = create(set => ({\n  count: 0,\n  increment: () => set(state => ({ count: state.count + 1 })),\n  decrement: () => set(state => ({ count: state.count - 1 })),\n}));\n```\n\n2. **使用 Store**：\n\n```javascript\nimport React from 'react';\nimport { useStore } from './path-to-store';\n\nfunction Counter() {\n  const { count, increment, decrement } = useStore();\n\n  return (\n    <div>\n      <h1>{count}</h1>\n      <button onClick={increment}>Increment</button>\n      <button onClick={decrement}>Decrement</button>\n    </div>\n  );\n}\n```\n\n3. **选择性订阅**：可以***通过传递选择器函数来订阅特定的状态片段***，从而优化性能\n\n```javascript\nconst count = useStore(state => state.count);\n```\n\nZustand 支持中间件、持久化等高级功能"
+        },
+        {
+                "id": "30da1ee5-1f37-4979-a409-8412b081f118",
+                "title": "Zustand 与 Redux 的区别",
+                "content": "1. **无样板代码**：Zustand 的 ***API 更加简洁直观***，不需要定义 action types 和 reducers，状态更新直接通过函数进行\n\n2. **性能优化**：Zustand 支持选择性订阅与浅比较，可以减少不必要的更新，从而提升渲染性能\n\n3. **内置中间件**：Zustand 内置了中间件支持，如持久化、日志等，而 Redux 需要额外安装中间件库（如 redux-thunk, redux-saga）"
+        }
+];
+
+        // 应用状态
+        let currentIndex = -1;
+        let usedIndices = [];
+
+        // DOM 元素
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const controlPanel = document.getElementById('controlPanel');
+        const questionCard = document.getElementById('questionCard');
+        const questionTitle = document.getElementById('questionTitle');
+        const questionContent = document.getElementById('questionContent');
+        const questionCount = document.getElementById('questionCount');
+        
+        const startBtn = document.getElementById('startBtn');
+        const randomBtn = document.getElementById('randomBtn');
+        const copyBtn = document.getElementById('copyBtn');
+
+        // 初始化
+        function init() {
+            questionCount.textContent = `题目总数: ${items.length}`;
+            
+            // 事件监听
+            startBtn.addEventListener('click', startPractice);
+            randomBtn.addEventListener('click', showRandomQuestion);
+            copyBtn.addEventListener('click', copyQuestion);
+            
+            // 键盘快捷键
+            document.addEventListener('keydown', handleKeyboard);
+        }
+
+        // 进入练习状态
+        function startPractice() {
+            // 隐藏欢迎界面
+            welcomeScreen.classList.add('hidden');
+            // 显示控制面板
+            controlPanel.classList.remove('hidden');
+            // 显示第一道随机题目
+            showRandomQuestion();
+        }
+
+        // 显示随机题目
+        function showRandomQuestion() {
+            if (items.length === 0) return;
+            
+            let availableIndices = [];
+            for (let i = 0; i < items.length; i++) {
+                if (!usedIndices.includes(i)) {
+                    availableIndices.push(i);
+                }
+            }
+            
+            // 如果所有题目都用过了，重置
+            if (availableIndices.length === 0) {
+                usedIndices = [];
+                availableIndices = Array.from({length: items.length}, (_, i) => i);
+            }
+            
+            // 随机选择一个
+            const randomIndex = Math.floor(Math.random() * availableIndices.length);
+            currentIndex = availableIndices[randomIndex];
+            usedIndices.push(currentIndex);
+            
+            displayQuestion();
+        }
+
+
+
+        // 显示题目
+        function displayQuestion() {
+            if (currentIndex < 0 || currentIndex >= items.length) return;
+            
+            const question = items[currentIndex];
+            
+            // 显示题目卡片
+            questionCard.classList.remove('hidden');
+            
+            // 更新内容
+            questionTitle.textContent = question.title;
+            
+            // 渲染 Markdown
+            questionContent.innerHTML = marked.parse(question.content);
+            
+            // 语法高亮
+            Prism.highlightAll();
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+
+        // 复制题目
+        function copyQuestion() {
+            if (currentIndex >= 0) {
+                const question = items[currentIndex];
+                const text = `${question.title}\n\n${question.content}`;
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    // 临时改变按钮文本
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 1000);
+                }).catch(() => {
+                    alert('复制失败，请手动复制');
+                });
+            }
+        }
+
+        // 键盘快捷键
+        function handleKeyboard(event) {
+            if (questionCard.classList.contains('hidden')) return;
+            
+            // 只保留空格键用于随机题目
+            if (event.key === ' ') {
+                event.preventDefault();
+                showRandomQuestion();
+            }
+        }
+
+        // 启动应用
+        init();
+    </script>
+</body>
+</html>

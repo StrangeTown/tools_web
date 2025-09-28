@@ -1,0 +1,43 @@
+{
+  "name": "fe-interview-questions",
+  "version": "1.0.0",
+  "description": "前端面试题练习平台 - 随机题目生成器",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "update": "node index.js",
+    "list": "node index.js --list",
+    "validate": "node index.js --validate",
+    "help": "node index.js --help",
+    "dev": "npx http-server . -p 8080 -o",
+    "build": "npm run update && echo '✅ 题库已更新完成'"
+  },
+  "keywords": [
+    "前端",
+    "面试题",
+    "JavaScript",
+    "React",
+    "Vue",
+    "CSS",
+    "HTML",
+    "TypeScript",
+    "interview",
+    "frontend"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StrangeTown/tools_web.git"
+  },
+  "bugs": {
+    "url": "https://github.com/StrangeTown/tools_web/issues"
+  },
+  "homepage": "https://github.com/StrangeTown/tools_web#readme"
+}
