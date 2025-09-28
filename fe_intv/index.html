@@ -239,6 +239,11 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* 题目切换动画 */
+        .question-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
         .question-card {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border: 1px solid #e2e8f0;
@@ -398,7 +403,7 @@
         </div>
 
         <!-- 题目卡片 -->
-        <div id="questionCard" class="question-card rounded-2xl p-8 shadow-lg hidden fade-in">
+        <div id="questionCard" class="question-card rounded-2xl p-8 shadow-lg hidden">
             <div class="mb-6">
                 <div class="flex items-center justify-between mb-4">
                     <h2 id="questionTitle" class="text-2xl font-bold text-slate-800"></h2>
@@ -617,7 +622,7 @@
             welcomeScreen.classList.add('hidden');
             // 显示控制面板
             controlPanel.classList.remove('hidden');
-            // 显示第一道随机题目
+            // 显示第一道随机题目（首次显示，不使用切换动画）
             showRandomQuestion();
         }
 
@@ -640,31 +645,37 @@
             
             // 随机选择一个
             const randomIndex = Math.floor(Math.random() * availableIndices.length);
-            currentIndex = availableIndices[randomIndex];
+            const newIndex = availableIndices[randomIndex];
+            const isSwitch = currentIndex >= 0; // 判断是否为切换（非首次显示）
+            currentIndex = newIndex;
             usedIndices.push(currentIndex);
             
-            displayQuestion();
+            displayQuestion(isSwitch);
         }
 
 
 
         // 显示题目
-        function displayQuestion() {
+        function displayQuestion(isSwitch = false) {
             if (currentIndex < 0 || currentIndex >= items.length) return;
             
             const question = items[currentIndex];
             
-            // 显示题目卡片
+            // 显示题目卡片（如果隐藏的话）
             questionCard.classList.remove('hidden');
             
             // 更新内容
             questionTitle.textContent = question.title;
-            
-            // 渲染 Markdown
             questionContent.innerHTML = marked.parse(question.content);
-            
-            // 语法高亮
             Prism.highlightAll();
+            
+            // 添加淡入动画
+            questionCard.classList.add('question-fade-in');
+            
+            // 动画结束后清理类名
+            setTimeout(() => {
+                questionCard.classList.remove('question-fade-in');
+            }, 300);
             
             // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
