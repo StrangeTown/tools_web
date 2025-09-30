@@ -33,9 +33,21 @@
   "footer": {
     "copyright": "© 2025 前端面试题练习平台 | 持续更新中..."
   },
+  "head": {
+    "title": "前端面试题练习平台 - 免费在线JavaScript React面试题库随机练习",
+    "description": "免费在线前端面试题练习平台，包含JavaScript、React、TypeScript、CSS等技术栈面试题。支持随机练习、详细解析、代码示例。帮助前端开发者提升面试通过率，准备技术面试必备工具。",
+    "ogTitle": "前端面试题练习平台 - 免费在线JavaScript React面试题库随机练习",
+    "ogDescription": "免费在线前端面试题练习平台，包含JavaScript、React、TypeScript、CSS等技术栈面试题。支持随机练习、详细解析、代码示例。帮助前端开发者提升面试通过率。",
+    "ogSiteName": "前端面试题练习平台",
+    "twitterTitle": "前端面试题练习平台 - 免费在线JavaScript React面试题库随机练习",
+    "twitterDescription": "免费在线前端面试题练习平台，包含JavaScript、React、TypeScript、CSS等技术栈面试题。支持随机练习、详细解析、代码示例。",
+    "author": "前端面试题练习平台",
+    "appTitle": "前端面试题练习"
+  },
   "messages": {
     "copied": "题目已复制到剪贴板！",
     "copyFailed": "复制失败，请手动复制",
-    "shortcutHint": "💡 快捷键：空格键下一题，C键复制题目"
+    "shortcutHint": "💡 快捷键：空格键下一题，C键复制题目",
+    "totalCountPrefix": "题目总数: "
   }
 }

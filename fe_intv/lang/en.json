@@ -33,9 +33,21 @@
   "footer": {
     "copyright": "© 2025 Frontend Interview Practice Platform | Continuously Updated..."
   },
+  "head": {
+    "title": "Frontend Interview Practice Platform - Free Online JavaScript React Interview Questions Random Practice",
+    "description": "Free online frontend interview practice platform, including JavaScript, React, TypeScript, CSS and other technology stack interview questions. Support random practice, detailed analysis, code examples. Help frontend developers improve interview pass rate, prepare for technical interviews.",
+    "ogTitle": "Frontend Interview Practice Platform - Free Online JavaScript React Interview Questions Random Practice",
+    "ogDescription": "Free online frontend interview practice platform, including JavaScript, React, TypeScript, CSS and other technology stack interview questions. Support random practice, detailed analysis, code examples. Help frontend developers improve interview pass rate.",
+    "ogSiteName": "Frontend Interview Practice Platform",
+    "twitterTitle": "Frontend Interview Practice Platform - Free Online JavaScript React Interview Questions Random Practice",
+    "twitterDescription": "Free online frontend interview practice platform, including JavaScript, React, TypeScript, CSS and other technology stack interview questions. Support random practice, detailed analysis, code examples.",
+    "author": "Frontend Interview Practice Platform",
+    "appTitle": "Frontend Interview Practice"
+  },
   "messages": {
     "copied": "Question copied to clipboard!",
     "copyFailed": "Copy failed, please copy manually",
-    "shortcutHint": "💡 Shortcuts: Space for next question, C to copy"
+    "shortcutHint": "💡 Shortcuts: Space for next question, C to copy",
+    "totalCountPrefix": "Total Questions: "
   }
 }

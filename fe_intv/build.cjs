@@ -26,24 +26,24 @@ function getTranslation(translations, key) {
 // 替换 HTML 中的 i18n 占位符
 function replaceI18n(html, translations) {
   const $ = cheerio.load(html);
-
+  
   // 查找所有带有 data-i18n* 属性的元素
-  $('[data-i18n], [data-i18n-title]').each(function() {
+  $('[data-i18n], [data-i18n-title], [data-i18n-content], [data-i18n-description]').each(function() {
     const element = $(this);
     const attrs = element.attr();
-
+    
     for (const attr in attrs) {
       if (attr.startsWith('data-i18n')) {
         const key = attrs[attr];
         const translation = getTranslation(translations, key);
-
+        
         if (translation) {
           if (attr === 'data-i18n') {
-            // 替换文本内容，支持 HTML 标签
+            // 替换文本内容
             element.html(translation);
             element.removeAttr('data-i18n');
           } else {
-            // 替换属性，如 data-i18n-title -> title
+            // 替换属性，如 data-i18n-title -> title, data-i18n-content -> content
             const realAttr = attr.replace('data-i18n-', '');
             element.attr(realAttr, translation);
             element.removeAttr(attr);
@@ -52,11 +52,20 @@ function replaceI18n(html, translations) {
       }
     }
   });
-
+  
+  // 处理 script 中的硬编码字符串
+  $('script').each(function() {
+    let scriptContent = $(this).html();
+    // 替换硬编码的字符串为翻译
+    const messages = translations.messages || {};
+    scriptContent = scriptContent.replace(/'复制失败，请手动复制'/g, `'${messages.copyFailed || 'Copy failed, please copy manually'}'`);
+    scriptContent = scriptContent.replace(/`题目总数: \$\{items\.length\}`/g, `\`${messages.totalCountPrefix || 'Total Questions: '}\${items.length}\``);
+    // 可以添加更多替换规则
+    $(this).html(scriptContent);
+  });
+  
   return $.html();
-}
-
-// 生成中文版本
+}// 生成中文版本
 const zhHtml = replaceI18n(template, zhTranslations);
 fs.mkdirSync('zh_dist', { recursive: true });
 fs.writeFileSync(path.join('zh_dist', 'index.html'), zhHtml);
