@@ -27,6 +27,9 @@ function getTranslation(translations, key) {
 function replaceI18n(html, translations) {
   const $ = cheerio.load(html);
   
+  // 设置语言属性
+  $('html').attr('lang', translations.lang || 'zh-CN');
+  
   // 查找所有带有 data-i18n* 属性的元素
   $('[data-i18n], [data-i18n-title], [data-i18n-content], [data-i18n-description]').each(function() {
     const element = $(this);
