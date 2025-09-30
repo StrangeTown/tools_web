@@ -583,7 +583,7 @@
                     <h1 class="text-xl font-bold text-slate-800">Frontend Interview Practice</h1>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <span class="text-sm text-slate-600" id="questionCount">Total Questions: 0</span>
+                    <span class="text-sm text-slate-600" id="questionCount" data-original-text="Total Questions: 0">Total Questions: 0</span>
                     
                     <!-- 语言切换器 -->
                     <div class="relative inline-block">
@@ -623,7 +623,7 @@
                 </div>
 
                 <!-- 题目总数 -->
-                <span class="text-xs text-slate-600 flex-shrink-0" id="questionCountMobile">Total Questions: 0</span>
+                <span class="text-xs text-slate-600 flex-shrink-0" id="questionCountMobile" data-original-text="Total Questions: 0">Total Questions: 0</span>
             </div>
         </div>
     </nav>
@@ -644,7 +644,7 @@
                 <!-- 题目总数 -->
                 <div class="drawer-item">
                     <div class="drawer-item-icon">📊</div>
-                    <span id="drawerQuestionCount">Total Questions: 0</span>
+                    <span id="drawerQuestionCount" data-original-text="Total Questions: 0">Total Questions: 0</span>
                 </div>
 
                 <!-- 语言切换 -->
@@ -1003,9 +1003,17 @@
         // 同步题目总数到移动端
         function syncQuestionCount() {
             const count = items.length;
-            questionCount.textContent = `题目总数: ${count}`;
+            
+            // 从多语言翻译中获取模板并替换数字
+            const totalCountTemplate = questionCount.getAttribute('data-original-text') || questionCount.textContent;
+            questionCount.textContent = totalCountTemplate.replace('0', count);
+            
+            // 移动端导航只显示数字
             questionCountMobile.textContent = count;
-            drawerQuestionCount.textContent = `题目总数: ${count}`;
+            
+            // 抽屉菜单使用多语言模板
+            const drawerTemplate = drawerQuestionCount.getAttribute('data-original-text') || drawerQuestionCount.textContent;
+            drawerQuestionCount.textContent = drawerTemplate.replace('0', count);
         }
 
         // 初始化

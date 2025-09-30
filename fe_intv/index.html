@@ -1029,9 +1029,17 @@
         // 同步题目总数到移动端
         function syncQuestionCount() {
             const count = items.length;
-            questionCount.textContent = `题目总数: ${count}`;
+            
+            // 从多语言翻译中获取模板并替换数字
+            const totalCountTemplate = questionCount.getAttribute('data-original-text') || questionCount.textContent;
+            questionCount.textContent = totalCountTemplate.replace('0', count);
+            
+            // 移动端导航只显示数字
             questionCountMobile.textContent = count;
-            drawerQuestionCount.textContent = `题目总数: ${count}`;
+            
+            // 抽屉菜单使用多语言模板
+            const drawerTemplate = drawerQuestionCount.getAttribute('data-original-text') || drawerQuestionCount.textContent;
+            drawerQuestionCount.textContent = drawerTemplate.replace('0', count);
         }
 
         // 初始化

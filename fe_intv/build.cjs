@@ -46,6 +46,10 @@ function replaceI18n(html, translations) {
         
         if (translation) {
           if (attr === 'data-i18n') {
+            // 保存原始翻译文本，用于JavaScript动态替换
+            if (key === 'nav.totalCount') {
+              element.attr('data-original-text', translation);
+            }
             // 替换文本内容
             element.html(translation);
             element.removeAttr('data-i18n');
