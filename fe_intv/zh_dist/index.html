@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<!DOCTYPE html><html lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>前端面试题练习平台 - 免费在线JavaScript React面试题库随机练习</title>
@@ -40,8 +38,8 @@
     <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin="">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.itwork.club/fe-intv/">
@@ -198,7 +196,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
     <style>
@@ -330,17 +328,17 @@
             background: transparent !important;
         }
     </style>
-</head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-764BJQGXFV"></script>
-<script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-764BJQGXFV"></script><script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-764BJQGXFV');
-</script>
+</script></head>
+
+<!-- Google tag (gtag.js) -->
+
+
 
 <body class="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 min-h-screen">
     <!-- 顶部导航 -->
@@ -351,26 +349,12 @@
                     <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
                         <span class="text-white font-bold text-sm">FE</span>
                     </div>
-                    <h1 class="text-xl font-bold text-slate-800" data-i18n="nav.title">前端面试题练习</h1>
+                    <h1 class="text-xl font-bold text-slate-800">前端面试题练习</h1>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <span class="text-sm text-slate-600" id="questionCount" data-i18n="nav.totalCount">题目总数: 0</span>
-                    <a href="https://xhslink.com/m/4cSpnii0Qtv" 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       class="text-sm text-slate-500 hover:text-slate-700 transition-colors duration-200 px-3 py-1 rounded-full hover:bg-slate-50"
-                       title="联系作者"
-                       data-i18n="nav.contact">
-                        联系作者
-                    </a>
-                    <a href="https://apps.apple.com/us/app/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/id6502645993" 
-                       target="_blank" 
-                       rel="noopener noreferrer"
-                       class="text-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200 px-4 py-2 rounded-lg font-medium shadow-sm hover:shadow-md"
-                       title="下载iOS应用"
-                       data-i18n="nav.download">
-                        下载App
-                    </a>
+                    <span class="text-sm text-slate-600" id="questionCount">题目总数: 0</span>
+                    <a href="https://xhslink.com/m/4cSpnii0Qtv" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-500 hover:text-slate-700 transition-colors duration-200 px-3 py-1 rounded-full hover:bg-slate-50" title="联系作者">联系作者</a>
+                    <a href="https://apps.apple.com/us/app/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/id6502645993" target="_blank" rel="noopener noreferrer" class="text-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200 px-4 py-2 rounded-lg font-medium shadow-sm hover:shadow-md" title="下载iOS应用">下载App</a>
                 </div>
             </div>
         </div>
@@ -381,9 +365,7 @@
         <!-- 控制面板 -->
         <div id="controlPanel" class="mb-8 hidden">
             <div class="flex justify-center">
-                <button id="randomBtn" class="primary-btn text-white px-8 py-3 rounded-lg font-semibold shadow-lg" data-i18n="control.random">
-                    🎲 随机题目 <span class="text-sm opacity-80 ml-2">空格</span>
-                </button>
+                <button id="randomBtn" class="primary-btn text-white px-8 py-3 rounded-lg font-semibold shadow-lg">🎲 随机题目 <span class="text-sm opacity-80 ml-2">空格</span></button>
             </div>
         </div>
 
@@ -393,7 +375,7 @@
                 <div class="flex items-center justify-between mb-4">
                     <h2 id="questionTitle" class="text-2xl font-bold text-slate-800"></h2>
                     <div class="flex items-center space-x-2">
-                        <button id="copyBtn" class="bg-slate-100 hover:bg-slate-200 p-2 rounded-lg transition-colors" title="复制题目" data-i18n-title="control.copy">
+                        <button id="copyBtn" class="bg-slate-100 hover:bg-slate-200 p-2 rounded-lg transition-colors" title="复制题目">
                             📋
                         </button>
                     </div>
@@ -412,49 +394,45 @@
                 <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mx-auto flex items-center justify-center mb-6">
                     <span class="text-white text-3xl font-bold">FE</span>
                 </div>
-                <h2 class="text-3xl font-bold text-slate-800 mb-4" data-i18n="welcome.title">前端面试题练习平台</h2>
-                <p class="text-slate-600 text-lg max-w-2xl mx-auto" data-i18n="welcome.subtitle">
-                    提升你的前端技术面试准备！随机练习各种前端开发相关的面试题目，包括 JavaScript、CSS、React、Vue 等技术栈。
-                </p>
+                <h2 class="text-3xl font-bold text-slate-800 mb-4">前端面试题练习平台</h2>
+                <p class="text-slate-600 text-lg max-w-2xl mx-auto">提升你的前端技术面试准备！随机练习各种前端开发相关的面试题目，包括 JavaScript、CSS、React、Vue 等技术栈。</p>
             </div>
             
             <div class="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-8">
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="text-blue-500 text-2xl mb-3">🎯</div>
-                    <h3 class="font-semibold text-slate-800 mb-2" data-i18n="welcome.features.random">随机练习</h3>
-                    <p class="text-slate-600 text-sm" data-i18n="welcome.features.randomDesc">随机获取题目，避免记忆顺序</p>
+                    <h3 class="font-semibold text-slate-800 mb-2">随机练习</h3>
+                    <p class="text-slate-600 text-sm">随机获取题目，避免记忆顺序</p>
                 </div>
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="text-green-500 text-2xl mb-3">📚</div>
-                    <h3 class="font-semibold text-slate-800 mb-2" data-i18n="welcome.features.analysis">详细解答</h3>
-                    <p class="text-slate-600 text-sm" data-i18n="welcome.features.analysisDesc">每题都有详细的解释和代码示例</p>
+                    <h3 class="font-semibold text-slate-800 mb-2">详细解答</h3>
+                    <p class="text-slate-600 text-sm">每题都有详细的解释和代码示例</p>
                 </div>
                 <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
                     <div class="text-purple-500 text-2xl mb-3">⚡</div>
-                    <h3 class="font-semibold text-slate-800 mb-2" data-i18n="welcome.features.tech">持续更新</h3>
-                    <p class="text-slate-600 text-sm" data-i18n="welcome.features.techDesc">持续更新最新的面试题目</p>
+                    <h3 class="font-semibold text-slate-800 mb-2">持续更新</h3>
+                    <p class="text-slate-600 text-sm">持续更新最新的面试题目</p>
                 </div>
             </div>
             
-            <button id="startBtn" class="primary-btn text-white px-10 py-4 rounded-xl font-semibold text-lg shadow-lg" data-i18n="welcome.start">
-                🚀 开始练习
-            </button>
+            <button id="startBtn" class="primary-btn text-white px-10 py-4 rounded-xl font-semibold text-lg shadow-lg">🚀 开始练习</button>
         </div>
     </main>
 
     <!-- 推荐工具 -->
     <div class="mt-12 pt-6 border-t border-slate-50 text-center">
-        <div class="text-slate-300 text-xs mb-3 font-light" data-i18n="tools.title">Other Tools</div>
+        <div class="text-slate-300 text-xs mb-3 font-light">Other Tools</div>
         <div class="flex justify-center gap-6 flex-wrap">
-            <a href="https://www.itwork.club/weight/" target="_blank" class="text-slate-400 hover:text-slate-500 text-xs transition-colors duration-200 opacity-60 hover:opacity-80" data-i18n="tools.links.weightTracker">Weight Tracker</a>
-            <a href="https://www.itwork.club/tracker/" target="_blank" class="text-slate-400 hover:text-slate-500 text-xs transition-colors duration-200 opacity-60 hover:opacity-80" data-i18n="tools.links.readingTracker">Reading Tracker</a>
-            <a href="https://www.itwork.club/note/" target="_blank" class="text-slate-400 hover:text-slate-500 text-xs transition-colors duration-200 opacity-60 hover:opacity-80" data-i18n="tools.links.notes">Temp Notes</a>
+            <a href="https://www.itwork.club/weight/" target="_blank" class="text-slate-400 hover:text-slate-500 text-xs transition-colors duration-200 opacity-60 hover:opacity-80">Weight Tracker</a>
+            <a href="https://www.itwork.club/tracker/" target="_blank" class="text-slate-400 hover:text-slate-500 text-xs transition-colors duration-200 opacity-60 hover:opacity-80">Reading Tracker</a>
+            <a href="https://www.itwork.club/note/" target="_blank" class="text-slate-400 hover:text-slate-500 text-xs transition-colors duration-200 opacity-60 hover:opacity-80">Temp Notes</a>
         </div>
     </div>
 
     <!-- 脚部 -->
     <footer class="text-center py-8 text-slate-500 text-sm">
-        <p data-i18n="footer.copyright">© 2025 前端面试题练习平台 | 持续更新中...</p>
+        <p>© 2025 前端面试题练习平台 | 持续更新中...</p>
     </footer>
 
     <script>
@@ -702,5 +680,6 @@
         // 启动应用
         init();
     </script>
-</body>
-</html>
+
+
+</body></html>

@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "title": "Frontend Interview Practice",
+    "totalCount": "Total Questions: 0",
+    "contact": "Contact Author",
+    "download": "Download App"
+  },
+  "control": {
+    "random": "🎲 Random Question <span class=\"text-sm opacity-80 ml-2\">Space</span>",
+    "copy": "Copy Question"
+  },
+  "welcome": {
+    "title": "Frontend Interview Practice Platform",
+    "subtitle": "Enhance your frontend technical interview preparation! Practice various frontend development interview questions randomly, including JavaScript, CSS, React, Vue and other technology stacks.",
+    "features": {
+      "random": "Random Practice",
+      "randomDesc": "Get questions randomly to avoid memorizing order",
+      "analysis": "Detailed Answers",
+      "analysisDesc": "Each question has detailed explanations and code examples",
+      "tech": "Continuous Updates",
+      "techDesc": "Continuously updated with the latest interview questions"
+    },
+    "start": "🚀 Start Practice"
+  },
+  "tools": {
+    "title": "Other Tools",
+    "links": {
+      "weightTracker": "Weight Tracker",
+      "readingTracker": "Reading Tracker",
+      "notes": "Temp Notes"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 Frontend Interview Practice Platform | Continuously Updated..."
+  },
+  "messages": {
+    "copied": "Question copied to clipboard!",
+    "copyFailed": "Copy failed, please copy manually",
+    "shortcutHint": "💡 Shortcuts: Space for next question, C to copy"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "nav": {
+    "title": "前端面试题练习",
+    "totalCount": "题目总数: 0",
+    "contact": "联系作者",
+    "download": "下载App"
+  },
+  "control": {
+    "random": "🎲 随机题目 <span class=\"text-sm opacity-80 ml-2\">空格</span>",
+    "copy": "复制题目"
+  },
+  "welcome": {
+    "title": "前端面试题练习平台",
+    "subtitle": "提升你的前端技术面试准备！随机练习各种前端开发相关的面试题目，包括 JavaScript、CSS、React、Vue 等技术栈。",
+    "features": {
+      "random": "随机练习",
+      "randomDesc": "随机获取题目，避免记忆顺序",
+      "analysis": "详细解答",
+      "analysisDesc": "每题都有详细的解释和代码示例",
+      "tech": "持续更新",
+      "techDesc": "持续更新最新的面试题目"
+    },
+    "start": "🚀 开始练习"
+  },
+  "tools": {
+    "title": "Other Tools",
+    "links": {
+      "weightTracker": "Weight Tracker",
+      "readingTracker": "Reading Tracker",
+      "notes": "Temp Notes"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 前端面试题练习平台 | 持续更新中..."
+  },
+  "messages": {
+    "copied": "题目已复制到剪贴板！",
+    "copyFailed": "复制失败，请手动复制",
+    "shortcutHint": "💡 快捷键：空格键下一题，C键复制题目"
+  }
+}

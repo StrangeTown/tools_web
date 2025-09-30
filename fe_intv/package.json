@@ -10,7 +10,8 @@
     "validate": "node index.js --validate",
     "help": "node index.js --help",
     "dev": "npx http-server . -p 8080 -o",
-    "build": "npm run update && echo '✅ 题库已更新完成'"
+    "build": "node build.cjs",
+    "build:all": "npm run update && npm run build && echo '✅ 题库已更新并生成多语言版本'"
   },
   "keywords": [
     "前端",
@@ -27,7 +28,8 @@
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "cheerio": "^1.0.0-rc.12"
   },
   "engines": {
     "node": ">=14.0.0"
