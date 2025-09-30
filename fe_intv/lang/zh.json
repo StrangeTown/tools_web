@@ -45,6 +45,103 @@
     "author": "前端面试题练习平台",
     "appTitle": "前端面试题练习"
   },
+  "structuredData": {
+    "webApp": {
+      "name": "前端面试题练习平台",
+      "alternateName": "Frontend Interview Questions Practice Platform",
+      "description": "免费在线前端面试题练习平台，包含JavaScript、React、TypeScript、CSS等技术栈面试题。支持随机练习、详细解析、代码示例。",
+      "featureList": [
+        "JavaScript面试题练习",
+        "React面试题库",
+        "TypeScript面试准备",
+        "CSS前端面试",
+        "随机题目练习",
+        "详细答案解析",
+        "代码示例展示",
+        "键盘快捷操作",
+        "免费在线使用",
+        "移动端适配"
+      ],
+      "educationalUse": "面试准备",
+      "learningResourceType": "面试题库",
+      "audience": {
+        "educationalRole": "前端开发者"
+      },
+      "about": [
+        {
+          "name": "JavaScript",
+          "description": "JavaScript编程语言面试题"
+        },
+        {
+          "name": "React",
+          "description": "React框架面试题"
+        },
+        {
+          "name": "TypeScript",
+          "description": "TypeScript语言面试题"
+        },
+        {
+          "name": "CSS",
+          "description": "CSS样式面试题"
+        },
+        {
+          "name": "前端开发",
+          "description": "前端开发技术面试"
+        }
+      ],
+      "keywords": [
+        "前端面试题",
+        "JavaScript面试题",
+        "React面试题",
+        "TypeScript面试题",
+        "CSS面试题",
+        "前端开发面试",
+        "技术面试",
+        "面试练习",
+        "在线练习",
+        "免费面试题库",
+        "前端技术栈",
+        "Web开发面试"
+      ],
+      "inLanguage": "zh-CN",
+      "author": "前端面试题练习平台",
+      "publisher": "前端面试题练习平台"
+    },
+    "faq": {
+      "questions": [
+        {
+          "name": "这个前端面试题练习平台是免费的吗？",
+          "acceptedAnswer": {
+            "text": "是的，这个前端面试题练习平台完全免费使用。包含JavaScript、React、TypeScript、CSS等技术栈的面试题，支持随机练习和详细解析，无需注册或付费。"
+          }
+        },
+        {
+          "name": "包含哪些技术栈的面试题？",
+          "acceptedAnswer": {
+            "text": "平台包含多种前端技术栈的面试题：JavaScript基础和进阶、React组件和Hooks、TypeScript类型系统、CSS样式和布局、前端工程化、性能优化、浏览器原理等主流前端技术。"
+          }
+        },
+        {
+          "name": "如何开始练习面试题？",
+          "acceptedAnswer": {
+            "text": "点击页面上的'开始练习'按钮即可进入练习模式。系统会随机显示面试题，每题都包含详细的答案解析和代码示例。可以使用空格键快速切换到下一题。"
+          }
+        },
+        {
+          "name": "支持哪些操作方式？",
+          "acceptedAnswer": {
+            "text": "支持鼠标点击和键盘快捷键操作。按空格键可以随机切换下一题，点击复制按钮可以复制题目内容。界面简洁直观，专注于高效的练习体验。"
+          }
+        },
+        {
+          "name": "面试题的质量如何？",
+          "acceptedAnswer": {
+            "text": "所有面试题都经过精心筛选，涵盖前端开发的核心知识点。每题都提供详细的解答和代码示例，帮助深入理解概念。题目难度适中，适合各个水平的前端开发者。"
+          }
+        }
+      ]
+    }
+  },
   "messages": {
     "copied": "题目已复制到剪贴板！",
     "copyFailed": "复制失败，请手动复制",

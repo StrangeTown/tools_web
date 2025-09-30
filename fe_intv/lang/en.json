@@ -45,6 +45,103 @@
     "author": "Frontend Interview Practice Platform",
     "appTitle": "Frontend Interview Practice"
   },
+  "structuredData": {
+    "webApp": {
+      "name": "Frontend Interview Practice Platform",
+      "alternateName": "Frontend Interview Questions Practice Platform",
+      "description": "Free online frontend interview practice platform, including JavaScript, React, TypeScript, CSS and other technology stack interview questions. Support random practice, detailed analysis, code examples.",
+      "featureList": [
+        "JavaScript Interview Questions Practice",
+        "React Interview Question Bank",
+        "TypeScript Interview Preparation",
+        "CSS Frontend Interview",
+        "Random Question Practice",
+        "Detailed Answer Analysis",
+        "Code Example Display",
+        "Keyboard Shortcut Operations",
+        "Free Online Use",
+        "Mobile Adaptation"
+      ],
+      "educationalUse": "Interview Preparation",
+      "learningResourceType": "Interview Question Bank",
+      "audience": {
+        "educationalRole": "Frontend Developer"
+      },
+      "about": [
+        {
+          "name": "JavaScript",
+          "description": "JavaScript programming language interview questions"
+        },
+        {
+          "name": "React",
+          "description": "React framework interview questions"
+        },
+        {
+          "name": "TypeScript",
+          "description": "TypeScript language interview questions"
+        },
+        {
+          "name": "CSS",
+          "description": "CSS style interview questions"
+        },
+        {
+          "name": "Frontend Development",
+          "description": "Frontend development technology interview"
+        }
+      ],
+      "keywords": [
+        "Frontend Interview Questions",
+        "JavaScript Interview Questions",
+        "React Interview Questions",
+        "TypeScript Interview Questions",
+        "CSS Interview Questions",
+        "Frontend Development Interview",
+        "Technical Interview",
+        "Interview Practice",
+        "Online Practice",
+        "Free Interview Question Bank",
+        "Frontend Technology Stack",
+        "Web Development Interview"
+      ],
+      "inLanguage": "en-US",
+      "author": "Frontend Interview Practice Platform",
+      "publisher": "Frontend Interview Practice Platform"
+    },
+    "faq": {
+      "questions": [
+        {
+          "name": "Is this frontend interview practice platform free?",
+          "acceptedAnswer": {
+            "text": "Yes, this frontend interview practice platform is completely free to use. It includes interview questions for JavaScript, React, TypeScript, CSS and other technology stacks, supports random practice and detailed analysis, no registration or payment required."
+          }
+        },
+        {
+          "name": "What technology stacks are included in the interview questions?",
+          "acceptedAnswer": {
+            "text": "The platform includes interview questions for various frontend technology stacks: JavaScript basics and advanced, React components and Hooks, TypeScript type system, CSS styles and layout, frontend engineering, performance optimization, browser principles and other mainstream frontend technologies."
+          }
+        },
+        {
+          "name": "How to start practicing interview questions?",
+          "acceptedAnswer": {
+            "text": "Click the 'Start Practice' button on the page to enter practice mode. The system will randomly display interview questions, each with detailed answer analysis and code examples. You can use the spacebar to quickly switch to the next question."
+          }
+        },
+        {
+          "name": "What operation methods are supported?",
+          "acceptedAnswer": {
+            "text": "Supports mouse clicks and keyboard shortcuts. Press the spacebar to randomly switch to the next question, click the copy button to copy the question content. The interface is simple and intuitive, focusing on efficient practice experience."
+          }
+        },
+        {
+          "name": "How is the quality of the interview questions?",
+          "acceptedAnswer": {
+            "text": "All interview questions are carefully selected to cover the core knowledge points of frontend development. Each question provides detailed answers and code examples to help understand concepts deeply. The difficulty is moderate and suitable for frontend developers of all levels."
+          }
+        }
+      ]
+    }
+  },
   "messages": {
     "copied": "Question copied to clipboard!",
     "copyFailed": "Copy failed, please copy manually",
