@@ -36,6 +36,7 @@
   "head": {
     "title": "前端面试题练习平台 - 免费在线JavaScript React面试题库随机练习",
     "description": "免费在线前端面试题练习平台，包含JavaScript、React、TypeScript、CSS等技术栈面试题。支持随机练习、详细解析、代码示例。帮助前端开发者提升面试通过率，准备技术面试必备工具。",
+    "keywords": "前端面试题,JavaScript面试题,React面试题,TypeScript面试题,CSS面试题,前端开发面试,技术面试,面试练习,前端笔试题,Web开发面试,Vue面试题,Node.js面试题,前端工程师面试,编程面试,算法面试,前端技术栈,面试准备,在线练习,免费面试题库,前端求职,技术问答",
     "ogTitle": "前端面试题练习平台 - 免费在线JavaScript React面试题库随机练习",
     "ogDescription": "免费在线前端面试题练习平台，包含JavaScript、React、TypeScript、CSS等技术栈面试题。支持随机练习、详细解析、代码示例。帮助前端开发者提升面试通过率。",
     "ogSiteName": "前端面试题练习平台",
