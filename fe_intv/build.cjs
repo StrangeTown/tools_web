@@ -30,6 +30,10 @@ function replaceI18n(html, translations) {
   // 设置语言属性
   $('html').attr('lang', translations.lang || 'zh-CN');
   
+  // 设置语言切换器的初始值
+  const currentLangText = translations.lang === 'en' ? 'English' : '中文';
+  $('#currentLang').text(currentLangText);
+  
   // 查找所有带有 data-i18n* 属性的元素
   $('[data-i18n], [data-i18n-title], [data-i18n-content], [data-i18n-description]').each(function() {
     const element = $(this);

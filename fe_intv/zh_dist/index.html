@@ -354,6 +354,17 @@
                 nav .flex.items-center.space-x-3:last-child {
                     justify-content: space-between;
                 }
+                
+                /* 语言切换器在极小屏幕上的样式 */
+                nav #langToggle {
+                    font-size: 0.75rem;
+                    padding: 0.25rem 0.5rem;
+                }
+                
+                nav #langDropdown {
+                    right: -0.5rem;
+                    width: 20rem;
+                }
             }
         }
 
@@ -363,6 +374,11 @@
         pre code .token.operator,
         pre code .token.url {
             background: transparent !important;
+        }
+
+        /* 语言切换器样式 */
+        .rotate-180 {
+            transform: rotate(180deg);
         }
     </style>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-764BJQGXFV"></script><script>
@@ -390,6 +406,22 @@
                 </div>
                 <div class="flex items-center space-x-3">
                     <span class="text-sm text-slate-600" id="questionCount">题目总数: 0</span>
+                    
+                    <!-- 语言切换器 -->
+                    <div class="relative inline-block">
+                        <button id="langToggle" class="text-sm text-slate-500 hover:text-slate-700 transition-colors duration-200 px-3 py-1 rounded-full hover:bg-slate-50 flex items-center space-x-1">
+                            <span>🌐</span>
+                            <span id="currentLang">中文</span>
+                            <svg class="w-3 h-3 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div id="langDropdown" class="absolute right-0 mt-1 w-24 bg-white border border-slate-200 rounded-lg shadow-lg opacity-0 invisible transform scale-95 transition-all duration-200 z-20">
+                            <a href="https://www.itwork.club/fe-intv/" class="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-t-lg transition-colors duration-200">中文</a>
+                            <a href="https://www.itwork.club/fe-intv/en" class="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-b-lg transition-colors duration-200">English</a>
+                        </div>
+                    </div>
+                    
                     <a href="https://xhslink.com/m/4cSpnii0Qtv" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-500 hover:text-slate-700 transition-colors duration-200 px-3 py-1 rounded-full hover:bg-slate-50" title="联系作者">联系作者</a>
                     <a href="https://apps.apple.com/us/app/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95/id6502645993" target="_blank" rel="noopener noreferrer" class="text-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200 px-4 py-2 rounded-lg font-medium shadow-sm hover:shadow-md" title="下载iOS应用">下载App</a>
                 </div>
@@ -603,6 +635,46 @@
         const startBtn = document.getElementById('startBtn');
         const randomBtn = document.getElementById('randomBtn');
         const copyBtn = document.getElementById('copyBtn');
+        
+        // 语言切换器功能
+        const langToggle = document.getElementById('langToggle');
+        const langDropdown = document.getElementById('langDropdown');
+        const currentLang = document.getElementById('currentLang');
+        
+        // 根据当前URL设置当前语言显示
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('/en')) {
+            currentLang.textContent = 'English';
+        } else {
+            currentLang.textContent = '中文';
+        }
+        
+        // 切换下拉菜单显示
+        langToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isVisible = !langDropdown.classList.contains('opacity-0');
+            
+            if (isVisible) {
+                // 隐藏下拉菜单
+                langDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                langToggle.querySelector('svg').classList.remove('rotate-180');
+            } else {
+                // 显示下拉菜单
+                langDropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
+                langToggle.querySelector('svg').classList.add('rotate-180');
+            }
+        });
+        
+        // 点击其他地方关闭下拉菜单
+        document.addEventListener('click', function() {
+            langDropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+            langToggle.querySelector('svg').classList.remove('rotate-180');
+        });
+        
+        // 阻止下拉菜单内部点击冒泡
+        langDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
 
         // 初始化
         function init() {
