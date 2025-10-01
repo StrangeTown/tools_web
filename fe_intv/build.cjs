@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
+const { execSync } = require('child_process');
 
 // 读取模板 HTML
 const template = fs.readFileSync('index.html', 'utf8');
@@ -8,6 +9,29 @@ const template = fs.readFileSync('index.html', 'utf8');
 // 读取翻译文件
 const zhTranslations = JSON.parse(fs.readFileSync('lang/zh.json', 'utf8'));
 const enTranslations = JSON.parse(fs.readFileSync('lang/en.json', 'utf8'));
+
+// 读取原始 items 数据
+const rawItems = JSON.parse(fs.readFileSync('items.json', 'utf8'));
+
+// 根据语言处理 items 数据
+function processItemsForLanguage(items, lang) {
+  return items.map(item => ({
+    id: item.id,
+    title: lang === 'en' ? item.title_en : item.title,
+    content: lang === 'en' ? item.content_en : item.content
+  }));
+}
+
+// 注入 items 数据到 HTML
+function injectItemsIntoHtml(htmlContent, items) {
+  const placeholder = '/* ITEMS_PLACEHOLDER */';
+  if (!htmlContent.includes(placeholder)) {
+    throw new Error(`Placeholder '${placeholder}' not found in HTML template`);
+  }
+
+  const itemsJson = JSON.stringify(items, null, 8);
+  return htmlContent.replace(placeholder, itemsJson);
+}
 
 // 获取翻译的辅助函数（处理嵌套键，如 nav.title）
 function getTranslation(translations, key) {
@@ -158,12 +182,18 @@ function replaceJsonLdStrings(obj, translations) {
   }
   return obj;
 }// 生成中文版本
-const zhHtml = replaceI18n(template, zhTranslations);
+console.log('Building Chinese version...');
+const zhItems = processItemsForLanguage(rawItems, 'zh');
+let zhHtml = injectItemsIntoHtml(template, zhItems);
+zhHtml = replaceI18n(zhHtml, zhTranslations);
 fs.mkdirSync('zh_dist', { recursive: true });
 fs.writeFileSync(path.join('zh_dist', 'index.html'), zhHtml);
 
 // 生成英文版本
-const enHtml = replaceI18n(template, enTranslations);
+console.log('Building English version...');
+const enItems = processItemsForLanguage(rawItems, 'en');
+let enHtml = injectItemsIntoHtml(template, enItems);
+enHtml = replaceI18n(enHtml, enTranslations);
 fs.mkdirSync('en_dist', { recursive: true });
 fs.writeFileSync(path.join('en_dist', 'index.html'), enHtml);
 

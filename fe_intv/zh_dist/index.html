@@ -766,6 +766,96 @@
         // const items = /* ITEMS_fake_PLACEHOLDER */;
         const items = [
         {
+                "id": "fbf481de-dffb-4eb7-b864-94711bf1ca25",
+                "title": "useEffect和 useLayoutEffect 区别",
+                "content": "**执行时机**：  \n- `useEffect` 在浏览器完成布局与绘制后异步执行，不会阻塞渲染\n- `useLayoutEffect`***DOM 更新后、浏览器绘制之前同步执行，确保对 DOM 的读取是最新的***\n\n**使用场景**：  \n- `useEffect`：适合处理副作用，如日志打印、数据获取、事件监听\n- `useLayoutEffect`：适合需要同步读取 DOM 布局并立即修改的场景，如测量元素尺寸、设置滚动位置，避免闪烁\n\n**性能影响**：  \n- `useLayoutEffect` 会阻塞浏览器绘制，不必要时应避免使用，否则可能导致性能问题\n- 一般优先使用 `useEffect`，除非必须确保 DOM 状态一致\n\n**服务器端渲染（SSR）**：  \n- `useLayoutEffect` 在 SSR 环境中会发出警告，因为它依赖于浏览器的布局和绘制\n- `useEffect` 不会有此问题"
+        },
+        {
+                "id": "d11cd040-b839-43ba-a943-dc389bf0797b",
+                "title": "for...in 和 Object.keys 的区别",
+                "content": "***原型链属性，属性顺序，适用场景***，数组情况，其他替代方法\n\n- 原型链属性：`for...in` 会遍历对象的所有可枚举属性，包括继承自原型链的属性；而 `Object.keys()` 只返回对象自身的可枚举属性\n\n- 属性顺序：`for...in` 遍历顺序不保证，而 `Object.keys()` 返回的数组顺序与属性添加顺序一致（ES6 及以后）\n\n- 适用场景：`for...in` 可以用于遍历对象，而 `Object.keys()` 只能用于获取对象的键数组\n\n- 数组情况：`for...in` 会遍历数组的索引和额外属性（可能导致意外结果），而 `Object.keys()` 只返回有效索引，更适合处理数组\n\n- 其他替代方法：如果需要获取对象的所有属性（包括不可枚举或 Symbol），可以使用 `Object.getOwnPropertyNames()`、`Object.getOwnPropertySymbols()` 或 `Reflect.ownKeys()`"
+        },
+        {
+                "id": "1b3fc674-664a-4717-8144-9e95a111546f",
+                "title": "如何比较两个语义化版本号 (SemVer)",
+                "content": "可以使用字符串的 `split` 方法将版本号按 `.` 分割成数组，然后***逐个比较每一段的数值大小***\n\n```javascript\nfunction compareVersions(v1, v2) {\n  const arr1 = v1.split('.').map(Number);\n  const arr2 = v2.split('.').map(Number);\n  const len = Math.max(arr1.length, arr2.length);\n\n  for (let i = 0; i < len; i++) {\n    const num1 = arr1[i] || 0;\n    const num2 = arr2[i] || 0;\n    if (num1 > num2) return 1;\n    if (num1 < num2) return -1;\n  }\n  return 0; // 相等\n}\n\nconsole.log(compareVersions('1.2.3', '1.2.4')); // -1\nconsole.log(compareVersions('1.3.0', '1.2.9')); // 1\nconsole.log(compareVersions('1.0', '1.0.0')); // 0\n```"
+        },
+        {
+                "id": "e7b95f33-5c1d-4420-a152-70672ca206a3",
+                "title": "找 tree 中 value = 1 的项",
+                "content": "常见的 tree 数据结构是这样的：\n\n```javascript\nconst tree = [\n  {\n    id: 1,\n    value: 10,\n    children: [\n      { id: 2, value: 1, children: [] },\n      { id: 3, value: 5, children: [\n        { id: 4, value: 1, children: [] }\n      ]}\n    ]\n  }\n];\n```\n\n方法一：深度优先搜索（DFS）\n\n```javascript\nfunction findNodeDFS(tree, targetValue) {\n  for (const node of tree) {\n    if (node.value === targetValue) {\n      return node; // 找到就返回\n    }\n    if (node.children && node.children.length) {\n      const found = findNodeDFS(node.children, targetValue);\n      if (found) return found;\n    }\n  }\n  return null; // 没找到\n}\n\nconst result = findNodeDFS(tree, 1);\nconsole.log(result); // { id: 2, value: 1, children: [] }\n```\n\n方法二：广度优先搜索（BFS）\n\n```javascript\nfunction findNodeBFS(tree, targetValue) {\n  const queue = [...tree];\n  while (queue.length) {\n    const node = queue.shift();\n    if (node.value === targetValue) return node;\n    if (node.children) queue.push(...node.children);\n  }\n  return null;\n}\n\nconsole.log(findNodeBFS(tree, 1));\n```"
+        },
+        {
+                "id": "765e1e01-63e1-4587-80dc-c131bf7e55ca",
+                "title": "手写 Array 的 map 方法",
+                "content": "可以使用***for 循环***来实现 `map` 方法：\n\n```javascript\nArray.prototype.myMap = function(callback, thisArg) {\n  if (this == null) {\n    throw new TypeError('this is null or not defined');\n  }\n  if (typeof callback !== 'function') {\n    throw new TypeError(callback + ' is not a function');\n  }\n\n  const result = [];\n  const len = this.length;\n\n  for (let i = 0; i < len; i++) {\n    if (i in this) { // 跳过空位\n      result[i] = callback.call(thisArg, this[i], i, this);\n    }\n  }\n  return result;\n};\n\n// 示例用法：\nconst arr = [1, 2, 3];\nconst mappedArr = arr.myMap(x => x * 2);\nconsole.log(mappedArr); // [2, 4, 6]\n```"
+        },
+        {
+                "id": "f4ae6cfa-f31b-40aa-b7b4-95cb12084f35",
+                "title": "节流（throttle）",
+                "content": "节流（Throttle）是指在事件被触发后，***在一定时间内只允许执行一次对应的函数***。如果在这个时间内又触发了该事件，则会被忽略，直到时间间隔结束后才能再次执行\n\n```javascript\nconst throttle = (fn, wait) => {\n  let inThrottle, lastFn, lastTime;\n  return function() {\n    const context = this,\n      args = arguments;\n    if (!inThrottle) {\n      fn.apply(context, args);\n      lastTime = Date.now();\n      inThrottle = true;\n    } else {\n      clearTimeout(lastFn);\n      lastFn = setTimeout(function() {\n        if (Date.now() - lastTime >= wait) {\n          fn.apply(context, args);\n          lastTime = Date.now();\n        }\n      }, Math.max(wait - (Date.now() - lastTime), 0));\n    }\n  };\n};\n\n// 示例用法：\nwindow.addEventListener(\n  'resize',\n  throttle(function(evt) {\n    console.log(window.innerWidth);\n    console.log(window.innerHeight);\n  }, 250)\n); // Will log the window dimensions at most every 250ms\n```"
+        },
+        {
+                "id": "c8545a21-ebde-4df9-970e-2a9242bc4026",
+                "title": "防抖（debounce）",
+                "content": "防抖（Debounce）是指在事件被触发后，***在一定时间内如果没有再次触发该事件，才会执行对应的函数***。如果在这个时间内又触发了该事件，则重新计时\n\n```javascript\nfunction debounce(fn, delay) {\n  let timeoutId;\n  return function(...args) {\n    clearTimeout(timeoutId);\n    timeoutId = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\n// 示例用法：\nconst handleResize = debounce(() => {\n  console.log('Window resized');\n}, 300);\n\nwindow.addEventListener('resize', handleResize);\n```"
+        },
+        {
+                "id": "5cb314db-01be-432a-bfa5-211574fcd5a3",
+                "title": "compose 函数（函数组合）",
+                "content": "函数组合（Function Composition）是将多个函数组合成一个函数的技术。`compose` 函数接受多个函数作为参数，并返回一个新函数，该新函数依次调用传入的函数，***前一个函数的输出作为下一个函数的输入***\n\n```javascript\nfunction compose(...fns) {\n  return function(initialValue) {\n    return fns.reduceRight((acc, fn) => fn(acc), initialValue);\n  };\n}\n\n// 示例用法：\nconst add2 = x => x + 2;\nconst multiply3 = x => x * 3;\nconst subtract5 = x => x - 5;\n\nconst composedFn = compose(subtract5, multiply3, add2);\nconsole.log(composedFn(5)); // ((5 + 2) * 3) - 5 = 16\n```"
+        },
+        {
+                "id": "02bba3ca-4263-42c2-b969-784bab2e9b1b",
+                "title": "统计次数",
+                "content": "使用 ***reduce 方法***统计数组中每个元素出现的次数：\n\n```javascript\nfunction countOccurrences(arr) {\n  return arr.reduce((acc, val) => {\n    acc[val] = (acc[val] || 0) + 1;\n    return acc;\n  }, {});\n}\nconsole.log(countOccurrences([1, 2, 2, 3, 3, 3])); // { '1': 1, '2': 2, '3': 3 }\n```"
+        },
+        {
+                "id": "bf226536-617b-407d-b8ed-f69a7258d0b1",
+                "title": "写一个函数，传入的函数只能执行一次",
+                "content": "可以使用***闭包***来实现一个函数只能执行一次：\n\n```javascript\nfunction once(fn) {\n  let called = false;\n  let result;\n  return function(...args) {\n    if (!called) {\n      called = true;\n      result = fn.apply(this, args);\n    }\n    return result;\n  };\n}\n\nconst initialize = once(() => console.log(\"Initialized\"));\ninitialize(); // 输出 \"Initialized\"\ninitialize(); // 不会有任何输出\n```"
+        },
+        {
+                "id": "02bec1f7-eea4-4f5f-99ae-0fd0a6f2bd91",
+                "title": "实现 1234567 → \"1,234,567\"",
+                "content": "可以使用***正则表达式***来实现数字的千位分隔符：\n\n```javascript\nfunction formatNumber(num) {\n  return num.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, \",\");\n}\nconsole.log(formatNumber(1234567)); // \"1,234,567\"\n```"
+        },
+        {
+                "id": "47a46f32-fa6c-44ad-b63b-834a5a47602c",
+                "title": "把 [1, [2, [3, 4]], 5] 转成 [1, 2, 3, 4, 5]",
+                "content": "考点：递归、reduce、concat、isArray \n\n可以使用***递归函数***来展平嵌套数组：\n\n```javascript\nfunction flatten(arr) {\n  return arr.reduce((acc, val) => \n    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]\n```"
+        },
+        {
+                "id": "9fd48ff5-bf14-4efa-9b30-7b29309ea30f",
+                "title": "去掉数组中重复的元素",
+                "content": "可以使用 `Set` 来去重数组，因为 ***`Set` 只允许唯一值***。然后再将 `Set` 转回数组：\n\n```javascript\nfunction removeDuplicates(arr) {\n  return [...new Set(arr)];\n}\nconsole.log(removeDuplicates([1, 2, 2, 3, 4, 4])); // [1, 2, 3, 4]\n```"
+        },
+        {
+                "id": "aba8d853-d673-4489-b20e-7b22035f50b1",
+                "title": "字符串是否是回文（正反读一样）",
+                "content": "字符串方法 `split` ***`reverse`*** `join` \n\n```javascript\nfunction isPalindrome(str) {\n  const reversed = str.split(\"\").reverse().join(\"\");\n  return str === reversed;\n}\nconsole.log(isPalindrome(\"racecar\")); // true\nconsole.log(isPalindrome(\"hello\")); // false\n```"
+        },
+        {
+                "id": "851f37c5-fcf0-438e-bc08-d4aa3f84e94b",
+                "title": "把 \"hello\" 转成 \"olleh\"",
+                "content": "字符串方法 `split` ***`reverse`*** `join`\n\n```javascript\nfunction reverseString(str) {\n  return str.split(\"\").reverse().join(\"\");\n}\nconsole.log(reverseString(\"hello\")); // \"olleh\"\n```"
+        },
+        {
+                "id": "c7b1d153-2ca4-44d9-931e-2562c97ce5de",
+                "title": "把 \"test word\" 转成 \"Test Word\"",
+                "content": "字符串方法 `split` `join` ***`charAt`*** `slice` \n\n数组方法 `map`\n\n```javascript\nfunction capitalizeWords(str) {\n  return str\n    .split(\" \")\n    .map(word => word.charAt(0).toUpperCase() + word.slice(1))\n    .join(\" \");\n}\nconsole.log(capitalizeWords(\"test word\")); // \"Test Word\"\n```"
+        },
+        {
+                "id": "88614a86-c5d5-4366-852e-292cb42a200c",
+                "title": "用 setTimeout 模拟 setInterval",
+                "content": "- `setInterval` ***按固定间隔调度任务，不考虑任务执行时间***，可能导致任务堆积\n\n- 推荐用递归 `setTimeout` 来模拟，保证任务按顺序执行：\n\n ```javascript\nfunction repeat() {\n    console.log(\"task\");\n    setTimeout(repeat, 1000);\n}\nrepeat();\n```"
+        },
+        {
+                "id": "e6ec4c0a-c841-41bc-af1f-d6540859ea9f",
+                "title": "setTimeout(fn, 0) 是否真的 0 秒执行",
+                "content": "不会立即执行 \n\n***最小延迟***依赖浏览器实现（HTML5 规范要求最小 4ms）\n\n真实效果：fn 会排队进入宏任务队列，等待主线程和微任务执行完再运行"
+        },
+        {
                 "id": "023ba8b1-5da0-45cf-8873-d86da4c90b5d",
                 "title": "实现深拷贝",
                 "content": "深拷贝（Deep Copy）是创建对象的完全独立副本，包括所有嵌套对象。常见实现方式：\n\n1. **JSON 方法**：`JSON.parse(JSON.stringify(obj))`，简单但有局限性（无法处理函数、undefined、循环引用、Date、RegExp、Map、Set 等）\n\n2. **递归函数**：手动***递归遍历对象属性，创建新对象，同时处理循环引用、Set、Map、Date、RegExp 等类型***\n\n```javascript\nfunction deepClone(obj, hash = new WeakMap()) {\n  if (obj === null) return null;\n  if (typeof obj !== 'object') return obj;\n  if (hash.has(obj)) return hash.get(obj);\n\n  let clone;\n  if (obj instanceof Date) {\n    clone = new Date(obj);\n  } else if (obj instanceof RegExp) {\n    clone = new RegExp(obj.source, obj.flags);\n  } else if (obj instanceof Set) {\n    clone = new Set();\n    hash.set(obj, clone);\n    obj.forEach(value => clone.add(deepClone(value, hash)));\n    return clone;\n  } else if (obj instanceof Map) {\n    clone = new Map();\n    hash.set(obj, clone);\n    obj.forEach((value, key) => clone.set(key, deepClone(value, hash)));\n    return clone;\n  } else if (Array.isArray(obj)) {\n    clone = [];\n  } else {\n    clone = {};\n  }\n\n  hash.set(obj, clone);\n\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key)) {\n      clone[key] = deepClone(obj[key], hash);\n    }\n  }\n\n  return clone;\n}\n```\n\n3. **使用库**：如 Lodash 的 `_.cloneDeep()`，功能完善且处理各种边界情况"
@@ -843,7 +933,7 @@
         {
                 "id": "9840480f-53e8-464a-8927-450898cb0472",
                 "title": "实现一个 Promise 的 all 方法",
-                "content": "代码题 \n\n - 返回值的顺序\n\n - ***判断全部完成***\n\n - 可能传入普通值，使用 `Promise.resolve` 包装\n\n - 如果有异常，立即拒绝\n\n - 空数组的情况"
+                "content": "- 返回值的顺序\n\n - ***判断全部完成***\n\n - 可能传入普通值，使用 `Promise.resolve` 包装\n\n```javascript\nfunction myPromiseAll(promises) {\n  return new Promise((resolve, reject) => {\n    let results = [];\n    let count = 0;\n\n    promises.forEach((p, i) => {\n      Promise.resolve(p).then(res => {\n        results[i] = res;\n        count++;\n        if (count === promises.length) {\n          resolve(results);\n        }\n      }).catch(reject);\n    });\n  });\n}\n```"
         },
         {
                 "id": "87cb55b4-5af2-4c91-a927-d66a2fb454bf",
