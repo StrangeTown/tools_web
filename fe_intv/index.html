@@ -198,6 +198,20 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        // 配置 marked 渲染器，将强调文本改为荧光笔高亮样式
+        marked.use({
+            extensions: [{
+                name: 'highlightStrong',
+                level: 'inline',
+                start: /\*\*\*/,
+                matcher: /\*\*\*([^*]+)\*\*\*/,
+                renderer: function(token) {
+                    return `<span class="highlight-text">${token.text}</span>`;
+                }
+            }]
+        });
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
@@ -297,6 +311,15 @@
 
         pre::-webkit-scrollbar-thumb:hover {
             background: #64748b;
+        }
+
+        /* 荧光笔高亮样式 */
+        .highlight-text {
+            background: linear-gradient(120deg, #fef3c7 0%, #fde68a 100%);
+            padding: 2px 4px;
+            border-radius: 3px;
+            box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.3);
+            font-weight: 600;
         }
 
         /* 桌面端隐藏移动端抽屉菜单 */
@@ -994,7 +1017,11 @@
             
             // 更新内容
             questionTitle.textContent = question.title;
-            questionContent.innerHTML = marked.parse(question.content);
+            // 先将 ***text*** 替换为特殊占位符，避免与 **text** 冲突
+            const contentWithPlaceholders = question.content.replace(/\\n/g, '\n').replace(/\*\*\*([^*]+)\*\*\*/g, '§§§HIGHLIGHT_START§§§$1§§§HIGHLIGHT_END§§§');
+            const parsedContent = marked.parse(contentWithPlaceholders);
+            // 将占位符替换为荧光笔样式，保持 **text** 为普通粗体
+            questionContent.innerHTML = parsedContent.replace(/§§§HIGHLIGHT_START§§§(.*?)§§§HIGHLIGHT_END§§§/g, '<span class="highlight-text">$1</span>');
             Prism.highlightAll();
             
             // 添加淡入动画
