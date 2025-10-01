@@ -267,13 +267,11 @@
 
         /* 行内代码样式 */
         code:not(pre code) {
-            background: #e0f2fe;
             color: #0369a1;
             padding: 3px 6px;
             border-radius: 6px;
             font-size: 0.85rem;
             font-weight: 500;
-            border: 1px solid #b3e5fc;
             font-family: 'Fira Code', 'Monaco', 'Consolas', 'Ubuntu Mono', monospace;
         }
 
@@ -314,6 +312,15 @@
             border-radius: 3px;
             box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.3);
             font-weight: 600;
+        }
+
+        /* 荧光笔内部的代码样式，优先显示荧光笔效果 */
+        .highlight-text code {
+            background: transparent !important;
+            color: inherit !important;
+            border: none !important;
+            padding: 0 !important;
+            font-weight: inherit !important;
         }
 
         /* 桌面端隐藏移动端抽屉菜单 */
