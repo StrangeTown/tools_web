@@ -1,112 +1,282 @@
 [
 	{
+		"id": "fbf481de-dffb-4eb7-b864-94711bf1ca25",
+		"title": "useEffect和 useLayoutEffect 区别",
+		"content": "**执行时机**：  \n- `useEffect` 在浏览器完成布局与绘制后异步执行，不会阻塞渲染\n- `useLayoutEffect`***DOM 更新后、浏览器绘制之前同步执行，确保对 DOM 的读取是最新的***\n\n**使用场景**：  \n- `useEffect`：适合处理副作用，如日志打印、数据获取、事件监听\n- `useLayoutEffect`：适合需要同步读取 DOM 布局并立即修改的场景，如测量元素尺寸、设置滚动位置，避免闪烁\n\n**性能影响**：  \n- `useLayoutEffect` 会阻塞浏览器绘制，不必要时应避免使用，否则可能导致性能问题\n- 一般优先使用 `useEffect`，除非必须确保 DOM 状态一致\n\n**服务器端渲染（SSR）**：  \n- `useLayoutEffect` 在 SSR 环境中会发出警告，因为它依赖于浏览器的布局和绘制\n- `useEffect` 不会有此问题",
+		"title_en": "Difference between useEffect and useLayoutEffect",
+		"content_en": "**Execution Timing**:  \n- `useEffect` runs asynchronously after the browser has painted, so it does not block rendering.\n- `useLayoutEffect` runs synchronously after DOM updates but before the browser paints, ensuring that any DOM reads are up-to-date.\n\n**Use Cases**:  \n- `useEffect`: Suitable for side effects like logging, data fetching, and event listeners.\n- `useLayoutEffect`: Suitable for scenarios where you need to read DOM layout and make immediate changes, such as measuring element sizes or setting scroll positions to avoid flickering.\n\n**Performance Impact**:  \n- `useLayoutEffect` can block browser painting, so it should be avoided unless necessary to prevent performance issues.\n- Generally, prefer using `useEffect` unless you need to ensure DOM state consistency.\n\n**Server-Side Rendering (SSR)**:  \n- `useLayoutEffect` will issue a warning in SSR environments because it relies on browser layout and painting.\n- `useEffect` does not have this issue."
+	},
+	{
+		"id": "d11cd040-b839-43ba-a943-dc389bf0797b",
+		"title": "for...in 和 Object.keys 的区别",
+		"content": "***原型链属性，属性顺序，适用场景***，数组情况，其他替代方法\n\n- 原型链属性：`for...in` 会遍历对象的所有可枚举属性，包括继承自原型链的属性；而 `Object.keys()` 只返回对象自身的可枚举属性\n\n- 属性顺序：`for...in` 遍历顺序不保证，而 `Object.keys()` 返回的数组顺序与属性添加顺序一致（ES6 及以后）\n\n- 适用场景：`for...in` 可以用于遍历对象，而 `Object.keys()` 只能用于获取对象的键数组\n\n- 数组情况：`for...in` 会遍历数组的索引和额外属性（可能导致意外结果），而 `Object.keys()` 只返回有效索引，更适合处理数组\n\n- 其他替代方法：如果需要获取对象的所有属性（包括不可枚举或 Symbol），可以使用 `Object.getOwnPropertyNames()`、`Object.getOwnPropertySymbols()` 或 `Reflect.ownKeys()`",
+		"title_en": "Difference between for...in and Object.keys",
+		"content_en": "***Prototype chain properties, property order, use cases***, array scenarios, other alternatives\n\n- Prototype chain properties: `for...in` iterates over all enumerable properties of an object, including those inherited from the prototype chain; whereas `Object.keys()` only returns the object's own enumerable properties.\n\n- Property order: The iteration order of `for...in` is not guaranteed, while the array returned by `Object.keys()` maintains the order in which properties were added (ES6 and later).\n\n- Use cases: `for...in` can be used to iterate over objects, while `Object.keys()` is specifically for obtaining an array of an object's keys.\n\n- Array scenarios: `for...in` will iterate over array indices and any additional properties (which may lead to unexpected results), while `Object.keys()` only returns valid indices, making it more suitable for handling arrays.\n\n- Other alternatives: If you need to get all properties of an object (including non-enumerable or Symbol properties), you can use `Object.getOwnPropertyNames()`, `Object.getOwnPropertySymbols()`, or `Reflect.ownKeys()`."
+	},
+	{
+		"id": "1b3fc674-664a-4717-8144-9e95a111546f",
+		"title": "如何比较两个语义化版本号 (SemVer)",
+		"content": "可以使用字符串的 `split` 方法将版本号按 `.` 分割成数组，然后***逐个比较每一段的数值大小***\n\n```javascript\nfunction compareVersions(v1, v2) {\n  const arr1 = v1.split('.').map(Number);\n  const arr2 = v2.split('.').map(Number);\n  const len = Math.max(arr1.length, arr2.length);\n\n  for (let i = 0; i < len; i++) {\n    const num1 = arr1[i] || 0;\n    const num2 = arr2[i] || 0;\n    if (num1 > num2) return 1;\n    if (num1 < num2) return -1;\n  }\n  return 0; // 相等\n}\n\nconsole.log(compareVersions('1.2.3', '1.2.4')); // -1\nconsole.log(compareVersions('1.3.0', '1.2.9')); // 1\nconsole.log(compareVersions('1.0', '1.0.0')); // 0\n```",
+		"title_en": "How to compare two semantic version numbers (SemVer)",
+		"content_en": "You can use the string `split` method to divide the version numbers by `.` into arrays, and then ***compare each segment's numerical value one by one***\n\n```javascript\nfunction compareVersions(v1, v2) {\n  const arr1 = v1.split('.').map(Number);\n  const arr2 = v2.split('.').map(Number);\n  const len = Math.max(arr1.length, arr2.length);\n\n  for (let i = 0; i < len; i++) {\n    const num1 = arr1[i] || 0;\n    const num2 = arr2[i] || 0;\n    if (num1 > num2) return 1;\n    if (num1 < num2) return -1;\n  }\n  return 0; // equal\n}\n\nconsole.log(compareVersions('1.2.3', '1.2.4')); // -1\nconsole.log(compareVersions('1.3.0', '1.2.9')); // 1\nconsole.log(compareVersions('1.0', '1.0.0')); // 0\n```"
+	},
+	{
+		"id": "e7b95f33-5c1d-4420-a152-70672ca206a3",
+		"title": "找 tree 中 value = 1 的项",
+		"content": "常见的 tree 数据结构是这样的：\n\n```javascript\nconst tree = [\n  {\n    id: 1,\n    value: 10,\n    children: [\n      { id: 2, value: 1, children: [] },\n      { id: 3, value: 5, children: [\n        { id: 4, value: 1, children: [] }\n      ]}\n    ]\n  }\n];\n```\n\n方法一：深度优先搜索（DFS）\n\n```javascript\nfunction findNodeDFS(tree, targetValue) {\n  for (const node of tree) {\n    if (node.value === targetValue) {\n      return node; // 找到就返回\n    }\n    if (node.children && node.children.length) {\n      const found = findNodeDFS(node.children, targetValue);\n      if (found) return found;\n    }\n  }\n  return null; // 没找到\n}\n\nconst result = findNodeDFS(tree, 1);\nconsole.log(result); // { id: 2, value: 1, children: [] }\n```\n\n方法二：广度优先搜索（BFS）\n\n```javascript\nfunction findNodeBFS(tree, targetValue) {\n  const queue = [...tree];\n  while (queue.length) {\n    const node = queue.shift();\n    if (node.value === targetValue) return node;\n    if (node.children) queue.push(...node.children);\n  }\n  return null;\n}\n\nconsole.log(findNodeBFS(tree, 1));\n```",
+		"title_en": "Find item with value = 1 in tree",
+		"content_en": "A common tree data structure looks like this:\n\n```javascript\nconst tree = [\n  {\n    id: 1,\n    value: 10,\n    children: [\n      { id: 2, value: 1, children: [] },\n      { id: 3, value: 5, children: [\n        { id: 4, value: 1, children: [] }\n      ]}\n    ]\n  }\n];\n```\n\nMethod 1: Depth-First Search (DFS)\n\n```javascript\nfunction findNodeDFS(tree, targetValue) {\n  for (const node of tree) {\n    if (node.value === targetValue) {\n      return node; // Return if found\n    }\n    if (node.children && node.children.length) {\n      const found = findNodeDFS(node.children, targetValue);\n      if (found) return found;\n    }\n  }\n  return null; // Not found\n}\n\nconst result = findNodeDFS(tree, 1);\nconsole.log(result); // { id: 2, value: 1, children: [] }\n```\n\nMethod 2: Breadth-First Search (BFS)\n\n```javascript\nfunction findNodeBFS(tree, targetValue) {\n  const queue = [...tree];\n  while (queue.length) {\n    const node = queue.shift();\n    if (node.value === targetValue) return node;\n    if (node.children) queue.push(...node.children);\n  }\n  return null;\n}\n\nconsole.log(findNodeBFS(tree, 1));\n```"
+	},
+	{
+		"id": "765e1e01-63e1-4587-80dc-c131bf7e55ca",
+		"title": "手写 Array 的 map 方法",
+		"content": "可以使用***for 循环***来实现 `map` 方法：\\n\\n```javascript\\nArray.prototype.myMap = function(callback, thisArg) {\\n  if (this == null) {\\n    throw new TypeError('this is null or not defined');\\n  }\\n  if (typeof callback !== 'function') {\\n    throw new TypeError(callback + ' is not a function');\\n  }\\n\\n  const result = [];\\n  const len = this.length;\\n\\n  for (let i = 0; i < len; i++) {\\n    if (i in this) { // 跳过空位\\n      result[i] = callback.call(thisArg, this[i], i, this);\\n    }\\n  }\\n  return result;\\n};\\n\\n// 示例用法：\\nconst arr = [1, 2, 3];\\nconst mappedArr = arr.myMap(x => x * 2);\\nconsole.log(mappedArr); // [2, 4, 6]\\n```",
+		"title_en": "Handwritten Array map method",
+		"content_en": "You can implement the `map` method using a ***for loop***:\n\n```javascript\nArray.prototype.myMap = function(callback, thisArg) {\n  if (this == null) {\n    throw new TypeError('this is null or not defined');\n  }\n  if (typeof callback !== 'function') {\n    throw new TypeError(callback + ' is not a function');\n  }\n\n  const result = [];\n  const len = this.length;\n\n  for (let i = 0; i < len; i++) {\n    if (i in this) { // Skip empty slots\n      result[i] = callback.call(thisArg, this[i], i, this);\n    }\n  }\n  return result;\n};\n\n// Example usage:\nconst arr = [1, 2, 3];\nconst mappedArr = arr.myMap(x => x * 2);\nconsole.log(mappedArr); // [2, 4, 6]\n```"
+	},
+	{
+		"id": "f4ae6cfa-f31b-40aa-b7b4-95cb12084f35",
+		"title": "节流（throttle）",
+		"content": "节流（Throttle）是指在事件被触发后，***在一定时间内只允许执行一次对应的函数***。如果在这个时间内又触发了该事件，则会被忽略，直到时间间隔结束后才能再次执行\n\n```javascript\nconst throttle = (fn, wait) => {\n  let inThrottle, lastFn, lastTime;\n  return function() {\n    const context = this,\n      args = arguments;\n    if (!inThrottle) {\n      fn.apply(context, args);\n      lastTime = Date.now();\n      inThrottle = true;\n    } else {\n      clearTimeout(lastFn);\n      lastFn = setTimeout(function() {\n        if (Date.now() - lastTime >= wait) {\n          fn.apply(context, args);\n          lastTime = Date.now();\n        }\n      }, Math.max(wait - (Date.now() - lastTime), 0));\n    }\n  };\n};\n\n// 示例用法：\nwindow.addEventListener(\n  'resize',\n  throttle(function(evt) {\n    console.log(window.innerWidth);\n    console.log(window.innerHeight);\n  }, 250)\n); // Will log the window dimensions at most every 250ms\n```",
+		"title_en": "Throttle",
+		"content_en": "Throttling is a technique where, after an event is triggered, ***the corresponding function is allowed to execute only once within a certain time period***. If the event is triggered again within this time, it will be ignored until the time interval ends and can be executed again.\n\n```javascript\nconst throttle = (fn, wait) => {\n\\tlet inThrottle, lastFn, lastTime;\n  return function() {\n    const context = this,\n      args = arguments;\n    if (!inThrottle) {\n      fn.apply(context, args);\n      lastTime = Date.now();\n      inThrottle = true;\n    } else {\n      clearTimeout(lastFn);\n      lastFn = setTimeout(function() {\n        if (Date.now() - lastTime >= wait) {\n          fn.apply(context, args);\n          lastTime = Date.now();\n        }\n      }, Math.max(wait - (Date.now() - lastTime), 0));\n    }\n  };\n};\n\n// Example usage:\nwindow.addEventListener(\n  'resize',\n  throttle(function(evt) {\n    console.log(window.innerWidth);\n    console.log(window.innerHeight);\n  }, 250)\n); // Will log the window dimensions at most every 250ms\n```"
+	},
+	{
+		"id": "c8545a21-ebde-4df9-970e-2a9242bc4026",
+		"title": "防抖（debounce）",
+		"content": "防抖（Debounce）是指在事件被触发后，***在一定时间内如果没有再次触发该事件，才会执行对应的函数***。如果在这个时间内又触发了该事件，则重新计时\n\n```javascript\nfunction debounce(fn, delay) {\n  let timeoutId;\n  return function(...args) {\n    clearTimeout(timeoutId);\n    timeoutId = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\n// 示例用法：\nconst handleResize = debounce(() => {\n  console.log('Window resized');\n}, 300);\n\nwindow.addEventListener('resize', handleResize);\n```",
+		"title_en": "Debounce",
+		"content_en": "Debouncing is a technique where, after an event is triggered, ***the corresponding function will only execute if the event is not triggered again within a certain time period***. If the event is triggered again within this time, the timer resets.\n\n```javascript\nfunction debounce(fn, delay) {\n  let timeoutId;\n  return function(...args) {\n    clearTimeout(timeoutId);\n    timeoutId = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\n// Example usage:\nconst handleResize = debounce(() => {\n  console.log('Window resized');\n}, 300);\n\nwindow.addEventListener('resize', handleResize);\n```"
+	},
+	{
+		"id": "5cb314db-01be-432a-bfa5-211574fcd5a3",
+		"title": "compose 函数（函数组合）",
+		"content": "函数组合（Function Composition）是将多个函数组合成一个函数的技术。`compose` 函数接受多个函数作为参数，并返回一个新函数，该新函数依次调用传入的函数，***前一个函数的输出作为下一个函数的输入***\n\n```javascript\nfunction compose(...fns) {\n  return function(initialValue) {\n    return fns.reduceRight((acc, fn) => fn(acc), initialValue);\n  };\n}\n\n// 示例用法：\nconst add2 = x => x + 2;\nconst multiply3 = x => x * 3;\nconst subtract5 = x => x - 5;\n\nconst composedFn = compose(subtract5, multiply3, add2);\nconsole.log(composedFn(5)); // ((5 + 2) * 3) - 5 = 16\n```",
+		"title_en": "compose function (Function Composition)",
+		"content_en": "Function Composition is a technique of combining multiple functions into a single function. The `compose` function takes multiple functions as arguments and returns a new function that calls the passed functions in sequence, with ***the output of the previous function serving as the input to the next function***.\n\n```javascript\nfunction compose(...fns) {\n  return function(initialValue) {\n    return fns.reduceRight((acc, fn) => fn(acc), initialValue);\n  };\n}\n\n// Example usage:\nconst add2 = x => x + 2;\nconst multiply3 = x => x * 3;\nconst subtract5 = x => x - 5;\n\nconst composedFn = compose(subtract5, multiply3, add2);\nconsole.log(composedFn(5)); // ((5 + 2) * 3) - 5 = 16\n```"
+	},
+	{
+		"id": "02bba3ca-4263-42c2-b969-784bab2e9b1b",
+		"title": "统计次数",
+		"content": "使用 ***reduce 方法***统计数组中每个元素出现的次数：\n\n```javascript\nfunction countOccurrences(arr) {\n  return arr.reduce((acc, val) => {\n    acc[val] = (acc[val] || 0) + 1;\n    return acc;\n  }, {});\n}\nconsole.log(countOccurrences([1, 2, 2, 3, 3, 3])); // { '1': 1, '2': 2, '3': 3 }\n```",
+		"title_en": "Count occurrences",
+		"content_en": "Use the ***reduce method*** to count the occurrences of each element in an array:\n\n```javascript\nfunction countOccurrences(arr) {\n  return arr.reduce((acc, val) => {\n    acc[val] = (acc[val] || 0) + 1;\n    return acc;\n  }, {});\n}\nconsole.log(countOccurrences([1, 2, 2, 3, 3, 3])); // { '1': 1, '2': 2, '3': 3 }\n```"
+	},
+	{
+		"id": "bf226536-617b-407d-b8ed-f69a7258d0b1",
+		"title": "写一个函数，传入的函数只能执行一次",
+		"content": "可以使用***闭包***来实现一个函数只能执行一次：\n\n```javascript\nfunction once(fn) {\n  let called = false;\n  let result;\n  return function(...args) {\n    if (!called) {\n      called = true;\n      result = fn.apply(this, args);\n    }\n    return result;\n  };\n}\n\nconst initialize = once(() => console.log(\"Initialized\"));\ninitialize(); // 输出 \"Initialized\"\ninitialize(); // 不会有任何输出\n```",
+		"title_en": "Write a function that can only be executed once",
+		"content_en": "You can use ***closures*** to implement a function that can only be executed once:\n\n```javascript\nfunction once(fn) {\n  let called = false;\n  let result;\n  return function(...args) {\n    if (!called) {\n      called = true;\n      result = fn.apply(this, args);\n    }\n    return result;\n  };\n}\n\nconst initialize = once(() => console.log(\"Initialized\"));\ninitialize(); // Outputs \"Initialized\"\ninitialize(); // No output\n```"
+	},
+	{
+		"id": "02bec1f7-eea4-4f5f-99ae-0fd0a6f2bd91",
+		"title": "实现 1234567 → \"1,234,567\"",
+		"content": "可以使用***正则表达式***来实现数字的千位分隔符：\n\n```javascript\nfunction formatNumber(num) {\n  return num.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, \",\");\n}\nconsole.log(formatNumber(1234567)); // \"1,234,567\"\n```",
+		"title_en": "Implement 1234567 → \"1,234,567\"",
+		"content_en": "You can use ***regular expressions*** to implement thousand separators for numbers:\n\n```javascript\nfunction formatNumber(num) {\n  return num.toString().replace(/\\B(?=(\\d{3})+(?!\\d))/g, \",\");\n}\nconsole.log(formatNumber(1234567)); // \"1,234,567\"\n```"
+	},
+	{
+		"id": "47a46f32-fa6c-44ad-b63b-834a5a47602c",
+		"title": "把 [1, [2, [3, 4]], 5] 转成 [1, 2, 3, 4, 5]",
+		"content": "考点：递归、reduce、concat、isArray \n\n可以使用***递归函数***来展平嵌套数组：\n\n```javascript\nfunction flatten(arr) {\n  return arr.reduce((acc, val) => \n    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]\n```",
+		"title_en": "Convert [1, [2, [3, 4]], 5] to [1, 2, 3, 4, 5]",
+		"content_en": "Key points: recursion, reduce, concat, isArray \n\nYou can use a ***recursive function*** to flatten a nested array:\n\n```javascript\nfunction flatten(arr) {\n  return arr.reduce((acc, val) => \n        Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]\n```"
+	},
+	{
+		"id": "9fd48ff5-bf14-4efa-9b30-7b29309ea30f",
+		"title": "去掉数组中重复的元素",
+		"content": "可以使用 `Set` 来去重数组，因为 ***`Set` 只允许唯一值***。然后再将 `Set` 转回数组：\n\n```javascript\nfunction removeDuplicates(arr) {\n  return [...new Set(arr)];\n}\nconsole.log(removeDuplicates([1, 2, 2, 3, 4, 4])); // [1, 2, 3, 4]\n```",
+		"title_en": "Remove duplicate elements from an array",
+		"content_en": "You can use `Set` to remove duplicates from an array, as ***`Set` only allows unique values***. Then convert the `Set` back to an array:\n\n```javascript\nfunction removeDuplicates(arr) {\n  return [...new Set(arr)];\n}\nconsole.log(removeDuplicates([1, 2, 2, 3, 4, 4])); // [1, 2, 3, 4]\n```"
+	},
+	{
+		"id": "aba8d853-d673-4489-b20e-7b22035f50b1",
+		"title": "字符串是否是回文（正反读一样）",
+		"content": "字符串方法 `split` ***`reverse`*** `join` \n\n```javascript\nfunction isPalindrome(str) {\n  const reversed = str.split(\"\").reverse().join(\"\");\n  return str === reversed;\n}\nconsole.log(isPalindrome(\"racecar\")); // true\nconsole.log(isPalindrome(\"hello\")); // false\n```",
+		"title_en": "Is the string a palindrome (reads the same forwards and backwards)",
+		"content_en": "String methods `split` ***`reverse`*** `join` \n\n```javascript\nfunction isPalindrome(str) {\n  const reversed = str.split(\"\").reverse().join(\"\");\n  return str === reversed;\n}\nconsole.log(isPalindrome(\"racecar\")); // true\nconsole.log(isPalindrome(\"hello\")); // false\n```"
+	},
+	{
+		"id": "851f37c5-fcf0-438e-bc08-d4aa3f84e94b",
+		"title": "把 \"hello\" 转成 \"olleh\"",
+		"content": "字符串方法 `split` ***`reverse`*** `join`\n\n```javascript\nfunction reverseString(str) {\n  return str.split(\"\").reverse().join(\"\");\n}\nconsole.log(reverseString(\"hello\")); // \"olleh\"\n```",
+		"title_en": "Convert \"hello\" to \"olleh\"",
+		"content_en": "String methods `split` ***`reverse`*** `join`\n\n```javascript\nfunction reverseString(str) {\n  return str.split(\"\").reverse().join(\"\");\n}\nconsole.log(reverseString(\"hello\")); // \"olleh\"\n```"
+	},
+	{
+		"id": "c7b1d153-2ca4-44d9-931e-2562c97ce5de",
+		"title": "把 \"test word\" 转成 \"Test Word\"",
+		"content": "字符串方法 `split` `join` ***`charAt`*** `slice` \n\n数组方法 `map`\n\n```javascript\nfunction capitalizeWords(str) {\n  return str\n    .split(\" \")\n    .map(word => word.charAt(0).toUpperCase() + word.slice(1))\n    .join(\" \");\n}\nconsole.log(capitalizeWords(\"test word\")); // \"Test Word\"\n```"	,
+		"title_en": "Convert \"test word\" to \"Test Word\"",
+		"content_en": "String methods `split` `join` ***`charAt`*** `slice` \n\nArray method `map`\n\n```javascript\nfunction capitalizeWords(str) {\n  return str\n    .split(\" \")\n    .map(word => word.charAt(0).toUpperCase() + word.slice(1))\n    .join(\" \");\n}\nconsole.log(capitalizeWords(\"test word\")); // \"Test Word\"\n```"
+	},
+	{
+		"id": "88614a86-c5d5-4366-852e-292cb42a200c",
+		"title": "用 setTimeout 模拟 setInterval",
+		"content": "- `setInterval` ***按固定间隔调度任务，不考虑任务执行时间***，可能导致任务堆积\n\n- 推荐用递归 `setTimeout` 来模拟，保证任务按顺序执行：\n\n ```javascript\nfunction repeat() {\n    console.log(\"task\");\n    setTimeout(repeat, 1000);\n}\nrepeat();\n```",
+		"title_en": "Simulate setInterval with setTimeout",
+		"content_en": "- `setInterval` ***schedules tasks at fixed intervals without considering task execution time***, which may lead to task accumulation\n\n- It is recommended to use recursive `setTimeout` to simulate, ensuring tasks are executed in order:\n\n ```javascript\nfunction repeat() {\n    console.log(\"task\");\n    setTimeout(repeat, 1000);\n}\nrepeat();\n```"
+	},
+	{
+		"id": "e6ec4c0a-c841-41bc-af1f-d6540859ea9f",
+		"title": "setTimeout(fn, 0) 是否真的 0 秒执行",
+		"content": "不会立即执行 \n\n***最小延迟***依赖浏览器实现（HTML5 规范要求最小 4ms）\n\n真实效果：fn 会排队进入宏任务队列，等待主线程和微任务执行完再运行",
+		"title_en": "Does setTimeout(fn, 0) really execute in 0 seconds",
+		"content_en": "It won't execute immediately \n\n***The minimum delay*** depends on the browser implementation (HTML5 specification requires a minimum of 4ms)\n\nIn reality: fn will be queued into the macro task queue, waiting for the main thread and micro tasks to finish before running"
+	},
+	{
 		"id": "023ba8b1-5da0-45cf-8873-d86da4c90b5d",
 		"title": "实现深拷贝",
-		"content": "深拷贝（Deep Copy）是创建对象的完全独立副本，包括所有嵌套对象。常见实现方式：\n\n1. **JSON 方法**：`JSON.parse(JSON.stringify(obj))`，简单但有局限性（无法处理函数、undefined、循环引用、Date、RegExp、Map、Set 等）\n\n2. **递归函数**：手动***递归遍历对象属性，创建新对象，同时处理循环引用、Set、Map、Date、RegExp 等类型***\n\n```javascript\nfunction deepClone(obj, hash = new WeakMap()) {\n  if (obj === null) return null;\n  if (typeof obj !== 'object') return obj;\n  if (hash.has(obj)) return hash.get(obj);\n\n  let clone;\n  if (obj instanceof Date) {\n    clone = new Date(obj);\n  } else if (obj instanceof RegExp) {\n    clone = new RegExp(obj.source, obj.flags);\n  } else if (obj instanceof Set) {\n    clone = new Set();\n    hash.set(obj, clone);\n    obj.forEach(value => clone.add(deepClone(value, hash)));\n    return clone;\n  } else if (obj instanceof Map) {\n    clone = new Map();\n    hash.set(obj, clone);\n    obj.forEach((value, key) => clone.set(key, deepClone(value, hash)));\n    return clone;\n  } else if (Array.isArray(obj)) {\n    clone = [];\n  } else {\n    clone = {};\n  }\n\n  hash.set(obj, clone);\n\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key)) {\n      clone[key] = deepClone(obj[key], hash);\n    }\n  }\n\n  return clone;\n}\n```\n\n3. **使用库**：如 Lodash 的 `_.cloneDeep()`，功能完善且处理各种边界情况"	
+		"content": "深拷贝（Deep Copy）是创建对象的完全独立副本，包括所有嵌套对象。常见实现方式：\n\n1. **JSON 方法**：`JSON.parse(JSON.stringify(obj))`，简单但有局限性（无法处理函数、undefined、循环引用、Date、RegExp、Map、Set 等）\n\n2. **递归函数**：手动***递归遍历对象属性，创建新对象，同时处理循环引用、Set、Map、Date、RegExp 等类型***\n\n```javascript\nfunction deepClone(obj, hash = new WeakMap()) {\n  if (obj === null) return null;\n  if (typeof obj !== 'object') return obj;\n  if (hash.has(obj)) return hash.get(obj);\n\n  let clone;\n  if (obj instanceof Date) {\n    clone = new Date(obj);\n  } else if (obj instanceof RegExp) {\n    clone = new RegExp(obj.source, obj.flags);\n  } else if (obj instanceof Set) {\n    clone = new Set();\n    hash.set(obj, clone);\n    obj.forEach(value => clone.add(deepClone(value, hash)));\n    return clone;\n  } else if (obj instanceof Map) {\n    clone = new Map();\n    hash.set(obj, clone);\n    obj.forEach((value, key) => clone.set(key, deepClone(value, hash)));\n    return clone;\n  } else if (Array.isArray(obj)) {\n    clone = [];\n  } else {\n    clone = {};\n  }\n\n  hash.set(obj, clone);\n\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key)) {\n      clone[key] = deepClone(obj[key], hash);\n    }\n  }\n\n  return clone;\n}\n```\n\n3. **使用库**：如 Lodash 的 `_.cloneDeep()`，功能完善且处理各种边界情况"	,
+		"title_en": "Implement deep copy",
+		"content_en": "Deep Copy is the creation of a completely independent copy of an object, including all nested objects. Common implementation methods:\n\n1. **JSON method**: `JSON.parse(JSON.stringify(obj))`, simple but limited (cannot handle functions, undefined, circular references, Date, RegExp, Map, Set, etc.)\n\n2. **Recursive function**: Manually ***recursively traverse object properties, create new objects, and handle circular references, Set, Map, Date, RegExp, etc.***\n\n```javascript\nfunction deepClone(obj, hash = new WeakMap()) {\n  if (obj === null) return null;\n  if (typeof obj !== 'object') return obj;\n  if (hash.has(obj)) return hash.get(obj);\n\n  let clone;\n  if (obj instanceof Date) {\n    clone = new Date(obj);\n  } else if (obj instanceof RegExp) {\n    clone = new RegExp(obj.source, obj.flags);\n  } else if (obj instanceof Set) {\n    clone = new Set();\n    hash.set(obj, clone);\n    obj.forEach(value => clone.add(deepClone(value, hash)));\n    return clone;\n  } else if (obj instanceof Map) {\n    clone = new Map();\n    hash.set(obj, clone);\n    obj.forEach((value, key) => clone.set(key, deepClone(value, hash)));\n    return clone;\n  } else if (Array.isArray(obj)) {\n    clone = [];\n  } else {\n    clone = {};\n  }\n\n  hash.set(obj, clone);\n\n  for (const key in obj) {\n    if (obj.hasOwnProperty(key)) {\n      clone[key] = deepClone(obj[key], hash);\n    }\n  }\n\n  return clone;\n}\n```\n\n3. **Using libraries**: Such as Lodash's `_.cloneDeep()`, which is feature-rich and handles various edge cases."
 	},
 	{
 		"id": "89f6a409-1640-48f9-a611-1a02e86f37f8",
 		"title": "浅拷贝 vs 深拷贝",
-		"content": "浅拷贝（Shallow Copy）和深拷贝（Deep Copy）是两种对象复制方式：\n\n- 浅拷贝：只复制第一层属性，嵌套对象仍共享引用（如 Object.assign()、{ ...obj }）\n\n- 深拷贝：递归复制所有层级，生成完全独立的新对象（如 JSON.parse(JSON.stringify(obj))、递归函数、_.cloneDeep()）"
+		"content": "浅拷贝（Shallow Copy）和深拷贝（Deep Copy）是两种对象复制方式：\n\n- 浅拷贝：只复制第一层属性，嵌套对象仍共享引用（如 Object.assign()、{ ...obj }）\n\n- 深拷贝：递归复制所有层级，生成完全独立的新对象（如 JSON.parse(JSON.stringify(obj))、递归函数、_.cloneDeep()）",
+		"title_en": "Shallow Copy vs Deep Copy",
+		"content_en": "Shallow Copy and Deep Copy are two ways of copying objects:\n\n- Shallow Copy: Only copies the first layer of properties, nested objects still share references (e.g., Object.assign(), { ...obj })\n\n- Deep Copy: Recursively copies all levels, creating a completely independent new object (e.g., JSON.parse(JSON.stringify(obj)), recursive functions, _.cloneDeep())"
 	},
 	{
 		"id": "2046ea8e-e784-4816-970e-a7e312984193",
 		"title": "跨域请求",
-		"content": "跨域是因为浏览器的***同源策略***限制引起的，主要是出于安全考虑。常见解决方式：\n\n1. CORS：最推荐的方式，服务端设置 Access-Control-Allow-Origin 等响应头来允许跨域请求\n\n2. 代理转发：通过同源服务器做代理，避免浏览器跨域限制\n\n3. JSONP：早期方案，只支持 GET，已基本淘汰\n\n另外，某些场景下还会用 WebSocket 或 postMessage 来做跨域通信"
+		"content": "跨域是因为浏览器的***同源策略***限制引起的，主要是出于安全考虑。常见解决方式：\n\n1. CORS：最推荐的方式，服务端设置 Access-Control-Allow-Origin 等响应头来允许跨域请求\n\n2. 代理转发：通过同源服务器做代理，避免浏览器跨域限制\n\n3. JSONP：早期方案，只支持 GET，已基本淘汰\n\n另外，某些场景下还会用 WebSocket 或 postMessage 来做跨域通信",
+		"title_en": "Cross-Origin Requests",
+		"content_en": "Cross-origin issues arise due to browser ***same-origin policy*** restrictions, mainly for security reasons. Common solutions include:\n\n1. CORS: The most recommended method, where the server sets response headers like Access-Control-Allow-Origin to allow cross-origin requests\n\n\n2. Proxy forwarding: Using a same-origin server as a proxy to avoid browser cross-origin restrictions\n\n3. JSONP: An early solution that only supports GET, now largely obsolete\n\nAdditionally, in certain scenarios, WebSocket or postMessage can be used for cross-origin communication"
 	},
 	{
 		"id": "f6a3dcf9-47fc-4f9b-a5ef-aabb60ace89d",
 		"title": "JavaScript 的数据类型",
-		"content": "JavaScript 的数据类型分为两大类：***原始类型（Primitive Types） 和 对象（Objects）***\n\n- 原始类型：`string`、number、boolean、null、undefined、symbol、bigint，它们是不可变的值，通常直接存储在栈中\n\n- 对象：由 Object 派生的各种复杂数据结构，变量保存的是其在堆中的引用地址。对象包括普通对象、Array、Function、Date、RegExp、Set、Map、Proxy、Promise 等。这些是不同的内置对象类型"
+		"content": "JavaScript 的数据类型分为两大类：***原始类型（Primitive Types） 和 对象（Objects）***\n\n- 原始类型：`string`、number、boolean、null、undefined、symbol、bigint，它们是不可变的值，通常直接存储在栈中\n\n- 对象：由 Object 派生的各种复杂数据结构，变量保存的是其在堆中的引用地址。对象包括普通对象、Array、Function、Date、RegExp、Set、Map、Proxy、Promise 等。这些是不同的内置对象类型",
+		"title_en": "JavaScript Data Types",
+		"content_en": "JavaScript data types are divided into two main categories: ***Primitive Types and Objects***\n\n- Primitive Types: `string`, number, boolean, null, undefined, symbol, bigint. They are immutable values and are usually stored directly in the stack\n\n- Objects: Various complex data structures derived from Object, where variables store their reference addresses in the heap. Objects include plain objects, Array, Function, Date, RegExp, Set, Map, Proxy, Promise, etc. These are different built-in object types"
 	},
 	{
 		"id": "5e336859-1c44-49c3-b8f5-cf50da9b762e",
 		"title": "React Hooks 只能在函数组件最顶层调用的原因",
-		"content": "React Hooks 只能在函数组件或自定义 Hook 的最顶层调用，***这是为了确保 Hook 在每次渲染时都以相同的顺序执行*** \n\nReact 内部通过调用顺序来管理 Hooks，而不是名字。如果在条件语句、循环或嵌套函数中调用 Hook，可能会导致 Hook 的调用顺序在不同渲染之间发生变化，从而破坏 React 对状态的管理，导致不可预测的行为 \n\n 这么设计，不需要用 key-value 存储状态，只靠调用顺序就能快速定位到对应的状态，提升性能 "
+		"content": "React Hooks 只能在函数组件或自定义 Hook 的最顶层调用，***这是为了确保 Hook 在每次渲染时都以相同的顺序执行*** \n\nReact 内部通过调用顺序来管理 Hooks，而不是名字。如果在条件语句、循环或嵌套函数中调用 Hook，可能会导致 Hook 的调用顺序在不同渲染之间发生变化，从而破坏 React 对状态的管理，导致不可预测的行为 \n\n 这么设计，不需要用 key-value 存储状态，只靠调用顺序就能快速定位到对应的状态，提升性能 ",
+		"title_en": "Why React Hooks can only be called at the top level of function components",
+		"content_en": "React Hooks can only be called at the top level of function components or custom Hooks, ***to ensure that Hooks are executed in the same order on every render***\n\nInternally, React manages Hooks by their call order, not by name. If Hooks are called inside conditional statements, loops, or nested functions, it may cause the call order of Hooks to change between renders, breaking React's state management and leading to unpredictable behavior\n\nThis design avoids the need for key-value storage of state, allowing quick access to the corresponding state based solely on call order, improving performance"
 	},
 	{
 		"id": "22a3ef76-8404-41b6-a784-9eb5c9ad0e53",
 		"title": "React 合成事件与原生事件的区别",
-		"content": "React 的***合成事件是对原生事件的封装*** \n\n1. 原生事件直接绑定在 DOM 上，而合成事件是通过事件委托，统一绑定在 root 节点上\n\n2. 合成事件使用 React 提供的 SyntheticEvent 对象，跨浏览器兼容，且在 React 17 之前会用事件池复用\n\n3. React 自己维护了事件的冒泡机制，可以在内部控制事件的优先级和更新时机\n\n这样做的好处是 提升性能、统一行为、让事件系统更可控 "
+		"content": "React 的***合成事件是对原生事件的封装*** \n\n1. 原生事件直接绑定在 DOM 上，而合成事件是通过事件委托，统一绑定在 root 节点上\n\n2. 合成事件使用 React 提供的 SyntheticEvent 对象，跨浏览器兼容，且在 React 17 之前会用事件池复用\n\n3. React 自己维护了事件的冒泡机制，可以在内部控制事件的优先级和更新时机\n\n这样做的好处是 提升性能、统一行为、让事件系统更可控 ",
+		"title_en": "Differences between React Synthetic Events and Native Events",
+		"content_en": "React's ***Synthetic Events are a wrapper around native events***\n\n1. Native events are directly bound to the DOM, while synthetic events use event delegation, being uniformly bound to the root node\n\n2. Synthetic events use the SyntheticEvent object provided by React, which is cross-browser compatible and, before React 17, reused event pools\n\n3. React maintains its own event bubbling mechanism, allowing internal control over event priority and update timing\n\nThe benefits of this approach are improved performance, unified behavior, and a more controllable event system"
 	},
 	{
 		"id": "19369478-e097-4634-b24b-ff559682db8c",
 		"title": "首屏/白屏时间优化",
-		"content": "***构建->资源->网络->渲染->持续优化***\n\n - 构建层面：代码分割；Tree Shaking；SSR；内联首屏关键CSS； \n\n - 资源层面：压缩；图片字体优化；缓存策略\n\n - 网络层面：CDN；DNS预解析；预连接；HTTP/2/3\n\n - 渲染层面:懒加载；骨架屏；预加载；减少重排重绘\n\n - 持续优化：埋点监控；性能分析"
+		"content": "***构建->资源->网络->渲染->持续优化***\n\n - 构建层面：代码分割；Tree Shaking；SSR；内联首屏关键CSS； \n\n - 资源层面：压缩；图片字体优化；缓存策略\n\n - 网络层面：CDN；DNS预解析；预连接；HTTP/2/3\n\n - 渲染层面:懒加载；骨架屏；预加载；减少重排重绘\n\n - 持续优化：埋点监控；性能分析",
+		"title_en": "First Screen/White Screen Time Optimization",
+		"content_en": "***Build -> Resources -> Network -> Rendering -> Continuous Optimization***\n\n - Build level: Code splitting; Tree Shaking; SSR; Inline critical CSS for the first screen; \n\n - Resource level: Compression; Image and font optimization; Caching strategies\n\n - Network level: CDN; DNS prefetching; Preconnect; HTTP/2/3\n\n - Rendering level: Lazy loading; Skeleton screens; Preloading; Reducing reflows and repaints\n\n - Continuous optimization: Monitoring with tracking; Performance analysis"
 	},
 	{
 		"id": "f2be5f65-008d-465c-8e8c-a353f8eef971",
 		"title": "实现 TypeScript 内置的 Pick<T, K>",
-		"content": "```typescript\ntype MyPick<T, K extends keyof T> = {\n  [P in K]: T[P];\n};\n```\n\n- `T` 是一个对象类型，***`K` 是 `T` 的键的子集（通过 `keyof T` 限制）***，`extends` 关键字用于约束 `K` 的类型\n\n- 使用映射类型 `[P in K]` 遍历 `K` 中的每个键 `P`\n\n- 对于每个键 `P`，将其对应的类型 `T[P]` 赋值给新对象的属性"
+		"content": "```typescript\ntype MyPick<T, K extends keyof T> = {\n  [P in K]: T[P];\n};\n```\n\n- `T` 是一个对象类型，***`K` 是 `T` 的键的子集（通过 `keyof T` 限制）***，`extends` 关键字用于约束 `K` 的类型\n\n- 使用映射类型 `[P in K]` 遍历 `K` 中的每个键 `P`\n\n- 对于每个键 `P`，将其对应的类型 `T[P]` 赋值给新对象的属性",
+		"title_en": "Implement TypeScript's built-in Pick<T, K>",
+		"content_en": "```typescript\ntype MyPick<T, K extends keyof T> = {\n  [P in K]: T[P];\n};\n```\n\n- `T` is an object type, ***`K` is a subset of the keys of `T` (constrained by `keyof T`)***, and the `extends` keyword is used to constrain the type of `K`\n\n- Uses the mapped type `[P in K]` to iterate over each key `P` in `K`\n\n- For each key `P`, assigns its corresponding type `T[P]` to the new object's property"
 	},
 	{
 		"id": "87c1d0e9-73f0-464c-a358-687fbf4081d2",
 		"title": "React useEffect 的依赖项",
-		"content": "useEffect 的依赖数组***决定了副作用函数什么时候执行*** \n\n• 如果不写依赖，effect 每次渲染都会执行  \n\n• 写空数组 []，只会在组件挂载时执行一次 \n\n• 写了依赖项 [a, b]，只有当 a 或 b 发生变化时才执行 \n\n需要注意的是，如果漏写依赖，可能导致拿到过期的 state 或 props\n\n如果依赖里放了对象/函数，又可能造成无限循环，所以通常要结合 useCallback、useMemo 来稳定依赖 \n\nReact 官方也提供了 ESLint 规则来帮助我们避免依赖项出错"
+		"content": "useEffect 的依赖数组***决定了副作用函数什么时候执行*** \n\n• 如果不写依赖，effect 每次渲染都会执行  \n\n• 写空数组 []，只会在组件挂载时执行一次 \n\n• 写了依赖项 [a, b]，只有当 a 或 b 发生变化时才执行 \n\n需要注意的是，如果漏写依赖，可能导致拿到过期的 state 或 props\n\n如果依赖里放了对象/函数，又可能造成无限循环，所以通常要结合 useCallback、useMemo 来稳定依赖 \n\nReact 官方也提供了 ESLint 规则来帮助我们避免依赖项出错",
+		"title_en": "Dependencies of React useEffect",
+		"content_en": "The dependency array of useEffect ***determines when the side effect function is executed*** \n\n• If no dependencies are specified, the effect will execute on every render  \n\n• An empty array [] means it will only execute once when the component mounts \n\n• Specifying dependencies [a, b] means it will only execute when a or b changes \n\nIt's important to note that omitting dependencies may lead to stale state or props\n\nIf objects/functions are included in the dependencies, it may cause infinite loops, so it's common to use useCallback or useMemo to stabilize dependencies \n\nReact also provides ESLint rules to help us avoid dependency issues"
 	},
 	{
 		"id": "9ec68b38-a687-4ac7-887e-7c7b9ac404f6",
 		"title": "React 从 class 到函数组件，有哪些演进？",
-		"content": "1. **组件形式上**，从 class 组件到函数组件\n\n2. **状态管理**，从 this.state 和 this.setState 到 useState\n\n3. **生命周期方法**，从 componentDidMount 等到 useEffect\n\n4. **逻辑复用**，从高阶组件和 render props 到自定义 hooks\n\n5. **性能与底层机制**，从虚拟 DOM 到 Fiber 架构，并发模式\n\n6. **新 API 的引入**，如 useMemo, useCallback, useRef 等"
+		"content": "1. **组件形式上**，从 class 组件到函数组件\n\n2. **状态管理**，从 this.state 和 this.setState 到 useState\n\n3. **生命周期方法**，从 componentDidMount 等到 useEffect\n\n4. **逻辑复用**，从高阶组件和 render props 到自定义 hooks\n\n5. **性能与底层机制**，从虚拟 DOM 到 Fiber 架构，并发模式\n\n6. **新 API 的引入**，如 useMemo, useCallback, useRef 等",
+		"title_en": "What are the evolutions of React from class to function components?",
+		"content_en": "1. **Component form**: From class components to function components\n\n2. **State management**: From this.state and this.setState to useState\n\n3. **Lifecycle methods**: From componentDidMount, etc. to useEffect\n\n4. **Logic reuse**: From higher-order components and render props to custom hooks\n\n5. **Performance and underlying mechanisms**: From virtual DOM to Fiber architecture and concurrent mode\n\n6. **Introduction of new APIs**: Such as useMemo, useCallback, useRef, etc."
 	},
 	{
 		"id": "349770a5-b45c-4d80-bb2d-84bd2ea6a7a7",
 		"title": "介绍一下 useTransition",
-		"content": "`useTransition` 是 React 18 引入的一个 Hook，用于处理过渡状态，***使得界面在进行一些可能比较耗时的操作时，仍然保持响应性***  \n\n`useTransition` 返回一个数组，包含两个元素：\n\n 1. 一个布尔值 `isPending`，表示是否处于过渡状态；\n2. 另一个是一个函数 `startTransition`，用于包裹需要过渡的更新逻辑  \n\n使用 `useTransition` 可以将一些不那么紧急的更新标记为过渡，从而允许 React 在处理这些更新时优先处理更紧急的任务，提升用户体验。例如，在搜索输入时，可以使用 `useTransition` 来延迟更新搜索结果列表，而不会阻塞输入框的响应"
+		"content": "`useTransition` 是 React 18 引入的一个 Hook，用于处理过渡状态，***使得界面在进行一些可能比较耗时的操作时，仍然保持响应性***  \n\n`useTransition` 返回一个数组，包含两个元素：\n\n 1. 一个布尔值 `isPending`，表示是否处于过渡状态；\n2. 另一个是一个函数 `startTransition`，用于包裹需要过渡的更新逻辑  \n\n使用 `useTransition` 可以将一些不那么紧急的更新标记为过渡，从而允许 React 在处理这些更新时优先处理更紧急的任务，提升用户体验。例如，在搜索输入时，可以使用 `useTransition` 来延迟更新搜索结果列表，而不会阻塞输入框的响应",
+		"title_en": "Introduce useTransition",
+		"content_en": "`useTransition` is a Hook introduced in React 18 for handling transition states, ***allowing the interface to remain responsive during potentially time-consuming operations***  \n\n`useTransition` returns an array containing two elements:\n\n 1. A boolean `isPending`, indicating whether it is in a transition state;\n2. A function `startTransition`, used to wrap the update logic that needs to be transitioned  \n\nUsing `useTransition` allows you to mark some less urgent updates as transitions, enabling React to prioritize more urgent tasks while handling these updates, thereby improving user experience. For example, during search input, you can use `useTransition` to delay updating the search results list without blocking the responsiveness of the input field"
 	},
 	{
 		"id": "ac1bec94-b4c2-44cf-b0f1-8023231d6024",
 		"title": "typeof null 的结果",
-		"content": "`typeof null` 的结果是 ***`object`***\n\n这是 JavaScript 的一个历史遗留 bug。在最初的实现中，值是通过其 二进制前几位标识类型 的：对象的标识是 000，null 的二进制表示全是 0，因此被错误识别为 object，虽然是 bug，但为了兼容性，一直保留到今天 \n\n如果要正确判断 null，应该用 `===` 来进行严格比较 "
+		"content": "`typeof null` 的结果是 ***`object`***\n\n这是 JavaScript 的一个历史遗留 bug。在最初的实现中，值是通过其 二进制前几位标识类型 的：对象的标识是 000，null 的二进制表示全是 0，因此被错误识别为 object，虽然是 bug，但为了兼容性，一直保留到今天 \n\n如果要正确判断 null，应该用 `===` 来进行严格比较 ",
+		"title_en": "The result of typeof null",
+		"content_en": "`typeof null` results in ***`object`***\n\nThis is a historical bug in JavaScript. In the initial implementation, values were identified by their type through the first few bits of their binary representation: the identifier for objects was 000, and since null's binary representation is all zeros, it was mistakenly identified as an object. Although it's a bug, it has been retained for compatibility reasons until today \n\nTo correctly check for null, you should use `===` for strict comparison "
 	},
 	{
 		"id": "36e965ce-1866-4960-aab1-3428915142a2",
 		"title": "NaN === NaN 的结果",
-		"content": "`NaN === NaN` 的结果是 ***`false`***\n\n在 JavaScript 中，`NaN`（Not-a-Number）表示一个非法的数字值。根据 IEEE 754 浮点数标准，`NaN` 不等于任何值，包括它自己\n\n如果需要检查一个值是否是 `NaN`，可以使用 `Number.isNaN()` 方法，例如：\n\n```javascript\nNumber.isNaN(NaN); // true\nNumber.isNaN(42);  // false\nNumber.isNaN('foo'); // false\n```"
+		"content": "`NaN === NaN` 的结果是 ***`false`***\n\n在 JavaScript 中，`NaN`（Not-a-Number）表示一个非法的数字值。根据 IEEE 754 浮点数标准，`NaN` 不等于任何值，包括它自己\n\n如果需要检查一个值是否是 `NaN`，可以使用 `Number.isNaN()` 方法，例如：\n\n```javascript\nNumber.isNaN(NaN); // true\nNumber.isNaN(42);  // false\nNumber.isNaN('foo'); // false\n```",
+		"title_en": "The result of NaN === NaN",
+		"content_en": "`NaN === NaN` results in ***`false`***\n\nIn JavaScript, `NaN` (Not-a-Number) represents an illegal numeric value. According to the IEEE 754 floating-point standard, `NaN` is not equal to any value, including itself\n\nTo check if a value is `NaN`, you can use the `Number.isNaN()` method, for example:\n\n```javascript\nNumber.isNaN(NaN); // true\nNumber.isNaN(42);  // false\nNumber.isNaN('foo'); // false\n```"
 	},
 	{
 		"id": "bd6fcfa3-99e1-4322-aab4-8c727fee8e7b",
 		"title": "如何区分数组和对象",
-		"content": "- 使用 ***`Array.isArray()`*** 方法：\n\n```javascript\nArray.isArray([]); // true\nArray.isArray({}); // false\n```\n\n- 使用 `instanceof` 运算符：\n\n```javascript\n[] instanceof Array; // true\n{} instanceof Array; // false\n```\n\n- 使用 `Object.prototype.toString.call()` 方法：\n\n```javascript\nObject.prototype.toString.call([]); // \"[object Array]\"\nObject.prototype.toString.call({}); // \"[object Object]\"\n```"
+		"content": "- 使用 ***`Array.isArray()`*** 方法：\n\n```javascript\nArray.isArray([]); // true\nArray.isArray({}); // false\n```\n\n- 使用 `instanceof` 运算符：\n\n```javascript\n[] instanceof Array; // true\n{} instanceof Array; // false\n```\n\n- 使用 `Object.prototype.toString.call()` 方法：\n\n```javascript\nObject.prototype.toString.call([]); // \"[object Array]\"\nObject.prototype.toString.call({}); // \"[object Object]\"\n```",
+		"title_en": "How to distinguish between arrays and objects",
+		"content_en": "- Use the ***`Array.isArray()`*** method:\n\n```javascript\nArray.isArray([]); // true\nArray.isArray({}); // false\n```\n\n- Use the `instanceof` operator:\n\n```javascript\n[] instanceof Array; // true\n{} instanceof Array; // false\n```\n\n- Use the `Object.prototype.toString.call()` method:\n\n```javascript\nObject.prototype.toString.call([]); // \"[object Array]\"\nObject.prototype.toString.call({}); // \"[object Object]\"\n```"
 	},
 	{
 		"id": "fc949b59-a99c-4bf6-8dbd-5cfcccc52c73",
 		"title": "Promise 有哪几种状态",
-		"content": "Promise 有***三种状态***：\n\n1. **Pending（进行中）**：初始状态，既不是成功，也不是失败\n\n2. **Fulfilled（已兑现）**：操作成功完成\n\n3. **Rejected（已拒绝）**：操作失败\n\n一旦 Promise 进入了 Fulfilled 或 Rejected 状态，它的状态就不能再改变了 "
+		"content": "Promise 有***三种状态***：\n\n1. **Pending（进行中）**：初始状态，既不是成功，也不是失败\n\n2. **Fulfilled（已兑现）**：操作成功完成\n\n3. **Rejected（已拒绝）**：操作失败\n\n一旦 Promise 进入了 Fulfilled 或 Rejected 状态，它的状态就不能再改变了 ",
+		"title_en": "What are the states of a Promise",
+		"content_en": "A Promise has ***three states***:\n\n1. **Pending**: The initial state, neither fulfilled nor rejected\n\n2. **Fulfilled**: The operation completed successfully\n\n3. **Rejected**: The operation failed\n\nOnce a Promise enters the Fulfilled or Rejected state, its state cannot be changed anymore "
 	},
 	{
 		"id": "9840480f-53e8-464a-8927-450898cb0472",
 		"title": "实现一个 Promise 的 all 方法",
-		"content": "代码题 \n\n - 返回值的顺序\n\n - ***判断全部完成***\n\n - 可能传入普通值，使用 `Promise.resolve` 包装\n\n - 如果有异常，立即拒绝\n\n - 空数组的情况"
+		"content": "- 返回值的顺序\n\n - ***判断全部完成***\n\n - 可能传入普通值，使用 `Promise.resolve` 包装\n\n```javascript\nfunction myPromiseAll(promises) {\n  return new Promise((resolve, reject) => {\n    let results = [];\n    let count = 0;\n\n    promises.forEach((p, i) => {\n      Promise.resolve(p).then(res => {\n        results[i] = res;\n        count++;\n        if (count === promises.length) {\n          resolve(results);\n        }\n      }).catch(reject);\n    });\n  });\n}\n```",
+		"title_en": "Implement a Promise all method",
+		"content_en": "- Order of return values\n\n - ***Determine when all are completed***\n\n - May receive ordinary values, use `Promise.resolve` to wrap them\n\n```javascript\nfunction myPromiseAll(promises) {\n  return new Promise((resolve, reject) => {\n    let results = [];\n    let count = 0;\n\n    promises.forEach((p, i) => {\n      Promise.resolve(p).then(res => {\n        results[i] = res;\n        count++;\n        if (count === promises.length) {\n          resolve(results);\n        }\n      }).catch(reject);\n    });\n  });\n}\n```"
 	},
 	{
 		"id": "87cb55b4-5af2-4c91-a927-d66a2fb454bf",
 		"title": "React 的类组件为什么要手动绑定 this",
-		"content": "在 JavaScript 中，函数的 `this` 绑定是动态的，取决于函数被调用的方式 \n\n在 React 的 class 组件中，事件处理函数通常作为类的方法定义。当这些方法被传递给子组件或作为事件处理程序调用时，***`this` 的上下文可能会丢失，导致 `this` 不再指向组件实例*** \n\n为了确保 `this` 始终指向组件实例，我们需要手动绑定 `this`，通常是在构造函数中使用 `this.methodName = this.methodName.bind(this)` \n\n另一种常见的解决方案是使用箭头函数，因为箭头函数不会创建自己的 `this`，它会捕获定义时的 `this`，从而避免了手动绑定的需要 "
+		"content": "在 JavaScript 中，函数的 `this` 绑定是动态的，取决于函数被调用的方式 \n\n在 React 的 class 组件中，事件处理函数通常作为类的方法定义。当这些方法被传递给子组件或作为事件处理程序调用时，***`this` 的上下文可能会丢失，导致 `this` 不再指向组件实例*** \n\n为了确保 `this` 始终指向组件实例，我们需要手动绑定 `this`，通常是在构造函数中使用 `this.methodName = this.methodName.bind(this)` \n\n另一种常见的解决方案是使用箭头函数，因为箭头函数不会创建自己的 `this`，它会捕获定义时的 `this`，从而避免了手动绑定的需要 ",
+		"title_en": "Why do React class components need to manually bind this",
+		"content_en": "In JavaScript, the `this` binding of a function is dynamic and depends on how the function is called \n\nIn React class components, event handler functions are typically defined as methods of the class. When these methods are passed to child components or called as event handlers, ***the context of `this` may be lost, causing `this` to no longer refer to the component instance*** \n\nTo ensure that `this` always refers to the component instance, we need to manually bind `this`, usually in the constructor using `this.methodName = this.methodName.bind(this)` \n\nAnother common solution is to use arrow functions, as arrow functions do not create their own `this`; they capture the `this` from the surrounding context, thus avoiding the need for manual binding "
 	},
 	{
 		"id": "949e6690-b8e4-4d04-be4b-cca6f5248fed",
 		"title": "React类组件的 componentDidUpdate",
-		"content": "`componentDidUpdate` 是 React 类组件中的一个生命周期方法，当组件***更新并重新渲染后***会被调用。它接收两个参数：`prevProps` 和 `prevState`，分别表示更新前的属性和状态 \n\n这个方法通常用于处理组件更新后的副作用操作，例如：  \n\n1. **数据获取**：如果组件的某个属性发生变化，可以在这里发起新的数据请求 \n\n2. **DOM 操作**：可以在这里进行需要依赖于更新后 DOM 状态的操作 \n\n3. **状态同步**：如果需要根据新的属性更新状态，可以在这里调用 `setState` \n\n需要注意的是，在 `componentDidUpdate` 中调用 `setState` 时，必须加上条件判断，以避免无限循环更新 "
+		"content": "`componentDidUpdate` 是 React 类组件中的一个生命周期方法，当组件***更新并重新渲染后***会被调用。它接收两个参数：`prevProps` 和 `prevState`，分别表示更新前的属性和状态 \n\n这个方法通常用于处理组件更新后的副作用操作，例如：  \n\n1. **数据获取**：如果组件的某个属性发生变化，可以在这里发起新的数据请求 \n\n2. **DOM 操作**：可以在这里进行需要依赖于更新后 DOM 状态的操作 \n\n3. **状态同步**：如果需要根据新的属性更新状态，可以在这里调用 `setState` \n\n需要注意的是，在 `componentDidUpdate` 中调用 `setState` 时，必须加上条件判断，以避免无限循环更新 ",
+		"title_en": "React class component's componentDidUpdate",
+		"content_en": "`componentDidUpdate` is a lifecycle method in React class components that is called when the component ***updates and re-renders***. It receives two parameters: `prevProps` and `prevState`, which represent the previous props and state before the update \n\nThis method is typically used for handling side effects after the component has updated, such as:\t\n\n1. **Data fetching**: If a certain prop of the component has changed, you can initiate a new data request here \n\n2. **DOM manipulation**: You can perform operations that depend on the updated DOM state here \n\n3. **State synchronization**: If you need to update the state based on new props, you can call `setState` here \n\nIt's important to note that when calling `setState` inside `componentDidUpdate`, you must include a conditional check to avoid infinite update loops "
 	},
 	{
 		"id": "551dfec4-5e0e-45d8-a3b6-1375f34b54b3",
 		"title": "函数组件如何在 props 不变的情况下避免重新渲染",
-		"content": "在函数组件中，可以使用 ***`React.memo`*** 来实现组件的性能优化，从而在 props 不变的情况下避免重新渲染\n\n`React.memo` 是一个高阶组件，它会对组件的 props 进行浅比较，如果 props 没有变化，React 会跳过渲染过程，直接复用上一次的渲染结果。搭配 useCallback / useMemo 保证传递的 props 引用不变  \n\n使用方法如下：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n});\n```\n\n此外，如果需要更复杂的比较逻辑，可以传递一个自定义的比较函数作为第二个参数：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n}, (prevProps, nextProps) => {\n  // 返回 true 表示 props 相等，false 表示不相等\n});\n```"
+		"content": "在函数组件中，可以使用 ***`React.memo`*** 来实现组件的性能优化，从而在 props 不变的情况下避免重新渲染\n\n`React.memo` 是一个高阶组件，它会对组件的 props 进行浅比较，如果 props 没有变化，React 会跳过渲染过程，直接复用上一次的渲染结果。搭配 useCallback / useMemo 保证传递的 props 引用不变  \n\n使用方法如下：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n});\n```\n\n此外，如果需要更复杂的比较逻辑，可以传递一个自定义的比较函数作为第二个参数：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n}, (prevProps, nextProps) => {\n  // 返回 true 表示 props 相等，false 表示不相等\n});\n```",
+		"title_en": "How to avoid re-rendering in function components when props do not change",
+		"content_en": "In function components, you can use ***`React.memo`*** to optimize component performance and avoid re-rendering when props do not change\n\n`React.memo` is a higher-order component that performs a shallow comparison of the component's props. If the props have not changed, React will skip the rendering process and reuse the previous render result. It is often used in conjunction with useCallback / useMemo to ensure that the references of the passed props remain unchanged \n\nUsage is as follows:\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // Component implementation\n});\n```\n\nAdditionally, if more complex comparison logic is needed, you can pass a custom comparison function as the second argument:\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // Component implementation\n}, (prevProps, nextProps) => {\n  // Return true if props are equal, false if not equal\n});\n```"
 	},
 	{
 		"id": "17f4257c-e407-44c9-8cec-f310cbe82104",
 		"title": "React 组件间通信",
-		"content": "1. **Props 传递**：父组件***通过 props 向子组件传递数据和回调函数***，这是最常见的通信方式\n\n2. **Context API**：用于在组件树中传递数据，而不必通过每一级组件的 props\n\n3. **状态管理库**：如 Redux、MobX、Zustand 等，可以在全局范围内管理状态，实现跨组件通信\n\n4. **事件系统**：可以使用自定义事件或第三方库（如 EventEmitter, mitt）来实现组件间的事件通信\n\n5. **Refs**：通过 refs 可以直接访问子组件的方法和属性\n\n6. **共同的父组件**：通过提升状态到最近的共同父组件，实现兄弟组件间的通信 "
+		"content": "1. **Props 传递**：父组件***通过 props 向子组件传递数据和回调函数***，这是最常见的通信方式\n\n2. **Context API**：用于在组件树中传递数据，而不必通过每一级组件的 props\n\n3. **状态管理库**：如 Redux、MobX、Zustand 等，可以在全局范围内管理状态，实现跨组件通信\n\n4. **事件系统**：可以使用自定义事件或第三方库（如 EventEmitter, mitt）来实现组件间的事件通信\n\n5. **Refs**：通过 refs 可以直接访问子组件的方法和属性\n\n6. **共同的父组件**：通过提升状态到最近的共同父组件，实现兄弟组件间的通信 ",
+		"title_en": "Communication between React components",
+		"content_en": "1. **Props passing**: Parent components ***pass data and callback functions to child components via props***, which is the most common communication method\n\n2. **Context API**: Used to pass data through the component tree without having to pass props at every level\n\n3. **State management libraries**: Such as Redux, MobX, Zustand, etc., can manage state globally and enable communication between components\n\n4. **Event system**: Custom events or third-party libraries (such as EventEmitter, mitt) can be used to implement event communication between components\n\n5. **Refs**: Refs can be used to directly access methods and properties of child components\n\n6. **Common parent component**: Communication between sibling components can be achieved by lifting state up to the nearest common parent component"
 	},
 	{
 		"id": "3301e9e8-674e-49b0-a888-017fe9bc4b52",
 		"title": "Zustand 的基本使用",
-		"content": "Zustand 是一个轻量级的状态管理库，它使用简单且性能优越。基本使用方法如下：\n\n1. **创建 Store**：\n\n```javascript\nimport create from 'zustand';\n\nconst useStore = create(set => ({\n  count: 0,\n  increment: () => set(state => ({ count: state.count + 1 })),\n  decrement: () => set(state => ({ count: state.count - 1 })),\n}));\n```\n\n2. **使用 Store**：\n\n```javascript\nimport React from 'react';\nimport { useStore } from './path-to-store';\n\nfunction Counter() {\n  const { count, increment, decrement } = useStore();\n\n  return (\n    <div>\n      <h1>{count}</h1>\n      <button onClick={increment}>Increment</button>\n      <button onClick={decrement}>Decrement</button>\n    </div>\n  );\n}\n```\n\n3. **选择性订阅**：可以***通过传递选择器函数来订阅特定的状态片段***，从而优化性能\n\n```javascript\nconst count = useStore(state => state.count);\n```\n\nZustand 支持中间件、持久化等高级功能"
+		"content": "Zustand 是一个轻量级的状态管理库，它使用简单且性能优越。基本使用方法如下：\n\n1. **创建 Store**：\n\n```javascript\nimport create from 'zustand';\n\nconst useStore = create(set => ({\n  count: 0,\n  increment: () => set(state => ({ count: state.count + 1 })),\n  decrement: () => set(state => ({ count: state.count - 1 })),\n}));\n```\n\n2. **使用 Store**：\n\n```javascript\nimport React from 'react';\nimport { useStore } from './path-to-store';\n\nfunction Counter() {\n  const { count, increment, decrement } = useStore();\n\n  return (\n    <div>\n      <h1>{count}</h1>\n      <button onClick={increment}>Increment</button>\n      <button onClick={decrement}>Decrement</button>\n    </div>\n  );\n}\n```\n\n3. **选择性订阅**：可以***通过传递选择器函数来订阅特定的状态片段***，从而优化性能\n\n```javascript\nconst count = useStore(state => state.count);\n```\n\nZustand 支持中间件、持久化等高级功能",
+		"title_en": "Basic usage of Zustand",
+		"content_en": "Zustand is a lightweight state management library that is simple to use and performs well. The basic usage is as follows:\\n\\n1. **Create a Store**:\\n\\n```javascript\\nimport create from 'zustand';\\n\\nconst useStore = create(set => ({\\n  count: 0,\\n  increment: () => set(state => ({ count: state.count + 1 })),\\n  decrement: () => set(state => ({ count: state.count - 1 })),\\n}));\\n```\\n\\n2. **Use the Store**:\\n\\n```javascript\\nimport React from 'react';\\nimport { useStore } from './path-to-store';\\n\\nfunction Counter() {\\n  const { count, increment, decrement } = useStore();\\n\\n  return (\\n    <div>\\n      <h1>{count}</h1>\\n      <button onClick={increment}>Increment</button>\\n      <button onClick={decrement}>Decrement</button>\\n    </div>\\n  );\\n}\\n```\\n\\n3. **Selective subscription**: You can ***subscribe to specific state slices by passing a selector function*** to optimize performance\\n\\n```javascript\\nconst count = useStore(state => state.count);\\n```\\n\\nZustand supports advanced features like middleware and persistence"
 	},
 	{
 		"id": "30da1ee5-1f37-4979-a409-8412b081f118",
 		"title": "Zustand 与 Redux 的区别",
-		"content": "1. **无样板代码**：Zustand 的 ***API 更加简洁直观***，不需要定义 action types 和 reducers，状态更新直接通过函数进行\n\n2. **性能优化**：Zustand 支持选择性订阅与浅比较，可以减少不必要的更新，从而提升渲染性能\n\n3. **内置中间件**：Zustand 内置了中间件支持，如持久化、日志等，而 Redux 需要额外安装中间件库（如 redux-thunk, redux-saga）"
+		"content": "1. **无样板代码**：Zustand 的 ***API 更加简洁直观***，不需要定义 action types 和 reducers，状态更新直接通过函数进行\n\n2. **性能优化**：Zustand 支持选择性订阅与浅比较，可以减少不必要的更新，从而提升渲染性能\n\n3. **内置中间件**：Zustand 内置了中间件支持，如持久化、日志等，而 Redux 需要额外安装中间件库（如 redux-thunk, redux-saga）",
+		"title_en": "Differences between Zustand and Redux",
+		"content_en": "1. **No boilerplate code**: Zustand's ***API is more concise and intuitive***, without the need to define action types and reducers; state updates are done directly through functions\n\n2. **Performance optimization**: Zustand supports selective subscription and shallow comparison, which can reduce unnecessary updates and improve rendering performance\n\n3. **Built-in middleware**: Zustand has built-in middleware support, such as persistence and logging, while Redux requires additional middleware libraries (like redux-thunk, redux-saga)"
 	}
 ]
