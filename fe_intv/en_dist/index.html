@@ -209,6 +209,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
     <style>
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
@@ -851,7 +852,7 @@
         {
                 "id": "47a46f32-fa6c-44ad-b63b-834a5a47602c",
                 "title": "Convert [1, [2, [3, 4]], 5] to [1, 2, 3, 4, 5]",
-                "content": "Key points: recursion, reduce, concat, isArray \n\nYou can use a ***recursive function*** to flatten a nested array:\n\n```javascript\nfunction flatten(arr) {\n  return arr.reduce((acc, val) => \n        Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]\n```"
+                "content": "Key points: `recursion`, `reduce`, `concat`, `isArray` \n\nYou can use a ***recursive function*** to flatten a nested array:\n\n```javascript\nfunction flatten(arr) {\n  return arr.reduce((acc, val) => \n        Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]\n```"
         },
         {
                 "id": "9fd48ff5-bf14-4efa-9b30-7b29309ea30f",
@@ -891,17 +892,17 @@
         {
                 "id": "89f6a409-1640-48f9-a611-1a02e86f37f8",
                 "title": "Shallow Copy vs Deep Copy",
-                "content": "Shallow Copy and Deep Copy are two ways of copying objects:\n\n- Shallow Copy: Only copies the first layer of properties, nested objects still share references (e.g., Object.assign(), { ...obj })\n\n- Deep Copy: Recursively copies all levels, creating a completely independent new object (e.g., JSON.parse(JSON.stringify(obj)), recursive functions, _.cloneDeep())"
+                "content": "Shallow Copy and Deep Copy are two ways of copying objects:\n\n- Shallow Copy: Only copies the first layer of properties, nested objects still share references (e.g., `Object.assign()`, `{ ...obj }`)\n\n- Deep Copy: Recursively copies all levels, creating a completely independent new object (e.g., `JSON.parse(JSON.stringify(obj))`, recursive functions, `_.cloneDeep()`) "
         },
         {
                 "id": "2046ea8e-e784-4816-970e-a7e312984193",
                 "title": "Cross-Origin Requests",
-                "content": "Cross-origin issues arise due to browser ***same-origin policy*** restrictions, mainly for security reasons. Common solutions include:\n\n1. CORS: The most recommended method, where the server sets response headers like Access-Control-Allow-Origin to allow cross-origin requests\n\n\n2. Proxy forwarding: Using a same-origin server as a proxy to avoid browser cross-origin restrictions\n\n3. JSONP: An early solution that only supports GET, now largely obsolete\n\nAdditionally, in certain scenarios, WebSocket or postMessage can be used for cross-origin communication"
+                "content": "Cross-origin issues arise due to browser ***same-origin policy*** restrictions, mainly for security reasons. Common solutions include:\n\n1. CORS: The most recommended method, where the server sets response headers like `Access-Control-Allow-Origin` to allow cross-origin requests\n\n2. Proxy forwarding: Using a same-origin server as a proxy to avoid browser cross-origin restrictions\n\n3. JSONP: An early solution that only supports GET, now largely obsolete\n\nAdditionally, in certain scenarios, `WebSocket` or `postMessage` can be used for cross-origin communication"
         },
         {
                 "id": "f6a3dcf9-47fc-4f9b-a5ef-aabb60ace89d",
                 "title": "JavaScript Data Types",
-                "content": "JavaScript data types are divided into two main categories: ***Primitive Types and Objects***\n\n- Primitive Types: `string`, number, boolean, null, undefined, symbol, bigint. They are immutable values and are usually stored directly in the stack\n\n- Objects: Various complex data structures derived from Object, where variables store their reference addresses in the heap. Objects include plain objects, Array, Function, Date, RegExp, Set, Map, Proxy, Promise, etc. These are different built-in object types"
+                "content": "JavaScript data types are divided into two main categories: ***Primitive Types and Objects***\n\n- Primitive Types: `string`, `number`, `boolean`, `null`, `undefined`, `symbol`, `bigint`. They are immutable values and are usually stored directly in the stack\n\n- Objects: Various complex data structures derived from Object, where variables store their reference addresses in the heap. Objects include `plain objects`, `Array`, `Function`, `Date`, `RegExp`, `Set`, `Map`, `Proxy`, `Promise`, etc. These are different built-in object types"
         },
         {
                 "id": "5e336859-1c44-49c3-b8f5-cf50da9b762e",
@@ -926,12 +927,12 @@
         {
                 "id": "87c1d0e9-73f0-464c-a358-687fbf4081d2",
                 "title": "Dependencies of React useEffect",
-                "content": "The dependency array of useEffect ***determines when the side effect function is executed*** \n\n• If no dependencies are specified, the effect will execute on every render  \n\n• An empty array [] means it will only execute once when the component mounts \n\n• Specifying dependencies [a, b] means it will only execute when a or b changes \n\nIt's important to note that omitting dependencies may lead to stale state or props\n\nIf objects/functions are included in the dependencies, it may cause infinite loops, so it's common to use useCallback or useMemo to stabilize dependencies \n\nReact also provides ESLint rules to help us avoid dependency issues"
+                "content": "The dependency array of useEffect ***determines when the side effect function is executed*** \n\n• If no dependencies are specified, the effect will execute on every render  \n\n• An empty array `[]` means it will only execute once when the component mounts \n\n• Specifying dependencies `[a, b]` means it will only execute when `a` or `b` changes \n\nIt's important to note that omitting dependencies may lead to stale `state` or `props`\n\nIf objects/functions are included in the dependencies, it may cause infinite loops, so it's common to use `useCallback` or `useMemo` to stabilize dependencies \n\nReact also provides ESLint rules to help us avoid dependency issues"
         },
         {
                 "id": "9ec68b38-a687-4ac7-887e-7c7b9ac404f6",
                 "title": "What are the evolutions of React from class to function components?",
-                "content": "1. **Component form**: From class components to function components\n\n2. **State management**: From this.state and this.setState to useState\n\n3. **Lifecycle methods**: From componentDidMount, etc. to useEffect\n\n4. **Logic reuse**: From higher-order components and render props to custom hooks\n\n5. **Performance and underlying mechanisms**: From virtual DOM to Fiber architecture and concurrent mode\n\n6. **Introduction of new APIs**: Such as useMemo, useCallback, useRef, etc."
+                "content": "1. **Component form**: From class components to function components\n\n2. **State management**: From `this.state` and `this.setState` to `useState`\n\n3. **Lifecycle methods**: From `componentDidMount`, etc. to `useEffect`\n\n4. **Logic reuse**: From higher-order components and render props to custom hooks\n\n5. **Performance and underlying mechanisms**: From virtual DOM to Fiber architecture and concurrent mode\n\n6. **Introduction of new APIs**: Such as `useMemo`, `useCallback`, `useRef`, etc."
         },
         {
                 "id": "349770a5-b45c-4d80-bb2d-84bd2ea6a7a7",
@@ -976,12 +977,12 @@
         {
                 "id": "551dfec4-5e0e-45d8-a3b6-1375f34b54b3",
                 "title": "How to avoid re-rendering in function components when props do not change",
-                "content": "In function components, you can use ***`React.memo`*** to optimize component performance and avoid re-rendering when props do not change\n\n`React.memo` is a higher-order component that performs a shallow comparison of the component's props. If the props have not changed, React will skip the rendering process and reuse the previous render result. It is often used in conjunction with useCallback / useMemo to ensure that the references of the passed props remain unchanged \n\nUsage is as follows:\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // Component implementation\n});\n```\n\nAdditionally, if more complex comparison logic is needed, you can pass a custom comparison function as the second argument:\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // Component implementation\n}, (prevProps, nextProps) => {\n  // Return true if props are equal, false if not equal\n});\n```"
+                "content": "In function components, you can use ***`React.memo`*** to optimize component performance and avoid re-rendering when `props` do not change\n\n`React.memo` is a higher-order component that performs a shallow comparison of the component's `props`. If the `props` have not changed, React will skip the rendering process and reuse the previous render result. It is often used in conjunction with `useCallback` / `useMemo` to ensure that the references of the passed props remain unchanged \n\nUsage is as follows:\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // Component implementation\n});\n```\n\nAdditionally, if more complex comparison logic is needed, you can pass a custom comparison function as the second argument:\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // Component implementation\n}, (prevProps, nextProps) => {\n  // Return `true` if `props` are equal, `false` if not equal\n});\n```"
         },
         {
                 "id": "17f4257c-e407-44c9-8cec-f310cbe82104",
                 "title": "Communication between React components",
-                "content": "1. **Props passing**: Parent components ***pass data and callback functions to child components via props***, which is the most common communication method\n\n2. **Context API**: Used to pass data through the component tree without having to pass props at every level\n\n3. **State management libraries**: Such as Redux, MobX, Zustand, etc., can manage state globally and enable communication between components\n\n4. **Event system**: Custom events or third-party libraries (such as EventEmitter, mitt) can be used to implement event communication between components\n\n5. **Refs**: Refs can be used to directly access methods and properties of child components\n\n6. **Common parent component**: Communication between sibling components can be achieved by lifting state up to the nearest common parent component"
+                "content": "1. **Props passing**: Parent components ***pass data and callback functions to child components via props***, which is the most common communication method\n\n2. **Context API**: Used to pass data through the component tree without having to pass `props` at every level\n\n3. **State management libraries**: Such as `Redux`, `MobX`, `Zustand`, etc., can manage state globally and enable communication between components\n\n4. **Event system**: Custom events or third-party libraries (such as `EventEmitter`, `mitt`) can be used to implement event communication between components\n\n5. **Refs**: `Refs` can be used to directly access methods and properties of child components\n\n6. **Common parent component**: Communication between sibling components can be achieved by lifting state up to the nearest common parent component"
         },
         {
                 "id": "3301e9e8-674e-49b0-a888-017fe9bc4b52",
@@ -991,7 +992,7 @@
         {
                 "id": "30da1ee5-1f37-4979-a409-8412b081f118",
                 "title": "Differences between Zustand and Redux",
-                "content": "1. **No boilerplate code**: Zustand's ***API is more concise and intuitive***, without the need to define action types and reducers; state updates are done directly through functions\n\n2. **Performance optimization**: Zustand supports selective subscription and shallow comparison, which can reduce unnecessary updates and improve rendering performance\n\n3. **Built-in middleware**: Zustand has built-in middleware support, such as persistence and logging, while Redux requires additional middleware libraries (like redux-thunk, redux-saga)"
+                "content": "1. **No boilerplate code**: Zustand's ***API is more concise and intuitive***, without the need to define `action` `types` and `reducers`; state updates are done directly through functions\n\n2. **Performance optimization**: Zustand supports selective subscription and shallow comparison, which can reduce unnecessary updates and improve rendering performance\n\n3. **Built-in middleware**: Zustand has built-in middleware support, such as persistence and logging, while Redux requires additional middleware libraries (like `redux-thunk`, `redux-saga`)"
         }
 ];
 

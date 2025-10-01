@@ -209,6 +209,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
     <style>
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
@@ -851,7 +852,7 @@
         {
                 "id": "47a46f32-fa6c-44ad-b63b-834a5a47602c",
                 "title": "把 [1, [2, [3, 4]], 5] 转成 [1, 2, 3, 4, 5]",
-                "content": "考点：递归、reduce、concat、isArray \n\n可以使用***递归函数***来展平嵌套数组：\n\n```javascript\nfunction flatten(arr) {\n  return arr.reduce((acc, val) => \n    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]\n```"
+                "content": "考点：`递归`、`reduce`、`concat`、`isArray` \n\n可以使用***递归函数***来展平嵌套数组：\n\n```javascript\nfunction flatten(arr) {\n  return arr.reduce((acc, val) => \n    Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val), []);\n}\nconsole.log(flatten([1, [2, [3, 4]], 5])); // [1, 2, 3, 4, 5]\n```"
         },
         {
                 "id": "9fd48ff5-bf14-4efa-9b30-7b29309ea30f",
@@ -891,17 +892,17 @@
         {
                 "id": "89f6a409-1640-48f9-a611-1a02e86f37f8",
                 "title": "浅拷贝 vs 深拷贝",
-                "content": "浅拷贝（Shallow Copy）和深拷贝（Deep Copy）是两种对象复制方式：\n\n- 浅拷贝：只复制第一层属性，嵌套对象仍共享引用（如 Object.assign()、{ ...obj }）\n\n- 深拷贝：递归复制所有层级，生成完全独立的新对象（如 JSON.parse(JSON.stringify(obj))、递归函数、_.cloneDeep()）"
+                "content": "浅拷贝（Shallow Copy）和深拷贝（Deep Copy）是两种对象复制方式：\n\n- 浅拷贝：只复制第一层属性，嵌套对象仍共享引用（如 `Object.assign()`、`{ ...obj }`）\n\n- 深拷贝：递归复制所有层级，生成完全独立的新对象（如 `JSON.parse(JSON.stringify(obj))`、递归函数、`_.cloneDeep()`）"
         },
         {
                 "id": "2046ea8e-e784-4816-970e-a7e312984193",
                 "title": "跨域请求",
-                "content": "跨域是因为浏览器的***同源策略***限制引起的，主要是出于安全考虑。常见解决方式：\n\n1. CORS：最推荐的方式，服务端设置 Access-Control-Allow-Origin 等响应头来允许跨域请求\n\n2. 代理转发：通过同源服务器做代理，避免浏览器跨域限制\n\n3. JSONP：早期方案，只支持 GET，已基本淘汰\n\n另外，某些场景下还会用 WebSocket 或 postMessage 来做跨域通信"
+                "content": "跨域是因为浏览器的***同源策略***限制引起的，主要是出于安全考虑。常见解决方式：\n\n1. CORS：最推荐的方式，服务端设置 `Access-Control-Allow-Origin` 等响应头来允许跨域请求\n\n2. 代理转发：通过同源服务器做代理，避免浏览器跨域限制\n\n3. JSONP：早期方案，只支持 GET，已基本淘汰\n\n另外，某些场景下还会用 `WebSocket` 或 `postMessage` 来做跨域通信"
         },
         {
                 "id": "f6a3dcf9-47fc-4f9b-a5ef-aabb60ace89d",
                 "title": "JavaScript 的数据类型",
-                "content": "JavaScript 的数据类型分为两大类：***原始类型（Primitive Types） 和 对象（Objects）***\n\n- 原始类型：`string`、number、boolean、null、undefined、symbol、bigint，它们是不可变的值，通常直接存储在栈中\n\n- 对象：由 Object 派生的各种复杂数据结构，变量保存的是其在堆中的引用地址。对象包括普通对象、Array、Function、Date、RegExp、Set、Map、Proxy、Promise 等。这些是不同的内置对象类型"
+                "content": "JavaScript 的数据类型分为两大类：***原始类型（Primitive Types） 和 对象（Objects）***\n\n- 原始类型：`string`、`number`、`boolean`、`null`、`undefined`、`symbol`、`bigint`，它们是不可变的值，通常直接存储在栈中\n\n- 对象：由 Object 派生的各种复杂数据结构，变量保存的是其在堆中的引用地址。对象包括`普通对象`、`Array`、`Function`、`Date`、`RegExp`、`Set`、`Map`、`Proxy`、`Promise` 等。这些是不同的内置对象类型"
         },
         {
                 "id": "5e336859-1c44-49c3-b8f5-cf50da9b762e",
@@ -926,12 +927,12 @@
         {
                 "id": "87c1d0e9-73f0-464c-a358-687fbf4081d2",
                 "title": "React useEffect 的依赖项",
-                "content": "useEffect 的依赖数组***决定了副作用函数什么时候执行*** \n\n• 如果不写依赖，effect 每次渲染都会执行  \n\n• 写空数组 []，只会在组件挂载时执行一次 \n\n• 写了依赖项 [a, b]，只有当 a 或 b 发生变化时才执行 \n\n需要注意的是，如果漏写依赖，可能导致拿到过期的 state 或 props\n\n如果依赖里放了对象/函数，又可能造成无限循环，所以通常要结合 useCallback、useMemo 来稳定依赖 \n\nReact 官方也提供了 ESLint 规则来帮助我们避免依赖项出错"
+                "content": "useEffect 的依赖数组***决定了副作用函数什么时候执行*** \n\n• 如果不写依赖，effect 每次渲染都会执行  \n\n• 写空数组 `[]`，只会在组件挂载时执行一次 \n\n• 写了依赖项 `[a, b]`，只有当 a 或 b 发生变化时才执行 \n\n需要注意的是，如果漏写依赖，可能导致拿到过期的 `state` 或 `props`\n\n如果依赖里放了对象/函数，又可能造成无限循环，所以通常要结合 `useCallback`、`useMemo` 来稳定依赖 \n\nReact 官方也提供了 ESLint 规则来帮助我们避免依赖项出错"
         },
         {
                 "id": "9ec68b38-a687-4ac7-887e-7c7b9ac404f6",
                 "title": "React 从 class 到函数组件，有哪些演进？",
-                "content": "1. **组件形式上**，从 class 组件到函数组件\n\n2. **状态管理**，从 this.state 和 this.setState 到 useState\n\n3. **生命周期方法**，从 componentDidMount 等到 useEffect\n\n4. **逻辑复用**，从高阶组件和 render props 到自定义 hooks\n\n5. **性能与底层机制**，从虚拟 DOM 到 Fiber 架构，并发模式\n\n6. **新 API 的引入**，如 useMemo, useCallback, useRef 等"
+                "content": "1. **组件形式上**，从 class 组件到函数组件\n\n2. **状态管理**，从 `this.state` 和 `this.setState` 到 `useState`\n\n3. **生命周期方法**，从 `componentDidMount` 等到 `useEffect`\n\n4. **逻辑复用**，从高阶组件和 render props 到自定义 hooks\n\n5. **性能与底层机制**，从虚拟 DOM 到 Fiber 架构，并发模式\n\n6. **新 API 的引入**，如 `useMemo`、`useCallback`、`useRef` 等"
         },
         {
                 "id": "349770a5-b45c-4d80-bb2d-84bd2ea6a7a7",
@@ -976,12 +977,12 @@
         {
                 "id": "551dfec4-5e0e-45d8-a3b6-1375f34b54b3",
                 "title": "函数组件如何在 props 不变的情况下避免重新渲染",
-                "content": "在函数组件中，可以使用 ***`React.memo`*** 来实现组件的性能优化，从而在 props 不变的情况下避免重新渲染\n\n`React.memo` 是一个高阶组件，它会对组件的 props 进行浅比较，如果 props 没有变化，React 会跳过渲染过程，直接复用上一次的渲染结果。搭配 useCallback / useMemo 保证传递的 props 引用不变  \n\n使用方法如下：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n});\n```\n\n此外，如果需要更复杂的比较逻辑，可以传递一个自定义的比较函数作为第二个参数：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n}, (prevProps, nextProps) => {\n  // 返回 true 表示 props 相等，false 表示不相等\n});\n```"
+                "content": "在函数组件中，可以使用 ***`React.memo`*** 来实现组件的性能优化，从而在 props 不变的情况下避免重新渲染\n\n`React.memo` 是一个高阶组件，它会对组件的 `props` 进行浅比较，如果 `props` 没有变化，React 会跳过渲染过程，直接复用上一次的渲染结果。搭配 `useCallback` / `useMemo` 保证传递的 `props` 引用不变  \n\n使用方法如下：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n});\n```\n\n此外，如果需要更复杂的比较逻辑，可以传递一个自定义的比较函数作为第二个参数：\n\n```javascript\nconst MyComponent = React.memo(function MyComponent(props) {\n  // 组件实现\n}, (prevProps, nextProps) => {\n  // 返回 `true` 表示 `props` `相等，false` 表示不相等\n});\n```"
         },
         {
                 "id": "17f4257c-e407-44c9-8cec-f310cbe82104",
                 "title": "React 组件间通信",
-                "content": "1. **Props 传递**：父组件***通过 props 向子组件传递数据和回调函数***，这是最常见的通信方式\n\n2. **Context API**：用于在组件树中传递数据，而不必通过每一级组件的 props\n\n3. **状态管理库**：如 Redux、MobX、Zustand 等，可以在全局范围内管理状态，实现跨组件通信\n\n4. **事件系统**：可以使用自定义事件或第三方库（如 EventEmitter, mitt）来实现组件间的事件通信\n\n5. **Refs**：通过 refs 可以直接访问子组件的方法和属性\n\n6. **共同的父组件**：通过提升状态到最近的共同父组件，实现兄弟组件间的通信 "
+                "content": "1. **Props 传递**：父组件***通过 props 向子组件传递数据和回调函数***，这是最常见的通信方式\n\n2. **Context API**：用于在组件树中传递数据，而不必通过每一级组件的 `props`\n\n3. **状态管理库**：如 `Redux`、`MobX`、`Zustand` 等，可以在全局范围内管理状态，实现跨组件通信\n\n4. **事件系统**：可以使用自定义事件或第三方库（如 `EventEmitter`, `mitt`）来实现组件间的事件通信\n\n5. **Refs**：通过 `refs` 可以直接访问子组件的方法和属性\n\n6. **共同的父组件**：通过提升状态到最近的共同父组件，实现兄弟组件间的通信 "
         },
         {
                 "id": "3301e9e8-674e-49b0-a888-017fe9bc4b52",
@@ -991,7 +992,7 @@
         {
                 "id": "30da1ee5-1f37-4979-a409-8412b081f118",
                 "title": "Zustand 与 Redux 的区别",
-                "content": "1. **无样板代码**：Zustand 的 ***API 更加简洁直观***，不需要定义 action types 和 reducers，状态更新直接通过函数进行\n\n2. **性能优化**：Zustand 支持选择性订阅与浅比较，可以减少不必要的更新，从而提升渲染性能\n\n3. **内置中间件**：Zustand 内置了中间件支持，如持久化、日志等，而 Redux 需要额外安装中间件库（如 redux-thunk, redux-saga）"
+                "content": "1. **无样板代码**：Zustand 的 ***API 更加简洁直观***，不需要定义 `action` `types` 和 `reducers`，状态更新直接通过函数进行\n\n2. **性能优化**：Zustand 支持选择性订阅与浅比较，可以减少不必要的更新，从而提升渲染性能\n\n3. **内置中间件**：Zustand 内置了中间件支持，如持久化、日志等，而 Redux 需要额外安装中间件库（如 `redux-thunk`、`redux-saga`）"
         }
 ];
 
