@@ -487,7 +487,6 @@
                 background-color: #f1f5f9;
                 color: #1e293b;
                 border-color: #e2e8f0;
-                transform: translateX(4px);
             }
 
             .drawer-item.primary {
@@ -499,7 +498,6 @@
             .drawer-item.primary:hover {
                 background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
                 color: white;
-                transform: translateX(4px);
             }
 
             .drawer-item-icon {
@@ -681,8 +679,7 @@
                 <!-- 语言切换 -->
                 <div class="drawer-item" onclick="toggleLanguageMenu()">
                     <div class="drawer-item-icon">🌐</div>
-                    <span>语言 / Language</span>
-                    <div class="ml-auto">
+                    <div class="flex items-center">
                         <span id="drawerCurrentLang">中文</span>
                         <svg class="w-4 h-4 inline ml-1 transition-transform duration-200" id="drawerLangArrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
