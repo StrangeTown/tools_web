@@ -81,6 +81,25 @@
       console.log('HTML2Canvas loaded asynchronously');
     };
     document.head.appendChild(html2canvasScript);
+
+    // Load i18next for internationalization
+    window.i18nextLoaded = false;
+    const i18nextScript = document.createElement('script');
+    i18nextScript.src = 'https://cdn.jsdelivr.net/npm/i18next@23.7.6/i18next.min.js';
+    i18nextScript.onload = function() {
+      // Load browser language detector
+      const detectorScript = document.createElement('script');
+      detectorScript.src = 'https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@7.2.0/i18nextBrowserLanguageDetector.min.js';
+      detectorScript.onload = function() {
+        window.i18nextLoaded = true;
+        console.log('i18next loaded asynchronously');
+        if (window.initI18n) {
+          window.initI18n();
+        }
+      };
+      document.head.appendChild(detectorScript);
+    };
+    document.head.appendChild(i18nextScript);
   </script>
   
   <!-- Structured Data (JSON-LD) for SEO -->
@@ -855,15 +874,15 @@
 
 <body>
   <div class="container">
-    <h1>⚖️ Weight Tracker</h1>
-    <p class="tagline">
+    <h1 data-i18n="nav.todayWeight">⚖️ Weight Tracker</h1>
+    <p class="tagline" data-i18n="nav.tagline">
       Track your body weight progress with simple daily input<br>
       Export progress images • Your data stays private in your browser
     </p>
     
     <!-- Quick Input -->
     <div class="quick-input">
-      <h3>Today's Weight <span id="currentUserName" style="font-weight: normal; color: #6b7280; cursor: pointer; transition: opacity 0.2s; font-size: 0.8em; font-style: italic;" onclick="openUserManagement()" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">(Default User)</span></h3>
+      <h3 data-i18n="nav.todayWeight">Today's Weight <span id="currentUserName" style="font-weight: normal; color: #6b7280; cursor: pointer; transition: opacity 0.2s; font-size: 0.8em; font-style: italic;" onclick="openUserManagement()" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">(Default User)</span></h3>
       <div class="weight-input-group">
         <input type="number" 
                id="weightInput" 
@@ -878,7 +897,7 @@
           <button class="unit-btn" data-unit="lbs">lbs</button>
         </div>
         
-        <button class="add-btn" onclick="addWeight()">Add Entry</button>
+        <button class="add-btn" onclick="addWeight()" data-i18n="nav.addEntry">Add Entry</button>
       </div>
     </div>
     
@@ -886,19 +905,19 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-value" id="currentWeight">--</div>
-        <div class="stat-label">Current Weight</div>
+        <div class="stat-label" data-i18n="stats.currentWeight">Current Weight</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="startWeight">--</div>
-        <div class="stat-label">Starting Weight</div>
+        <div class="stat-label" data-i18n="stats.startingWeight">Starting Weight</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="totalChange">--</div>
-        <div class="stat-label">Total Change</div>
+        <div class="stat-label" data-i18n="stats.totalChange">Total Change</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="totalEntries">0</div>
-        <div class="stat-label">Total Entries</div>
+        <div class="stat-label" data-i18n="stats.totalEntries">Total Entries</div>
       </div>
     </div>
     
@@ -918,7 +937,7 @@
     
     <!-- Recent Entries -->
     <div class="recent-entries">
-      <h3>Recent Entries</h3>
+      <h3 data-i18n="nav.recentEntries">Recent Entries</h3>
       <div id="entriesList">
         <div class="empty-state">
           <div class="empty-state-icon">📊</div>
@@ -1064,7 +1083,7 @@
   <div id="userManagementModal" class="modal" onclick="closeUserManagement()">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-header">
-        <h2 class="modal-title">User Management</h2>
+        <h2 class="modal-title" data-i18n="nav.userManagement">User Management</h2>
         <button class="close-btn" onclick="closeUserManagement()">&times;</button>
       </div>
       
@@ -1079,18 +1098,18 @@
   <div id="settingsModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 class="modal-title">Settings</h2>
+        <h2 class="modal-title" data-i18n="nav.settings">Settings</h2>
         <button class="close-btn" onclick="closeSettings()">&times;</button>
       </div>
       
       <div class="modal-section">
-        <div class="section-title">Export Data</div>
+        <div class="section-title" data-i18n="settings.exportCsv">Export Data</div>
         <div class="section-description">Download your weight data as a CSV file for backup or analysis.</div>
         <button class="modal-btn" onclick="exportData()">📥 Export CSV</button>
       </div>
       
       <div class="modal-section">
-        <div class="section-title">Export Image</div>
+        <div class="section-title" data-i18n="settings.exportImage">Export Image</div>
         <div class="section-description">Download a snapshot of your weight statistics and chart as an image.</div>
         <button class="modal-btn" onclick="exportImage()">📸 Export Image</button>
       </div>
@@ -1108,12 +1127,21 @@
                  style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
           <span id="targetUnit" style="padding: 10px; background: #f3f4f6; border-radius: 6px; font-size: 14px; color: #374151;">kg</span>
         </div>
-        <button class="modal-btn" onclick="setTargetWeight()">🎯 Set Target</button>
-        <button class="modal-btn" onclick="clearTargetWeight()" style="background: #6b7280;">❌ Clear Target</button>
+        <button class="modal-btn" onclick="setTargetWeight()" data-i18n="settings.setTarget">🎯 Set Target</button>
+        <button class="modal-btn" onclick="clearTargetWeight()" style="background: #6b7280;" data-i18n="settings.clearTarget">❌ Clear Target</button>
       </div>
       
       <div class="modal-section">
-        <div class="section-title">Clear Data</div>
+        <div class="section-title">Language / 语言</div>
+        <div class="section-description">Choose your preferred language for the interface.</div>
+        <div style="display: flex; gap: 10px;">
+          <button class="modal-btn" onclick="changeLanguage('en')" style="flex: 1;">🇺🇸 English</button>
+          <button class="modal-btn" onclick="changeLanguage('zh')" style="flex: 1;">🇨🇳 中文</button>
+        </div>
+      </div>
+      
+      <div class="modal-section">
+        <div class="section-title" data-i18n="settings.clearAllData">Clear Data</div>
         <div class="section-description">Permanently delete all your weight entries. This action cannot be undone.</div>
         <button class="modal-btn danger" onclick="clearAllData()">🗑️ Clear All Data</button>
       </div>
@@ -1139,6 +1167,198 @@
     // User Management Variables
     let users = [];
     let activeUserId = null;
+
+    // i18n Initialization
+    window.initI18n = function() {
+      // Get saved language from localStorage, fallback to browser detection
+      const savedLanguage = localStorage.getItem('weightTrackerLanguage');
+      
+      i18next
+        .use(i18nextBrowserLanguageDetector)
+        .init({
+          lng: savedLanguage || 'en', // Use saved language if available
+          fallbackLng: 'en',
+          resources: {
+            en: {
+              translation: {
+                nav: {
+                  todayWeight: "Today's Weight",
+                  addEntry: "Add Entry",
+                  userManagement: "User Management",
+                  settings: "Settings",
+                  recentEntries: "Recent Entries",
+                  tagline: "Track your body weight progress with simple daily input<br>Export progress images • Your data stays private in your browser"
+                },
+                stats: {
+                  currentWeight: "Current Weight",
+                  startingWeight: "Starting Weight", 
+                  totalChange: "Total Change",
+                  totalEntries: "Total Entries"
+                },
+                user: {
+                  defaultUser: "Default User",
+                  active: "(Active)",
+                  activate: "Activate",
+                  delete: "Delete",
+                  addNewUser: "Add New User",
+                  enterUsername: "Enter username",
+                  add: "Add",
+                  maxUsers: "Maximum of 5 users allowed. Please delete an existing user before adding a new one.",
+                  confirmDelete: "Are you sure you want to delete user \"{{name}}\" and all their weight records? This action cannot be undone.",
+                  defaultCannotDelete: "Default user cannot be deleted",
+                  userList: "User List"
+                },
+                settings: {
+                  exportCsv: "Export CSV",
+                  exportImage: "Export Image",
+                  setTarget: "Set Target",
+                  clearTarget: "Clear Target",
+                  clearAllData: "Clear All Data",
+                  confirmClear: "Are you sure you want to clear all weight data for the current user? This action cannot be undone."
+                },
+                messages: {
+                  enterValidWeight: "Please enter a valid weight!",
+                  dataExported: "Data exported successfully!",
+                  targetSet: "Target weight set successfully!",
+                  targetCleared: "Target weight cleared!",
+                  dataCleared: "All data for the current user has been cleared.",
+                  noData: "No data to export!",
+                  updateEntry: "You already have an entry for today. Do you want to update it?",
+                  enterValidUsername: "Please enter a username",
+                  usernameExists: "Username already exists, please choose a different name"
+                }
+              }
+            },
+            zh: {
+              translation: {
+                nav: {
+                  todayWeight: "今日体重",
+                  addEntry: "添加记录",
+                  userManagement: "用户管理",
+                  settings: "设置",
+                  recentEntries: "最近记录",
+                  tagline: "通过简单的每日输入跟踪您的体重进展<br>导出进展图片 • 您的数据保存在浏览器中"
+                },
+                stats: {
+                  currentWeight: "当前体重",
+                  startingWeight: "起始体重",
+                  totalChange: "总变化", 
+                  totalEntries: "总条目"
+                },
+                user: {
+                  defaultUser: "默认用户",
+                  active: "(激活)",
+                  activate: "激活",
+                  delete: "删除",
+                  addNewUser: "添加新用户",
+                  enterUsername: "输入用户名",
+                  add: "添加",
+                  maxUsers: "最多允许5个用户。请删除现有用户后再添加新用户。",
+                  confirmDelete: "确定要删除用户\"{{name}}\"及其所有体重记录吗？此操作不可撤销。",
+                  defaultCannotDelete: "默认用户不能被删除",
+                  userList: "用户列表"
+                },
+                settings: {
+                  exportCsv: "导出CSV",
+                  exportImage: "导出图片",
+                  setTarget: "设置目标",
+                  clearTarget: "清除目标",
+                  clearAllData: "清除所有数据",
+                  confirmClear: "确定要清除当前用户的所有体重数据吗？此操作不可撤销。"
+                },
+                messages: {
+                  enterValidWeight: "请输入有效的体重！",
+                  dataExported: "数据导出成功！",
+                  targetSet: "目标体重设置成功！",
+                  targetCleared: "目标体重已清除！",
+                  dataCleared: "当前用户的所有数据已被清除。",
+                  noData: "没有数据可导出！",
+                  updateEntry: "您今天已有记录。是否要更新它？",
+                  enterValidUsername: "请输入用户名",
+                  usernameExists: "用户名已存在，请选择其他名称"
+                }
+              }
+            }
+          },
+          detection: {
+            order: ['navigator'], // Only use navigator, we'll handle localStorage manually
+            caches: [] // Don't cache automatically, we handle it manually
+          }
+        }, function(err, t) {
+          if (err) console.error('i18next init error:', err);
+          updatePageText();
+        });
+    };
+
+    // Function to update all page text
+    function updatePageText() {
+      if (!window.i18nextLoaded) return;
+      
+      // Update elements with data-i18n attributes
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const translation = i18next.t(key);
+        
+        // Special handling for elements that contain HTML
+        if (key === 'nav.tagline') {
+          element.innerHTML = translation;
+        } else {
+          element.textContent = translation;
+        }
+      });
+      
+      // Update title
+      document.title = i18next.t('nav.todayWeight') + ' - Track Your Body Weight Progress with Charts';
+      
+      // Update main heading
+      const mainHeading = document.querySelector('h1');
+      if (mainHeading) {
+        mainHeading.textContent = '⚖️ ' + i18next.t('nav.todayWeight').replace("Today's Weight", "Weight Tracker");
+      }
+      
+      // Update today's weight title
+      const todayWeightTitle = document.querySelector('h3');
+      if (todayWeightTitle && todayWeightTitle.textContent.includes("Today's Weight")) {
+        const userSpan = todayWeightTitle.querySelector('#currentUserName');
+        todayWeightTitle.innerHTML = i18next.t('nav.todayWeight') + (userSpan ? userSpan.outerHTML : '');
+      }
+      
+      // Update buttons
+      const addBtn = document.querySelector('.add-btn');
+      if (addBtn) {
+        addBtn.textContent = i18next.t('nav.addEntry');
+      }
+      
+      // Update settings button title
+      const settingsBtn = document.querySelector('.settings-btn');
+      if (settingsBtn) {
+        settingsBtn.title = i18next.t('nav.settings');
+      }
+      
+      // Update user button title
+      const userBtn = document.querySelector('.user-btn');
+      if (userBtn) {
+        userBtn.title = i18next.t('nav.userManagement');
+      }
+    }
+
+    // Function to change language
+    function changeLanguage(lng) {
+      if (!window.i18nextLoaded) return;
+      i18next.changeLanguage(lng, function(err, t) {
+        if (err) console.error(err);
+        // Save language preference to localStorage
+        localStorage.setItem('weightTrackerLanguage', lng);
+        updatePageText();
+        // Re-render modals if open
+        if (document.getElementById('settingsModal').style.display === 'flex') {
+          // Re-render settings modal content if needed
+        }
+        if (document.getElementById('userManagementModal').style.display === 'flex') {
+          renderUserManagement();
+        }
+      });
+    }
     
     // Generate UUID function
     function generateUUID() {
@@ -1199,17 +1419,17 @@
     // Add new user
     function addUser(name) {
       if (!name.trim()) {
-        alert('Please enter a username');
+        alert(i18next.t('messages.enterValidUsername'));
         return;
       }
       
       if (users.some(user => user.name === name.trim())) {
-        alert('Username already exists, please choose a different name');
+        alert(i18next.t('messages.usernameExists'));
         return;
       }
       
       if (users.length >= 5) {
-        alert('Maximum of 5 users allowed. Please delete an existing user before adding a new one.');
+        alert(i18next.t('user.maxUsers'));
         return;
       }
       
@@ -1231,11 +1451,11 @@
       if (!user) return;
       
       if (user.name === 'Default User') {
-        alert('Default user cannot be deleted');
+        alert(i18next.t('user.defaultCannotDelete'));
         return;
       }
       
-      if (!confirm(`Are you sure you want to delete user "${user.name}" and all their weight records? This action cannot be undone.`)) {
+      if (!confirm(i18next.t('user.confirmDelete', { name: user.name }))) {
         return;
       }
       
@@ -1287,7 +1507,7 @@
       const modalSection = document.querySelector('#userManagementModal .modal-section');
       const activeUser = getActiveUser();
       
-      let html = '<div class="section-title">User List</div>';
+      let html = `<div class="section-title">${i18next.t('user.userList')}</div>`;
       
       users.forEach(user => {
         const isActive = user.id === activeUserId;
@@ -1297,23 +1517,23 @@
           <div class="user-item ${isActive ? 'active' : ''}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; margin: 5px 0; border: 1px solid #e2e8f0; border-radius: 6px; background: ${isActive ? '#f0f9ff' : '#ffffff'};">
             <div style="display: flex; align-items: center; gap: 10px;">
               <span style="font-weight: ${isActive ? 'bold' : 'normal'};">${user.name}</span>
-              ${isActive ? '<span style="color: #10b981; font-size: 12px;">(Active)</span>' : ''}
+              ${isActive ? `<span style="color: #10b981; font-size: 12px;">${i18next.t('user.active')}</span>` : ''}
             </div>
             <div style="display: flex; gap: 5px;">
-              ${!isActive ? `<button class="modal-btn user-action-btn" onclick="switchUser('${user.id}')">Activate</button>` : ''}
-              ${!isDefault ? `<button class="modal-btn danger user-action-btn" onclick="deleteUser('${user.id}')">Delete</button>` : ''}
+              ${!isActive ? `<button class="modal-btn user-action-btn" onclick="switchUser('${user.id}')">${i18next.t('user.activate')}</button>` : ''}
+              ${!isDefault ? `<button class="modal-btn danger user-action-btn" onclick="deleteUser('${user.id}')">${i18next.t('user.delete')}</button>` : ''}
             </div>
           </div>
         `;
       });
       
       html += `
-        <div class="section-title" style="margin-top: 20px;">Add New User (${users.length}/5)</div>
+        <div class="section-title" style="margin-top: 20px;">${i18next.t('user.addNewUser')} (${users.length}/5)</div>
         <div style="display: flex; gap: 10px; margin-top: 10px;">
-          <input type="text" id="newUserName" placeholder="Enter username" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;" maxlength="20" ${users.length >= 5 ? 'disabled' : ''}>
-          <button class="modal-btn" onclick="addUser(document.getElementById('newUserName').value); document.getElementById('newUserName').value = '';" ${users.length >= 5 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>➕ Add</button>
+          <input type="text" id="newUserName" placeholder="${i18next.t('user.enterUsername')}" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;" maxlength="20" ${users.length >= 5 ? 'disabled' : ''}>
+          <button class="modal-btn" onclick="addUser(document.getElementById('newUserName').value); document.getElementById('newUserName').value = '';" ${users.length >= 5 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>➕ ${i18next.t('user.add')}</button>
         </div>
-        ${users.length >= 5 ? '<p style="color: #6b7280; font-size: 12px; margin-top: 5px;">Maximum user limit reached. Delete a user to add a new one.</p>' : ''}
+        ${users.length >= 5 ? `<p style="color: #6b7280; font-size: 12px; margin-top: 5px;">${i18next.t('user.maxUsers')}</p>` : ''}
       `;
       
       modalSection.innerHTML = html;
@@ -1617,7 +1837,7 @@
       const weight = parseFloat(weightInput.value);
 
       if (!weight || weight <= 0) {
-        alert('Please enter a valid weight!');
+        alert(i18n.t('messages.enterValidWeight'));
         return;
       }
 
@@ -1627,7 +1847,7 @@
       const existingIndex = weightEntries.findIndex(entry => entry.date === today);
       
       if (existingIndex !== -1) {
-        if (confirm('You already have an entry for today. Do you want to update it?')) {
+        if (confirm(i18n.t('messages.updateTodayEntry'))) {
           weightEntries[existingIndex] = {
             date: today,
             weight: weight,
