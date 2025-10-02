@@ -1129,12 +1129,11 @@
       </div>
       
       <div class="modal-section">
-        <div class="section-title" data-i18n="settings.language">Language / 语言</div>
+        <div class="section-title" data-i18n="settings.language">Language</div>
         <div class="section-description" data-i18n="settings.languageDesc">Choose your preferred language for the interface.</div>
-        <div style="display: flex; gap: 10px;">
-          <button class="modal-btn" onclick="changeLanguage('en')" style="flex: 1;" data-i18n="settings.english">🇺🇸 English</button>
-          <button class="modal-btn" onclick="changeLanguage('zh')" style="flex: 1;" data-i18n="settings.chinese">🇨🇳 中文</button>
-        </div>
+        <select id="languageSelect" onchange="changeLanguage(this.value)" style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; background: white;">
+          <!-- Language options will be populated by JavaScript -->
+        </select>
       </div>
       
       <div class="modal-section">
@@ -1164,6 +1163,14 @@
     // User Management Variables
     let users = [];
     let activeUserId = null;
+
+    // Language options configuration (universal across all languages)
+    const languageOptions = {
+      en: { flag: '🇺🇸', name: 'English' },
+      zh: { flag: '🇨🇳', name: '中文' },
+      ja: { flag: '🇯🇵', name: '日本語' },
+      ko: { flag: '🇰🇷', name: '한국어' }
+    };
 
     // i18n Initialization
     window.initI18n = function() {
@@ -1217,8 +1224,6 @@
                   clearTarget: "Clear Target",
                   language: "Language",
                   languageDesc: "Choose your preferred language for the interface.",
-                  english: "🇺🇸 English",
-                  chinese: "🇨🇳 中文",
                   clearAllData: "Clear All Data",
                   clearDataDesc: "Permanently delete all your weight entries. This action cannot be undone.",
                   confirmClear: "Are you sure you want to clear all weight data for the current user? This action cannot be undone.",
@@ -1279,8 +1284,6 @@
                   clearTarget: "清除目标",
                   language: "语言",
                   languageDesc: "选择您偏好的界面语言。",
-                  english: "🇺🇸 英文",
-                  chinese: "🇨🇳 中文",
                   clearAllData: "清除所有数据",
                   clearDataDesc: "永久删除您的所有体重记录。此操作无法撤销。",
                   confirmClear: "确定要清除当前用户的所有体重数据吗？此操作不可撤销。",
@@ -1297,6 +1300,130 @@
                   enterValidUsername: "请输入用户名",
                   usernameExists: "用户名已存在，请选择其他名称",
                   enterValidTargetWeight: "请输入有效的目标体重！"
+                }
+              }
+            },
+            ja: {
+              translation: {
+                nav: {
+                  todayWeight: "今日の体重",
+                  addEntry: "記録を追加",
+                  userManagement: "ユーザー管理",
+                  settings: "設定",
+                  recentEntries: "最近の記録",
+                  tagline: "シンプルな毎日の入力で体重の進捗を追跡<br>進捗画像をエクスポート • データはブラウザに保存されます"
+                },
+                stats: {
+                  currentWeight: "現在の体重",
+                  startingWeight: "開始体重",
+                  totalChange: "総変化",
+                  totalEntries: "総エントリー"
+                },
+                user: {
+                  defaultUser: "デフォルトユーザー",
+                  active: "(アクティブ)",
+                  activate: "アクティブ化",
+                  delete: "削除",
+                  addNewUser: "新規ユーザーを追加",
+                  enterUsername: "ユーザー名を入力",
+                  add: "追加",
+                  maxUsers: "ユーザーは最大5人まで許可されます。新しいユーザーを追加する前に既存のユーザーを削除してください。",
+                  confirmDelete: "ユーザー「{{name}}」とその体重記録をすべて削除してもよろしいですか？この操作は元に戻せません。",
+                  defaultCannotDelete: "デフォルトユーザーは削除できません",
+                  userList: "ユーザーリスト"
+                },
+                settings: {
+                  exportCsv: "データをエクスポート",
+                  exportCsvDesc: "体重データをCSVファイルとしてダウンロードします。",
+                  exportImage: "画像をエクスポート",
+                  exportImageDesc: "体重チャートを画像としてダウンロードします。",
+                  targetWeight: "目標体重",
+                  targetWeightDesc: "チャートに基準線を表示するために目標体重を設定します。",
+                  enterTargetWeight: "目標体重を入力",
+                  setTarget: "目標を設定",
+                  clearTarget: "目標をクリア",
+                  language: "言語",
+                  languageDesc: "インターフェースに適した言語を選択してください。",
+                  clearAllData: "すべてのデータをクリア",
+                  clearDataDesc: "すべての体重エントリを永久に削除します。この操作は元に戻せません。",
+                  confirmClear: "現在のユーザーのすべての体重データをクリアしてもよろしいですか？この操作は元に戻せません。",
+                  confirmClearTarget: "目標体重をクリアしてもよろしいですか？"
+                },
+                messages: {
+                  enterValidWeight: "有効な体重を入力してください！",
+                  dataExported: "データのエクスポートが成功しました！",
+                  targetSet: "目標体重が正常に設定されました！",
+                  targetCleared: "目標体重がクリアされました！",
+                  dataCleared: "現在のユーザーのすべてのデータがクリアされました。",
+                  noData: "エクスポートするデータがありません！",
+                  updateEntry: "今日のエントリが既にあります。更新しますか？",
+                  enterValidUsername: "ユーザー名を入力してください",
+                  usernameExists: "ユーザー名が既に存在します。別の名前を選択してください",
+                  enterValidTargetWeight: "有効な目標体重を入力してください！"
+                }
+              }
+            },
+            ko: {
+              translation: {
+                nav: {
+                  todayWeight: "오늘의 체중",
+                  addEntry: "기록 추가",
+                  userManagement: "사용자 관리",
+                  settings: "설정",
+                  recentEntries: "최근 기록",
+                  tagline: "간단한 매일 입력으로 체중 진행 상황을 추적<br>진행 이미지 내보내기 • 데이터는 브라우저에 저장됩니다"
+                },
+                stats: {
+                  currentWeight: "현재 체중",
+                  startingWeight: "시작 체중",
+                  totalChange: "총 변화",
+                  totalEntries: "총 항목"
+                },
+                user: {
+                  defaultUser: "기본 사용자",
+                  active: "(활성)",
+                  activate: "활성화",
+                  delete: "삭제",
+                  addNewUser: "새 사용자 추가",
+                  enterUsername: "사용자 이름 입력",
+                  add: "추가",
+                  maxUsers: "사용자는 최대 5명까지 허용됩니다. 새 사용자를 추가하기 전에 기존 사용자를 삭제하십시오.",
+                  confirmDelete: "사용자「{{name}}」와 모든 체중 기록을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+                  defaultCannotDelete: "기본 사용자는 삭제할 수 없습니다",
+                  userList: "사용자 목록"
+                },
+                settings: {
+                  exportCsv: "데이터 내보내기",
+                  exportCsvDesc: "체중 데이터를 CSV 파일로 다운로드합니다.",
+                  exportImage: "이미지 내보내기",
+                  exportImageDesc: "체중 차트를 이미지로 다운로드합니다.",
+                  targetWeight: "목표 체중",
+                  targetWeightDesc: "차트에 기준선을 표시하기 위해 목표 체중을 설정합니다.",
+                  enterTargetWeight: "목표 체중 입력",
+                  setTarget: "목표 설정",
+                  clearTarget: "목표 지우기",
+                  language: "언어",
+                  languageDesc: "인터페이스에 선호하는 언어를 선택하세요.",
+                  english: "🇺🇸 English",
+                  chinese: "🇨🇳 中文",
+                  japanese: "🇯🇵 日本語",
+                  korean: "🇰🇷 한국어",
+                  clearAllData: "모든 데이터 지우기",
+                  clearDataDesc: "모든 체중 항목을 영구적으로 삭제합니다. 이 작업은 되돌릴 수 없습니다.",
+                  confirmClear: "현재 사용자의 모든 체중 데이터를 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+                  confirmClearTarget: "목표 체중을 지우시겠습니까?"
+                },
+                messages: {
+                  enterValidWeight: "유효한 체중을 입력하세요!",
+                  dataExported: "데이터 내보내기가 성공했습니다!",
+                  targetSet: "목표 체중이 성공적으로 설정되었습니다!",
+                  targetCleared: "목표 체중이 지워졌습니다!",
+                  dataCleared: "현재 사용자의 모든 데이터가 지워졌습니다.",
+                  noData: "내보낼 데이터가 없습니다!",
+                  updateEntry: "오늘 항목이 이미 있습니다. 업데이트하시겠습니까?",
+                  enterValidUsername: "사용자 이름을 입력하세요",
+                  usernameExists: "사용자 이름이 이미 존재합니다. 다른 이름을 선택하세요",
+                  enterValidTargetWeight: "유효한 목표 체중을 입력하세요!"
                 }
               }
             }
@@ -1323,6 +1450,8 @@
         // Special handling for elements that contain HTML
         if (key === 'nav.tagline') {
           element.innerHTML = translation;
+        } else if (element.tagName === 'OPTION') {
+          element.textContent = translation;
         } else {
           element.textContent = translation;
         }
@@ -1574,10 +1703,27 @@
       const modal = document.getElementById('settingsModal');
       const targetInput = document.getElementById('targetWeight');
       const targetUnitSpan = document.getElementById('targetUnit');
+      const languageSelect = document.getElementById('languageSelect');
       
       // Update target weight input and unit
       targetInput.value = targetWeight || '';
       targetUnitSpan.textContent = currentUnit;
+      
+      // Populate language options
+      if (languageSelect) {
+        languageSelect.innerHTML = '';
+        Object.keys(languageOptions).forEach(langCode => {
+          const option = document.createElement('option');
+          option.value = langCode;
+          option.textContent = `${languageOptions[langCode].flag} ${languageOptions[langCode].name}`;
+          languageSelect.appendChild(option);
+        });
+        
+        // Set current language
+        if (window.i18nextLoaded) {
+          languageSelect.value = i18next.language || 'en';
+        }
+      }
       
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
