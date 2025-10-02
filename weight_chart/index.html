@@ -878,7 +878,7 @@
     
     <!-- Quick Input -->
     <div class="quick-input">
-      <h3 data-i18n="nav.todayWeight">Today's Weight <span id="currentUserName" style="font-weight: normal; color: #6b7280; cursor: pointer; transition: opacity 0.2s; font-size: 0.8em; font-style: italic;" onclick="openUserManagement()" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">(Default User)</span></h3>
+      <h3><span data-i18n="nav.todayWeight">Today's Weight</span> <span id="currentUserName" style="font-weight: normal; color: #6b7280; cursor: pointer; transition: opacity 0.2s; font-size: 0.8em; font-style: italic;" onclick="openUserManagement()" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">(Default User)</span></h3>
       <div class="weight-input-group">
         <input type="number" 
                id="weightInput" 
@@ -1795,7 +1795,8 @@
           }
         }, function(err, t) {
           if (err) console.error('i18next init error:', err);
-          updatePageText();
+          updateCurrentUserDisplay(); // Update user name first
+          updatePageText(); // Then update page text
         });
     };
 
@@ -1834,13 +1835,6 @@
       const mainHeading = document.querySelector('h1');
       if (mainHeading) {
         mainHeading.textContent = '⚖️ ' + i18next.t('nav.todayWeight').replace("Today's Weight", "Weight Tracker");
-      }
-      
-      // Update today's weight title
-      const todayWeightTitle = document.querySelector('h3');
-      if (todayWeightTitle && todayWeightTitle.textContent.includes("Today's Weight")) {
-        const userSpan = todayWeightTitle.querySelector('#currentUserName');
-        todayWeightTitle.innerHTML = i18next.t('nav.todayWeight') + (userSpan ? userSpan.outerHTML : '');
       }
       
       // Update buttons
@@ -2004,7 +1998,14 @@
       const activeUser = getActiveUser();
       const displayElement = document.getElementById('currentUserName');
       if (displayElement && activeUser) {
-        displayElement.textContent = activeUser.name;
+        // Use translated name if i18next is loaded and user is default user
+        let displayName = activeUser.name;
+        if (window.i18nextLoaded && activeUser.name === 'Default User') {
+          displayName = i18next.t('user.defaultUser');
+        }
+        displayElement.textContent = `(${displayName})`;
+      } else if (displayElement) {
+        displayElement.textContent = '(Default User)';
       }
     }
 
@@ -2296,20 +2297,42 @@
     }
 
     function clearAllData() {
-      const activeUser = getActiveUser();
-      if (!activeUser) return;
-      
-      if (confirm('Are you sure you want to clear all weight data for the current user? This action cannot be undone.')) {
+      if (confirm(i18next.t('settings.confirmClear'))) {
+        // Clear all user weight data
+        users.forEach(user => {
+          localStorage.removeItem(user.storageKey);
+          localStorage.removeItem(`${user.storageKey}Unit`);
+          localStorage.removeItem(`${user.storageKey}Target`);
+        });
+        
+        // Reset to default user only
+        const defaultUser = {
+          id: generateUUID(),
+          name: 'Default User', // Always start with English, will be translated by updateCurrentUserDisplay
+          storageKey: 'weightTracker'
+        };
+        users = [defaultUser];
+        activeUserId = defaultUser.id;
+        
+        // Clear user management data and save new default user
+        localStorage.removeItem('weightTrackerUsers');
+        localStorage.removeItem('weightTrackerActiveUser');
+        saveUsers();
+        
+        // Reset current session data
         weightEntries = [];
         targetWeight = null;
-        localStorage.removeItem(activeUser.storageKey);
-        localStorage.removeItem(`${activeUser.storageKey}Unit`);
-        localStorage.removeItem(`${activeUser.storageKey}Target`);
+        
+        // Update UI
         updateStats();
         updateChart();
         updateEntriesList();
+        updateCurrentUserDisplay();
+        updatePageText(); // Update translations after resetting user
+        renderUserManagement();
         closeSettings();
-        alert('All data for the current user has been cleared.');
+        
+        alert(i18next.t('messages.dataCleared'));
       }
     }
 
