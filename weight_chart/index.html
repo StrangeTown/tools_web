@@ -1100,22 +1100,23 @@
       
       <div class="modal-section">
         <div class="section-title" data-i18n="settings.exportCsv">Export Data</div>
-        <div class="section-description">Download your weight data as a CSV file.</div>
+        <div class="section-description" data-i18n="settings.exportCsvDesc">Download your weight data as a CSV file.</div>
         <button class="modal-btn" onclick="exportData()">📥 Export CSV</button>
       </div>
       
       <div class="modal-section">
         <div class="section-title" data-i18n="settings.exportImage">Export Image</div>
-        <div class="section-description">Download your weight chart as an image.</div>
+        <div class="section-description" data-i18n="settings.exportImageDesc">Download your weight chart as an image.</div>
         <button class="modal-btn" onclick="exportImage()">📸 Export Image</button>
       </div>
       
       <div class="modal-section">
-        <div class="section-title">Target Weight</div>
-        <div class="section-description">Set your target weight to display a reference line on the chart.</div>
+        <div class="section-title" data-i18n="settings.targetWeight">Target Weight</div>
+        <div class="section-description" data-i18n="settings.targetWeightDesc">Set your target weight to display a reference line on the chart.</div>
         <div style="display: flex; gap: 10px; margin-bottom: 10px;">
           <input type="number" 
                  id="targetWeight" 
+                 data-i18n="[placeholder]settings.enterTargetWeight"
                  placeholder="Enter target weight" 
                  step="0.1" 
                  min="0" 
@@ -1128,17 +1129,17 @@
       </div>
       
       <div class="modal-section">
-        <div class="section-title">Language / 语言</div>
-        <div class="section-description">Choose your preferred language for the interface.</div>
+        <div class="section-title" data-i18n="settings.language">Language / 语言</div>
+        <div class="section-description" data-i18n="settings.languageDesc">Choose your preferred language for the interface.</div>
         <div style="display: flex; gap: 10px;">
-          <button class="modal-btn" onclick="changeLanguage('en')" style="flex: 1;">🇺🇸 English</button>
-          <button class="modal-btn" onclick="changeLanguage('zh')" style="flex: 1;">🇨🇳 中文</button>
+          <button class="modal-btn" onclick="changeLanguage('en')" style="flex: 1;" data-i18n="settings.english">🇺🇸 English</button>
+          <button class="modal-btn" onclick="changeLanguage('zh')" style="flex: 1;" data-i18n="settings.chinese">🇨🇳 中文</button>
         </div>
       </div>
       
       <div class="modal-section">
         <div class="section-title" data-i18n="settings.clearAllData">Clear Data</div>
-        <div class="section-description">Permanently delete all your weight entries. This action cannot be undone.</div>
+        <div class="section-description" data-i18n="settings.clearDataDesc">Permanently delete all your weight entries. This action cannot be undone.</div>
         <button class="modal-btn danger" onclick="clearAllData()">🗑️ Clear All Data</button>
       </div>
     </div>
@@ -1205,12 +1206,23 @@
                   userList: "User List"
                 },
                 settings: {
-                  exportCsv: "Export CSV",
+                  exportCsv: "Export Data",
+                  exportCsvDesc: "Download your weight data as a CSV file.",
                   exportImage: "Export Image",
+                  exportImageDesc: "Download your weight chart as an image.",
+                  targetWeight: "Target Weight",
+                  targetWeightDesc: "Set your target weight to display a reference line on the chart.",
+                  enterTargetWeight: "Enter target weight",
                   setTarget: "Set Target",
                   clearTarget: "Clear Target",
+                  language: "Language",
+                  languageDesc: "Choose your preferred language for the interface.",
+                  english: "🇺🇸 English",
+                  chinese: "🇨🇳 中文",
                   clearAllData: "Clear All Data",
-                  confirmClear: "Are you sure you want to clear all weight data for the current user? This action cannot be undone."
+                  clearDataDesc: "Permanently delete all your weight entries. This action cannot be undone.",
+                  confirmClear: "Are you sure you want to clear all weight data for the current user? This action cannot be undone.",
+                  confirmClearTarget: "Are you sure you want to clear your target weight?"
                 },
                 messages: {
                   enterValidWeight: "Please enter a valid weight!",
@@ -1221,7 +1233,8 @@
                   noData: "No data to export!",
                   updateEntry: "You already have an entry for today. Do you want to update it?",
                   enterValidUsername: "Please enter a username",
-                  usernameExists: "Username already exists, please choose a different name"
+                  usernameExists: "Username already exists, please choose a different name",
+                  enterValidTargetWeight: "Please enter a valid target weight!"
                 }
               }
             },
@@ -1255,12 +1268,23 @@
                   userList: "用户列表"
                 },
                 settings: {
-                  exportCsv: "导出CSV",
+                  exportCsv: "导出数据",
+                  exportCsvDesc: "将您的体重数据下载为CSV文件。",
                   exportImage: "导出图片",
+                  exportImageDesc: "将您的体重图表下载为图片。",
+                  targetWeight: "目标体重",
+                  targetWeightDesc: "设置您的目标体重以在图表上显示参考线。",
+                  enterTargetWeight: "输入目标体重",
                   setTarget: "设置目标",
                   clearTarget: "清除目标",
+                  language: "语言",
+                  languageDesc: "选择您偏好的界面语言。",
+                  english: "🇺🇸 英文",
+                  chinese: "🇨🇳 中文",
                   clearAllData: "清除所有数据",
-                  confirmClear: "确定要清除当前用户的所有体重数据吗？此操作不可撤销。"
+                  clearDataDesc: "永久删除您的所有体重记录。此操作无法撤销。",
+                  confirmClear: "确定要清除当前用户的所有体重数据吗？此操作不可撤销。",
+                  confirmClearTarget: "确定要清除您的目标体重吗？"
                 },
                 messages: {
                   enterValidWeight: "请输入有效的体重！",
@@ -1271,7 +1295,8 @@
                   noData: "没有数据可导出！",
                   updateEntry: "您今天已有记录。是否要更新它？",
                   enterValidUsername: "请输入用户名",
-                  usernameExists: "用户名已存在，请选择其他名称"
+                  usernameExists: "用户名已存在，请选择其他名称",
+                  enterValidTargetWeight: "请输入有效的目标体重！"
                 }
               }
             }
@@ -1300,6 +1325,15 @@
           element.innerHTML = translation;
         } else {
           element.textContent = translation;
+        }
+      });
+      
+      // Update elements with data-i18n attributes for specific attributes
+      document.querySelectorAll('[data-i18n]').forEach(element => {
+        const dataI18n = element.getAttribute('data-i18n');
+        if (dataI18n && dataI18n.startsWith('[placeholder]')) {
+          const key = dataI18n.replace('[placeholder]', '');
+          element.placeholder = i18next.t(key);
         }
       });
       
@@ -1560,23 +1594,23 @@
       const weight = parseFloat(targetInput.value);
       
       if (!weight || weight <= 0) {
-        alert('Please enter a valid target weight!');
+        alert(i18next.t('messages.enterValidTargetWeight'));
         return;
       }
       
       targetWeight = weight;
       saveData();
       updateChart();
-      alert('Target weight set successfully!');
+      alert(i18next.t('messages.targetSet'));
     }
 
     function clearTargetWeight() {
-      if (confirm('Are you sure you want to clear your target weight?')) {
+      if (confirm(i18next.t('settings.confirmClearTarget'))) {
         targetWeight = null;
         document.getElementById('targetWeight').value = '';
         saveData();
         updateChart();
-        alert('Target weight cleared!');
+        alert(i18next.t('messages.targetCleared'));
       }
     }
 
