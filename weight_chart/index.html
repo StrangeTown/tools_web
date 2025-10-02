@@ -734,11 +734,7 @@
     .modal-btn.danger:hover {
       background: #dc2626;
     }
-    
-    .modal-btn:last-child {
-      margin-bottom: 0;
-    }
-    
+
     /* User management buttons - override modal-btn styles for inline layout */
     .user-action-btn {
       margin-bottom: 0 !important;
@@ -1104,13 +1100,13 @@
       
       <div class="modal-section">
         <div class="section-title" data-i18n="settings.exportCsv">Export Data</div>
-        <div class="section-description">Download your weight data as a CSV file for backup or analysis.</div>
+        <div class="section-description">Download your weight data as a CSV file.</div>
         <button class="modal-btn" onclick="exportData()">📥 Export CSV</button>
       </div>
       
       <div class="modal-section">
         <div class="section-title" data-i18n="settings.exportImage">Export Image</div>
-        <div class="section-description">Download a snapshot of your weight statistics and chart as an image.</div>
+        <div class="section-description">Download your weight chart as an image.</div>
         <button class="modal-btn" onclick="exportImage()">📸 Export Image</button>
       </div>
       
