@@ -1184,6 +1184,11 @@
         return;
       }
       
+      if (users.length >= 5) {
+        alert('Maximum of 5 users allowed. Please delete an existing user before adding a new one.');
+        return;
+      }
+      
       const userId = generateUUID();
       const newUser = {
         id: userId,
@@ -1279,11 +1284,12 @@
       });
       
       html += `
-        <div class="section-title" style="margin-top: 20px;">Add New User</div>
+        <div class="section-title" style="margin-top: 20px;">Add New User (${users.length}/5)</div>
         <div style="display: flex; gap: 10px; margin-top: 10px;">
-          <input type="text" id="newUserName" placeholder="Enter username" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;" maxlength="20">
-          <button class="modal-btn" onclick="addUser(document.getElementById('newUserName').value); document.getElementById('newUserName').value = '';">➕ Add</button>
+          <input type="text" id="newUserName" placeholder="Enter username" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;" maxlength="20" ${users.length >= 5 ? 'disabled' : ''}>
+          <button class="modal-btn" onclick="addUser(document.getElementById('newUserName').value); document.getElementById('newUserName').value = '';" ${users.length >= 5 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>➕ Add</button>
         </div>
+        ${users.length >= 5 ? '<p style="color: #6b7280; font-size: 12px; margin-top: 5px;">Maximum user limit reached. Delete a user to add a new one.</p>' : ''}
       `;
       
       modalSection.innerHTML = html;
