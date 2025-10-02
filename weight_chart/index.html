@@ -715,6 +715,14 @@
       margin-bottom: 0;
     }
     
+    /* User management buttons - override modal-btn styles for inline layout */
+    .user-action-btn {
+      margin-bottom: 0 !important;
+      width: 80px;
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+    
     /* Mobile responsive */
     @media (max-width: 768px) {
       body {
@@ -1276,8 +1284,8 @@
               ${isActive ? '<span style="color: #10b981; font-size: 12px;">(Active)</span>' : ''}
             </div>
             <div style="display: flex; gap: 5px;">
-              ${!isActive ? `<button class="modal-btn" style="font-size: 12px; padding: 5px 10px;" onclick="switchUser('${user.id}')">Activate</button>` : ''}
-              ${!isDefault ? `<button class="modal-btn danger" style="font-size: 12px; padding: 5px 10px;" onclick="deleteUser('${user.id}')">Delete</button>` : ''}
+              ${!isActive ? `<button class="modal-btn user-action-btn" onclick="switchUser('${user.id}')">Activate</button>` : ''}
+              ${!isDefault ? `<button class="modal-btn danger user-action-btn" onclick="deleteUser('${user.id}')">Delete</button>` : ''}
             </div>
           </div>
         `;
