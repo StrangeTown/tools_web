@@ -581,6 +581,30 @@
       box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     }
     
+    /* User Management Button */
+    .user-btn {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      background: #10b981;
+      border: none;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .user-btn:hover {
+      background: #059669;
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+    }
+    
     /* Modal Styles */
     .modal {
       display: none;
@@ -999,10 +1023,30 @@
     </div>
   </div>
 
+  <!-- User Management Button -->
+  <button class="user-btn" onclick="openUserManagement()" title="User Management">
+    👤
+  </button>
+
   <!-- Settings Button -->
   <button class="settings-btn" onclick="openSettings()" title="Settings">
     ⚙️
   </button>
+
+  <!-- User Management Modal -->
+  <div id="userManagementModal" class="modal" onclick="closeUserManagement()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">User Management</h2>
+        <button class="close-btn" onclick="closeUserManagement()">&times;</button>
+      </div>
+      
+      <div class="modal-section">
+        <!-- User management content will be added here -->
+        <p>User management features will be implemented here.</p>
+      </div>
+    </div>
+  </div>
 
   <!-- Settings Modal -->
   <div id="settingsModal" class="modal">
@@ -1064,6 +1108,19 @@
     let currentUnit = 'kg';
     let chart = null;
     let targetWeight = null;
+
+    // User Management Modal Functions
+    function openUserManagement() {
+      const modal = document.getElementById('userManagementModal');
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeUserManagement() {
+      const modal = document.getElementById('userManagementModal');
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
 
     // Settings Modal Functions
     function openSettings() {
