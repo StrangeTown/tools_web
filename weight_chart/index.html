@@ -847,6 +847,9 @@
       Track your body weight progress with simple daily input<br>
       Export progress images • Your data stays private in your browser
     </p>
+    <div id="currentUserDisplay" class="current-user" style="text-align: center; margin-bottom: 20px; padding: 10px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+      Current User: <span id="currentUserName" style="font-weight: bold; color: #10b981;">Default User</span>
+    </div>
     
     <!-- Quick Input -->
     <div class="quick-input">
@@ -1108,9 +1111,137 @@
     let currentUnit = 'kg';
     let chart = null;
     let targetWeight = null;
+    
+    // User Management Variables
+    let users = [];
+    let activeUserId = null;
+    
+    // Generate UUID function
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0;
+        const v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+    
+    // Initialize default user if no users exist
+    function initializeUsers() {
+      const storedUsers = localStorage.getItem('weightTrackerUsers');
+      if (storedUsers) {
+        users = JSON.parse(storedUsers);
+        const storedActiveUserId = localStorage.getItem('weightTrackerActiveUser');
+        if (storedActiveUserId) {
+          activeUserId = storedActiveUserId;
+        } else if (users.length > 0) {
+          activeUserId = users[0].id;
+        }
+      } else {
+        // Create default user
+        const defaultUser = {
+          id: generateUUID(),
+          name: 'Default User',
+          storageKey: 'weightTracker'
+        };
+        users = [defaultUser];
+        activeUserId = defaultUser.id;
+        saveUsers();
+      }
+    }
+    
+    // Save users to localStorage
+    function saveUsers() {
+      localStorage.setItem('weightTrackerUsers', JSON.stringify(users));
+      localStorage.setItem('weightTrackerActiveUser', activeUserId);
+    }
+    
+    // Get active user
+    function getActiveUser() {
+      return users.find(user => user.id === activeUserId);
+    }
+    
+    // Switch active user
+    function switchUser(userId) {
+      if (users.find(user => user.id === userId)) {
+        activeUserId = userId;
+        saveUsers();
+        loadData();
+        updateChart();
+        updateCurrentUserDisplay();
+        renderUserManagement();
+      }
+    }
+    
+    // Add new user
+    function addUser(name) {
+      if (!name.trim()) {
+        alert('Please enter a username');
+        return;
+      }
+      
+      if (users.some(user => user.name === name.trim())) {
+        alert('Username already exists, please choose a different name');
+        return;
+      }
+      
+      const userId = generateUUID();
+      const newUser = {
+        id: userId,
+        name: name.trim(),
+        storageKey: `weightTracker_${userId}`
+      };
+      
+      users.push(newUser);
+      saveUsers();
+      renderUserManagement();
+    }
+    
+    // Delete user
+    function deleteUser(userId) {
+      const user = users.find(u => u.id === userId);
+      if (!user) return;
+      
+      if (user.name === 'Default User') {
+        alert('Default user cannot be deleted');
+        return;
+      }
+      
+      if (!confirm(`Are you sure you want to delete user "${user.name}" and all their weight records? This action cannot be undone.`)) {
+        return;
+      }
+      
+      // Remove user's data from localStorage
+      localStorage.removeItem(user.storageKey);
+      localStorage.removeItem(`${user.storageKey}Unit`);
+      localStorage.removeItem(`${user.storageKey}Target`);
+      
+      // Remove user from users array
+      users = users.filter(u => u.id !== userId);
+      
+      // If deleted user was active, switch to default user
+      if (activeUserId === userId) {
+        const defaultUser = users.find(u => u.name === 'Default User');
+        activeUserId = defaultUser ? defaultUser.id : (users.length > 0 ? users[0].id : null);
+      }
+      
+      saveUsers();
+      loadData();
+      updateChart();
+      renderUserManagement();
+    }
+
+    // Update current user display
+    function updateCurrentUserDisplay() {
+      const activeUser = getActiveUser();
+      const displayElement = document.getElementById('currentUserName');
+      if (displayElement && activeUser) {
+        displayElement.textContent = activeUser.name;
+      }
+    }
 
     // User Management Modal Functions
     function openUserManagement() {
+      renderUserManagement();
       const modal = document.getElementById('userManagementModal');
       modal.style.display = 'flex';
       document.body.style.overflow = 'hidden';
@@ -1120,6 +1251,42 @@
       const modal = document.getElementById('userManagementModal');
       modal.style.display = 'none';
       document.body.style.overflow = 'auto';
+    }
+    
+    // Render user management UI
+    function renderUserManagement() {
+      const modalSection = document.querySelector('#userManagementModal .modal-section');
+      const activeUser = getActiveUser();
+      
+      let html = '<div class="section-title">User List</div>';
+      
+      users.forEach(user => {
+        const isActive = user.id === activeUserId;
+        const isDefault = user.name === 'Default User';
+        
+        html += `
+          <div class="user-item ${isActive ? 'active' : ''}" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; margin: 5px 0; border: 1px solid #e2e8f0; border-radius: 6px; background: ${isActive ? '#f0f9ff' : '#ffffff'};">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-weight: ${isActive ? 'bold' : 'normal'};">${user.name}</span>
+              ${isActive ? '<span style="color: #10b981; font-size: 12px;">(Active)</span>' : ''}
+            </div>
+            <div style="display: flex; gap: 5px;">
+              ${!isActive ? `<button class="modal-btn" style="font-size: 12px; padding: 5px 10px;" onclick="switchUser('${user.id}')">Activate</button>` : ''}
+              ${!isDefault ? `<button class="modal-btn danger" style="font-size: 12px; padding: 5px 10px;" onclick="deleteUser('${user.id}')">Delete</button>` : ''}
+            </div>
+          </div>
+        `;
+      });
+      
+      html += `
+        <div class="section-title" style="margin-top: 20px;">Add New User</div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <input type="text" id="newUserName" placeholder="Enter username" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;" maxlength="20">
+          <button class="modal-btn" onclick="addUser(document.getElementById('newUserName').value); document.getElementById('newUserName').value = '';">➕ Add</button>
+        </div>
+      `;
+      
+      modalSection.innerHTML = html;
     }
 
     // Settings Modal Functions
@@ -1342,16 +1509,20 @@
     }
 
     function clearAllData() {
-      if (confirm('Are you sure you want to clear all weight data? This action cannot be undone.')) {
+      const activeUser = getActiveUser();
+      if (!activeUser) return;
+      
+      if (confirm('Are you sure you want to clear all weight data for the current user? This action cannot be undone.')) {
         weightEntries = [];
         targetWeight = null;
-        localStorage.removeItem('weightTracker');
-        localStorage.removeItem('weightTrackerTarget');
+        localStorage.removeItem(activeUser.storageKey);
+        localStorage.removeItem(`${activeUser.storageKey}Unit`);
+        localStorage.removeItem(`${activeUser.storageKey}Target`);
         updateStats();
         updateChart();
         updateEntriesList();
         closeSettings();
-        alert('All data has been cleared.');
+        alert('All data for the current user has been cleared.');
       }
     }
 
@@ -1364,12 +1535,19 @@
 
     // Load data from localStorage
     function loadData() {
-      const stored = localStorage.getItem('weightTracker');
-      const storedUnit = localStorage.getItem('weightTrackerUnit');
-      const storedTarget = localStorage.getItem('weightTrackerTarget');
+      const activeUser = getActiveUser();
+      if (!activeUser) return;
+      
+      const stored = localStorage.getItem(activeUser.storageKey);
+      const storedUnit = localStorage.getItem(`${activeUser.storageKey}Unit`);
+      const storedTarget = localStorage.getItem(`${activeUser.storageKey}Target`);
       
       if (stored) {
         weightEntries = JSON.parse(stored);
+        updateStats();
+        updateEntriesList();
+      } else {
+        weightEntries = [];
         updateStats();
         updateEntriesList();
       }
@@ -1377,21 +1555,29 @@
       if (storedUnit) {
         currentUnit = storedUnit;
         updateUnitButtons();
+      } else {
+        currentUnit = 'kg';
+        updateUnitButtons();
       }
       
       if (storedTarget) {
         targetWeight = parseFloat(storedTarget);
+      } else {
+        targetWeight = null;
       }
     }
 
     // Save data to localStorage
     function saveData() {
-      localStorage.setItem('weightTracker', JSON.stringify(weightEntries));
-      localStorage.setItem('weightTrackerUnit', currentUnit);
+      const activeUser = getActiveUser();
+      if (!activeUser) return;
+      
+      localStorage.setItem(activeUser.storageKey, JSON.stringify(weightEntries));
+      localStorage.setItem(`${activeUser.storageKey}Unit`, currentUnit);
       if (targetWeight !== null) {
-        localStorage.setItem('weightTrackerTarget', targetWeight.toString());
+        localStorage.setItem(`${activeUser.storageKey}Target`, targetWeight.toString());
       } else {
-        localStorage.removeItem('weightTrackerTarget');
+        localStorage.removeItem(`${activeUser.storageKey}Target`);
       }
     }
 
@@ -1681,8 +1867,14 @@
     document.addEventListener('DOMContentLoaded', function() {
       console.log('DOM loaded, initializing app...');
       
+      // Initialize user management system
+      initializeUsers();
+      
       // Load data and update UI immediately
       loadData();
+      
+      // Update current user display
+      updateCurrentUserDisplay();
       
       // Set up event listeners
       document.querySelectorAll('.unit-btn').forEach(btn => {
